@@ -152,6 +152,9 @@ formatting_scripts/dictionary/
 
 # clangd for nvim lsp
 src/.clangd
+.ccls-cache
+pyrightconfig.json
+run.sh
 
 # external is a special directory for bazel so it should be ignored
 src/external
