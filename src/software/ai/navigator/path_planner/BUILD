@@ -169,3 +169,13 @@ cc_test(
         "//software/world",
     ],
 )
+cc_test(
+    name = "bang_bang_trajectory_planner_test",
+    srcs = ["bang_bang_trajectory_planner_test.cpp"],
+    deps = [
+        ":bang_bang_trajectory_2d",
+        ":trajectory_planner",
+        "//shared/test_util:tbots_gtest_main",
+        "//software/test_util",
+    ],
+)

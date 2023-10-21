@@ -52,10 +52,10 @@ TrajectoryPath TrajectoryPlanner::findTrajectory(
         start, destination, initial_velocity, constraints, tree, obstacles);
 
     // Return direct trajectory to the destination if it doesn't have any collisions
-    if (!best_traj_with_cost.collides())
-    {
-        return best_traj_with_cost.traj_path;
-    }
+    // if (!best_traj_with_cost.collides())
+    // {
+    //     return best_traj_with_cost.traj_path;
+    //}
     // std::cout << "Direct trajectory collides" << std::endl;
 
     std::vector<Point> sub_destinations;
@@ -69,10 +69,13 @@ TrajectoryPath TrajectoryPlanner::findTrajectory(
         }
     }
     int num_traj = 1;
+    
     {
         ZoneScopedN("generateTrajectories");
 
         // Add trajectories that go through sub-destinations
+        LOG(DEBUG) << "I've ran here";
+        LOG(CSV, "paths.csv") << "sub_dest_x,sub_dest_y,connection_time(s),total_duration" << "\n";
         for (const Point &sub_dest : sub_destinations)
         {
             TrajectoryPathWithCost sub_trajectory = getDirectTrajectoryWithCost(
@@ -98,6 +101,7 @@ TrajectoryPath TrajectoryPlanner::findTrajectory(
                 {
                     best_traj_with_cost = full_traj_with_cost;
                 }
+                LOG(CSV, "paths.csv") << sub_dest.x() << "," << sub_dest.y() << "," << connection_time <<  "," << full_traj_with_cost.traj_path.getTotalTime() << "\n";
             }
         }
     }

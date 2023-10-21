@@ -6,7 +6,8 @@
 #include <experimental/filesystem>
 #endif
 
-CSVSink::CSVSink(const std::string& log_directory) : log_directory(log_directory) {}
+CSVSink::CSVSink(const std::string& log_directory) : log_directory(log_directory) {
+}
 
 void CSVSink::appendToFile(g3::LogMessageMover log_entry)
 {
@@ -19,6 +20,7 @@ void CSVSink::appendToFile(g3::LogMessageMover log_entry)
         {
             std::string file_name = msg.substr(0, pos);
             std::string file_data = msg.substr(pos, msg.length());
+            std::cout << log_directory << std::endl; 
             std::ofstream csv_file(log_directory + "/" + file_name,
                                    std::ios::out | std::ios_base::app);
             csv_file << file_data;

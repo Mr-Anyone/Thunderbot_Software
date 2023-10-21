@@ -5,6 +5,8 @@
 #include "software/geom/bounding_box.h"
 #include "software/geom/point.h"
 
+#include <stddef.h>
+
 class BangBangTrajectory2D : public Trajectory2D
 {
    public:
