@@ -8,10 +8,19 @@
 class BangBangTrajectoryPlannerTest : public testing::Test
 {
 public:       
+    struct PathCondition{
+        Point start, end; 
+        Vector velocity; 
+        KinematicConstraints constraints;
+    };
+
     TrajectoryPlanner planner;
+    PathCondition generateRandomPosition();
+private:
 };
 
 TEST_F(BangBangTrajectoryPlannerTest, generate_path){
+
     KinematicConstraints constraints = {1, 1, 1};
     TrajectoryPath path = planner.findTrajectory({0, 0}, {1, 0}, {1, 1}, constraints, {}, Field::createSSLDivisionBField().fieldBoundary());
 

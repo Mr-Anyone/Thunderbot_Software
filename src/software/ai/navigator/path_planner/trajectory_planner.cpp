@@ -3,6 +3,41 @@
 #include "external/tracy/public/tracy/Tracy.hpp"
 #include "proto/message_translation/tbots_protobuf.h"
 
+
+constexpr int sample_counts = 20;
+void savePath(TrajectoryPathWithCost trajectory, Point sub_dest, double connection_time){
+    //saving the trajectory
+    const TrajectoryPath traj = trajectory.traj_path;
+    LOG(CSV, "path_summary.csv") << sub_dest.x() << "," << sub_dest.y() << "," << connection_time << "," << traj.getTotalTime()<<","; // logging the basic stuff
+    const double time_delta = traj.getTotalTime() / sample_counts;
+
+    int count = 0;
+    for(double t=0; t<traj.getTotalTime(); t += time_delta){
+        Point position = traj.getPosition(t);
+        if(count == sample_counts - 1){
+            LOG(CSV, "path_summary.csv") << position.x() << "," << position.y();
+            break;
+        }
+
+        LOG(CSV, "path_summary.csv") << position.x() << "," << position.y() << ",";
+        count += 1;
+    }
+
+    LOG(CSV, "path_summary.csv") << "\n";
+}
+
+void generateColumnName(const std::string& name){
+    LOG(CSV, name) << "sub_dest_x,sub_dest_y,connection_time,duration,"; 
+    for(int i = 1;i<=sample_counts; ++i){
+        if(i == sample_counts){
+            LOG(CSV, name) << "x" << std::to_string(i) << "," <<  "y" << std::to_string(i);
+            break;
+        }
+        LOG(CSV, name) << "x" << std::to_string(i) << "," <<  "y" << std::to_string(i)<< ",";
+    }
+    LOG(CSV, name) << "\n";
+}
+
 TrajectoryPlanner::TrajectoryPlanner()
 {
     // Initialize the relative sub-destinations array
@@ -74,8 +109,7 @@ TrajectoryPath TrajectoryPlanner::findTrajectory(
         ZoneScopedN("generateTrajectories");
 
         // Add trajectories that go through sub-destinations
-        LOG(DEBUG) << "I've ran here";
-        LOG(CSV, "paths.csv") << "sub_dest_x,sub_dest_y,connection_time(s),total_duration" << "\n";
+        generateColumnName("path_summary.csv");
         for (const Point &sub_dest : sub_destinations)
         {
             TrajectoryPathWithCost sub_trajectory = getDirectTrajectoryWithCost(
@@ -101,7 +135,9 @@ TrajectoryPath TrajectoryPlanner::findTrajectory(
                 {
                     best_traj_with_cost = full_traj_with_cost;
                 }
-                LOG(CSV, "paths.csv") << sub_dest.x() << "," << sub_dest.y() << "," << connection_time <<  "," << full_traj_with_cost.traj_path.getTotalTime() << "\n";
+
+
+                savePath(traj_path_to_dest, sub_dest, connection_time);
             }
         }
     }
