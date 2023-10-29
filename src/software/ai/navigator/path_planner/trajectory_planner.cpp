@@ -6,7 +6,7 @@
 
 constexpr int sample_counts = 20;
 void savePath(TrajectoryPathWithCost trajectory, Point sub_dest, double connection_time){
-    //saving the trajectory
+    //saving the trajectory 
     const TrajectoryPath traj = trajectory.traj_path;
     LOG(CSV, "path_summary.csv") << sub_dest.x() << "," << sub_dest.y() << "," << connection_time << "," << traj.getTotalTime()<<","; // logging the basic stuff
     const double time_delta = traj.getTotalTime() / sample_counts;
