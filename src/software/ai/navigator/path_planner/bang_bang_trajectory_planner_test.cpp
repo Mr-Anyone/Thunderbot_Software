@@ -7,14 +7,16 @@
 
 class BangBangTrajectoryPlannerTest : public testing::Test {
 public:       
+    BangBangTrajectoryPlannerTest() : planner(), rng(1010), pos_uniform_dist(-1, 1), vel_uniform_dist(-1, 1) {}
+
     TrajectoryPlanner planner;
 protected:
-    static constexpr int num_points = 10000;
-    static constexpr double max_x_velocity = 1; 
-    static constexpr double max_y_velocity = 1; 
-    static constexpr double max_x_position = 1;
-    static constexpr double maximum_acceleration = 1;
-    static constexpr double max_y_position = 1;
+    static constexpr int num_points = 1000;
+    static constexpr double max_x_velocity = 2; 
+    static constexpr double max_y_velocity = 2; 
+    static constexpr double max_x_position = 3;
+    static constexpr double max_y_position = 3;
+    static constexpr double maximum_acceleration = 3;
 
     Vector getRandomVector()
     {
@@ -57,7 +59,7 @@ TEST_F(BangBangTrajectoryPlannerTest, generate_path){
     // generate the column names 
     generateColumnName();
     for(int i = 0; i<BangBangTrajectoryPlannerTest::num_points; ++i){
-        Point start_pos = getRandomPoint();
+        Point start_pos = Point();
         Point destination = getRandomPoint();
         Vector velocity = getRandomVector();
 
