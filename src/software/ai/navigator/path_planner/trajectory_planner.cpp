@@ -4,11 +4,13 @@
 #include "proto/message_translation/tbots_protobuf.h"
 
 
-constexpr int sample_counts = 20;
-void savePath(TrajectoryPathWithCost trajectory, Point sub_dest, double connection_time){
+void savePath(TrajectoryPathWithCost trajectory, Point sub_dest, double connection_time, Point start, Point end, Vector initial_vel){
     //saving the trajectory 
     const TrajectoryPath traj = trajectory.traj_path;
-    LOG(CSV, "path_summary.csv") << sub_dest.x() << "," << sub_dest.y() << "," << connection_time << "," << traj.getTotalTime()<<","; // logging the basic stuff
+    LOG(CSV, "path_summary.csv") << sub_dest.x() << "," << sub_dest.y() << "," << connection_time << "," << traj.getTotalTime()<<"," 
+        << start.x() << "," << start.y() << "," << end.x() << "," << end.y() << ","
+        << initial_vel.x() << "," << initial_vel.y() << ",";
+
     const double time_delta = traj.getTotalTime() / sample_counts;
 
     int count = 0;
@@ -24,18 +26,6 @@ void savePath(TrajectoryPathWithCost trajectory, Point sub_dest, double connecti
     }
 
     LOG(CSV, "path_summary.csv") << "\n";
-}
-
-void generateColumnName(const std::string& name){
-    LOG(CSV, name) << "sub_dest_x,sub_dest_y,connection_time,duration,"; 
-    for(int i = 1;i<=sample_counts; ++i){
-        if(i == sample_counts){
-            LOG(CSV, name) << "x" << std::to_string(i) << "," <<  "y" << std::to_string(i);
-            break;
-        }
-        LOG(CSV, name) << "x" << std::to_string(i) << "," <<  "y" << std::to_string(i)<< ",";
-    }
-    LOG(CSV, name) << "\n";
 }
 
 TrajectoryPlanner::TrajectoryPlanner()
@@ -109,7 +99,6 @@ TrajectoryPath TrajectoryPlanner::findTrajectory(
         ZoneScopedN("generateTrajectories");
 
         // Add trajectories that go through sub-destinations
-        generateColumnName("path_summary.csv");
         for (const Point &sub_dest : sub_destinations)
         {
             TrajectoryPathWithCost sub_trajectory = getDirectTrajectoryWithCost(
@@ -127,17 +116,18 @@ TrajectoryPath TrajectoryPlanner::findTrajectory(
                 TrajectoryPathWithCost full_traj_with_cost = getTrajectoryWithCost(
                     traj_path_to_dest, tree, obstacles, sub_trajectory, connection_time);
                 num_traj++;
+
                 // TODO: If full_traj_with_cost doesn't have any collisions, should we
                 // continue to next iter?
                 //       i.e. is it possible that with a later connection_time we get an
                 //       improved score?!
-                if (full_traj_with_cost.cost < best_traj_with_cost.cost)
-                {
-                    best_traj_with_cost = full_traj_with_cost;
-                }
+                //if (full_traj_with_cost.cost < best_traj_with_cost.cost)
+                //{
+                //    best_traj_with_cost = full_traj_with_cost;
+                //}
 
 
-                savePath(traj_path_to_dest, sub_dest, connection_time);
+                savePath(traj_path_to_dest, sub_dest, connection_time, start, destination, initial_velocity);
             }
         }
     }

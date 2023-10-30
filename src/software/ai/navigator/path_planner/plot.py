@@ -26,6 +26,7 @@ if __name__ == "__main__":
     maximum_duration = df["duration"].max()
     minimum_duration = df["duration"].min()
 
+
     # plotting every row in the dataframe
     for row in df.iloc():
         x, y, duration = extract_row(row)

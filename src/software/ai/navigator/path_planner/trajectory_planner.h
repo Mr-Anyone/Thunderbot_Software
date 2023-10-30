@@ -59,3 +59,5 @@ class TrajectoryPlanner
     static constexpr unsigned int NUM_SUB_DESTINATION_ANGLES                = 15;
     static constexpr double PATH_WITH_COLLISION_COST                        = 5.0;
 };
+// useful constants
+constexpr int __attribute__((unused)) sample_counts = 20;
