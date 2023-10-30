@@ -9,7 +9,7 @@ class BangBangTrajectoryPlannerTest : public testing::Test {
 public:       
     TrajectoryPlanner planner;
 protected:
-    static constexpr int num_points = 100;
+    static constexpr int num_points = 10000;
     static constexpr double max_x_velocity = 1; 
     static constexpr double max_y_velocity = 1; 
     static constexpr double max_x_position = 1;
