@@ -1,35 +1,25 @@
 #include <iostream> 
+#include <g3log/g3log.hpp>
+#include <g3log/logworker.hpp>
 #include <string> 
-#include <thread>
 
-#include "logger.h"
+int iter_count = 1e6; 
 
-const std::string SAVING_DIRECTORY {"/home/vhe/Desktop/log"} ;
-const std::string CSV_DIR {"/home/vhe/Desktop/placeholder.csv"} ;
+int main() {
+    auto worker = g3::LogWorker::createLogWorker();
+    auto handle= worker->addDefaultLogger(".log", "/home/vhe/Desktop/");
+    g3::initializeLogging(worker.get());
+
+    auto bytes = some_test_message.size() * sizeof(char) * static_cast<unsigned long> (iter_count);
+    auto bytes_in_mb = static_cast<double> (bytes) / 1e6; 
+    std::cout << bytes_in_mb << "MB" << std::endl; 
 
 
-#define USE_CSV 
 
-const std::vector<LEVELS> filtered_level_filter = {DEBUG, VISUALIZE,    CSV,
-                                             INFO,  ROBOT_STATUS, PLOTJUGGLER};
-const std::vector<LEVELS> text_level_filter = {VISUALIZE, CSV, ROBOT_STATUS, PLOTJUGGLER};
-const std::string filter_suffix       = "_filtered";
-const std::string text_suffix         = "_text";
-const std::string log_name            = "thunderbots";
-
-int main(){
-    LoggerSingleton::initializeLogger(SAVING_DIRECTORY);
-
-    // creating test data 
-    std::string data = "*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*";
-    std::cout << "Test data has size: " << data.size() * sizeof(char) << std::endl; 
-     
-
-    const int log_count = 1e6;
-    for(int i = 0; i<log_count; ++i){
-        LOG(INFO) << data;
+    for(int i = 0; i<iter_count; ++i){
+        LOG(INFO) << some_test_message; 
     }
 
-    std::cin.get();
+    std::cin.get(); 
     return 0; 
 }
