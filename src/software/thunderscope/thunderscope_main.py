@@ -21,9 +21,7 @@ SIM_TICK_RATE_MS = 16
 ###########################################################################
 #                         Thunderscope Main                               #
 ###########################################################################
-
-if __name__ == "__main__":
-
+def main():
     # Setup parser
     parser = argparse.ArgumentParser(
         description="Thunderscope: Run with no arguments to run AI vs AI"
@@ -423,3 +421,25 @@ if __name__ == "__main__":
             thread.start()
             tscope.show()
             thread.join()
+
+if __name__ == "__main__":
+    import pyinstrument
+
+    save_path = "/tmp"
+
+    profiler = pyinstrument.Profiler()
+
+    profiler.start()
+    main()
+    profiler.stop()
+
+    # write to file
+    profiler.write_html(os.path.join(save_path, "thunderscope_profile.html"))
+    profiler.print()
+    # flamegrpah output
+    renderer = pyinstrument.renderers.SpeedscopeRenderer(show_all=True)
+    render = profiler.output(renderer)
+
+    # use this to see the flamegraph https://www.speedscope.app/
+    with open(os.path.join(save_path, "speed_scope_render.json"), "w") as f:
+        f.write(render)

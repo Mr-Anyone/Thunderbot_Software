@@ -33,11 +33,11 @@ class Thunderscope(object):
     """
 
     def __init__(
-        self,
-        config: TScopeConfig,
-        layout_path: os.PathLike = None,
-        refresh_interval_ms: int = 10,
-    ) -> None:
+            self,
+            config: TScopeConfig,
+            layout_path: os.PathLike = None,
+            refresh_interval_ms: int = 10,
+            ) -> None:
         """Initialize Thunderscope
 
         :param config: The current Thunderscope UI configuration
