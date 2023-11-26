@@ -27,6 +27,6 @@ int main() {
     std::cout << "I've finished writing. Check your ram usage using whatever you want." << std::endl; 
     std::cout << "Press enter to exit program.";
     // block 
-    std::cin.get();
+    //std::cin.get();
     return 0; 
 }
