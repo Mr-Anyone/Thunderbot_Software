@@ -80,35 +80,35 @@ class LoggerSingleton
         // arg. Note: log locations are defaulted to the bazel-out folder due to Bazel's
         // hermetic build principles
 
-        //auto csv_sink_handle = logWorker->addSink(std::make_unique<CSVSink>(runtime_dir),
-        //                                          &CSVSink::appendToFile);
-        //// Sink for outputting logs to the terminal
-        //auto colour_cout_sink_handle =
-        //    logWorker->addSink(std::make_unique<ColouredCoutSink>(true),
-        //                       &ColouredCoutSink::displayColouredLog);
-        //// Sink for storing a file of all logs
-        //auto log_rotate_sink_handle = logWorker->addSink(
-        //    std::make_unique<LogRotate>(log_name, runtime_dir), &LogRotate::save);
-        //// Sink for storing a file of filtered logs
-        //auto filtered_log_rotate_sink_handle = logWorker->addSink(
-        //    std::make_unique<LogRotateWithFilter>(
-        //        std::make_unique<LogRotate>(log_name + filter_suffix, runtime_dir),
-        //        filtered_level_filter),
-        //    &LogRotateWithFilter::save);
-        //// Sink for storing a file of filtered logs
+        auto csv_sink_handle = logWorker->addSink(std::make_unique<CSVSink>(runtime_dir),
+                                                  &CSVSink::appendToFile);
+        // Sink for outputting logs to the terminal
+        auto colour_cout_sink_handle =
+            logWorker->addSink(std::make_unique<ColouredCoutSink>(true),
+                               &ColouredCoutSink::displayColouredLog);
+        // Sink for storing a file of all logs
+        auto log_rotate_sink_handle = logWorker->addSink(
+            std::make_unique<LogRotate>(log_name, runtime_dir), &LogRotate::save);
+        // Sink for storing a file of filtered logs
+        auto filtered_log_rotate_sink_handle = logWorker->addSink(
+            std::make_unique<LogRotateWithFilter>(
+                std::make_unique<LogRotate>(log_name + filter_suffix, runtime_dir),
+                filtered_level_filter),
+            &LogRotateWithFilter::save);
+        // Sink for storing a file of filtered logs
         auto text_log_rotate_sink_handle = logWorker->addSink(
             std::make_unique<LogRotateWithFilter>(
                 std::make_unique<LogRotate>(log_name + text_suffix, runtime_dir),
                 text_level_filter),
             &LogRotateWithFilter::save);
 
-        //// Sink for visualization
-        //auto visualization_handle = logWorker->addSink(
-        //    std::make_unique<ProtobufSink>(runtime_dir), &ProtobufSink::sendProtobuf);
+        // Sink for visualization
+        auto visualization_handle = logWorker->addSink(
+            std::make_unique<ProtobufSink>(runtime_dir), &ProtobufSink::sendProtobuf);
 
-        //// Sink for PlotJuggler plotting
-        //auto plotjuggler_handle = logWorker->addSink(std::make_unique<PlotJugglerSink>(),
-        //                                             &PlotJugglerSink::sendToPlotJuggler);
+        // Sink for PlotJuggler plotting
+        auto plotjuggler_handle = logWorker->addSink(std::make_unique<PlotJugglerSink>(),
+                                                     &PlotJugglerSink::sendToPlotJuggler);
 
         g3::initializeLogging(logWorker.get());
     }

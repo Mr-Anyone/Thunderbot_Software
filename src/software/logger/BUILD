@@ -167,7 +167,7 @@ py_library(
 )
 
 cc_binary(
-    name = "debug_ram",
+    name = "debug-ram",
     srcs  = ["debug_ram.cpp"],
     deps = [
         ":logger"

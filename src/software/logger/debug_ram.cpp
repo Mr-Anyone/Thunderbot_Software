@@ -1,25 +1,32 @@
 #include <iostream> 
 #include <g3log/g3log.hpp>
 #include <g3log/logworker.hpp>
-#include <string> 
 
-int iter_count = 1e6; 
+#include "logger.h"
+
+static const std::string message = "this is just some dummy message for logging.this is just some dummy message for logging.this is just some dummy message for logging.this is just some dummy message for logging.this is just some dummy message for logging.this is just some dummy message for logging.";
+static const int ITER_COUNT = 500000; 
 
 int main() {
+    // using thunderbot's logging system 
+    //LoggerSingleton::initializeLogger("/tmp/tbots");
+    
+    // using the most basic barebone logging system
     auto worker = g3::LogWorker::createLogWorker();
-    auto handle= worker->addDefaultLogger(".log", "/home/vhe/Desktop/");
+    worker->addDefaultLogger(".log", "/tmp");
     g3::initializeLogging(worker.get());
 
-    auto bytes = some_test_message.size() * sizeof(char) * static_cast<unsigned long> (iter_count);
-    auto bytes_in_mb = static_cast<double> (bytes) / 1e6; 
-    std::cout << bytes_in_mb << "MB" << std::endl; 
 
-
-
-    for(int i = 0; i<iter_count; ++i){
-        LOG(INFO) << some_test_message; 
+    auto total_message_size = sizeof(char) * message.length() * ITER_COUNT;
+    auto write_mb_size = static_cast<double> (total_message_size) / 1e6;
+    std::cout << "writing a total of: " << write_mb_size << " mb" <<  std::endl; 
+    for(int i = 0; i<ITER_COUNT; ++i){
+        LOG(DEBUG) << message;
     }
 
-    std::cin.get(); 
+    std::cout << "I've finished writing. Check your ram usage using whatever you want." << std::endl; 
+    std::cout << "Press enter to exit program.";
+    // block 
+    std::cin.get();
     return 0; 
 }
