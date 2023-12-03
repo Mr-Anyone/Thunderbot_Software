@@ -32,6 +32,7 @@ class ProtobufSink
     void sendProtobuf(g3::LogMessageMover log_entry);
 
    private:
+    ThreadedUnixSender unix_sender_;
     UnixSenderMap unix_senders_;
     std::string runtime_dir_;
 };

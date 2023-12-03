@@ -62,6 +62,8 @@ class ProtoUnixIO:
         self.unix_listeners = {}
         self.send_proto_to_observer_threads = {}
         self.running = True
+        self.default_listener = None
+        self.default_listener_thread = None
 
     def __send_proto_to_observers(self, receive_buffer: ThreadSafeBuffer) -> None:
         """Given a ThreadSafeBuffer (receive_buffer) consume it and
@@ -173,21 +175,38 @@ class ProtoUnixIO:
         :param from_log_visualize: If the protobuf is coming from LOG(VISUALIZE)
 
         """
-        listener = ThreadedUnixListener(
-            runtime_dir + f"/{proto_class.DESCRIPTOR.full_name}"
-            if from_log_visualize and not unix_path
-            else runtime_dir + unix_path,
-            proto_class=proto_class,
-            is_base64_encoded=from_log_visualize,
-        )
-        key = proto_class.DESCRIPTOR.full_name
-        self.unix_listeners[key] = listener
-        self.send_proto_to_observer_threads[key] = Thread(
-            target=self.__send_proto_to_observers,
-            args=(listener.proto_buffer,),
-            daemon=True,
-        )
-        self.send_proto_to_observer_threads[key].start()
+        if self.default_listener is None and from_log_visualize:
+            print(f"Creating default log visualize listener thread for {proto_class.DESCRIPTOR.full_name}", flush=True)
+            self.default_listener = ThreadedUnixListener(
+                runtime_dir + f"/protobuf",
+                proto_class=proto_class,
+                is_base64_encoded=from_log_visualize,
+            )
+            self.default_listener_thread = Thread(
+                target=self.__send_proto_to_observers,
+                args=(self.default_listener.proto_buffer,),
+                daemon=True,
+            )
+            self.default_listener_thread.start()
+        elif not from_log_visualize:
+            print(f"creating listener thread for {proto_class.DESCRIPTOR.full_name}", flush=True)
+            listener = ThreadedUnixListener(
+                runtime_dir + f"/{proto_class.DESCRIPTOR.full_name}"
+                if from_log_visualize and not unix_path
+                else runtime_dir + unix_path,
+                proto_class=proto_class,
+                is_base64_encoded=from_log_visualize,
+            )
+            key = proto_class.DESCRIPTOR.full_name
+            self.unix_listeners[key] = listener
+            self.send_proto_to_observer_threads[key] = Thread(
+                target=self.__send_proto_to_observers,
+                args=(listener.proto_buffer,),
+                daemon=True,
+            )
+            self.send_proto_to_observer_threads[key].start()
+        else:
+            print(f"Did not create listener for {proto_class.DESCRIPTOR.full_name}", flush=True)
 
     def force_close(self) -> None:
         """

@@ -1,3 +1,6 @@
+import threading
+import time
+
 import pyqtgraph as pg
 from pyqtgraph.Qt import QtCore, QtGui
 from pyqtgraph.Qt.QtCore import Qt
@@ -57,6 +60,22 @@ class ExtendedGLViewWidget(GLViewWidget):
 
         # This must be enabled for the mouse_moved_in_scene_signal to be emitted
         self.detect_mouse_movement_in_scene = False
+
+        self.previous_time = time.time()
+        self.count = 0
+        self.sum = 0
+
+        self.frameSwapped.connect(self.callback)
+
+    def callback(self):
+        self.sum += 1000 * (time.time() - self.previous_time)
+        self.count += 1
+        if self.count % 60 == 0:
+            print(f"avg={self.sum / self.count}ms  #threads={threading.active_count()}")
+            self.sum = 0
+            self.count = 0
+
+        self.previous_time = time.time()
 
     def mousePressEvent(self, event: QtGui.QMouseEvent) -> None:
         """Detect that the mouse was pressed

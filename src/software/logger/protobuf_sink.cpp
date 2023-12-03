@@ -8,6 +8,7 @@
 #include "shared/constants.h"
 
 ProtobufSink::ProtobufSink(std::string runtime_dir)
+    : unix_sender_(runtime_dir + "/protobuf")
 {
     // Setup the logs
     unix_senders_["log"] = std::make_unique<ThreadedUnixSender>(runtime_dir + "/log");
@@ -21,32 +22,33 @@ void ProtobufSink::sendProtobuf(g3::LogMessageMover log_entry)
     if (level.value == VISUALIZE.value)
     {
         std::string msg       = log_entry.get().message();
-        size_t file_name_pos  = msg.find(TYPE_DELIMITER);
-        std::string file_name = msg.substr(0, file_name_pos);
-
-        size_t proto_type_name_pos = msg.find(TYPE_DELIMITER, file_name_pos + 1);
-        std::string proto_type_name =
-            msg.substr(file_name_pos + TYPE_DELIMITER.length(),
-                       proto_type_name_pos - TYPE_DELIMITER.length());
-        std::string serialized_proto =
-            msg.substr(proto_type_name_pos + TYPE_DELIMITER.length());
-
-        // Use the protobuf type as the file name, if no file name was specified in the
-        // message
-        if (file_name.length() == 0)
-        {
-            file_name = "/" + proto_type_name;
-        }
-
-        // If we don't already have a unix sender for this type, let's create it
-        if (unix_senders_.count(file_name) == 0)
-        {
-            unix_senders_[file_name] =
-                std::make_unique<ThreadedUnixSender>(runtime_dir_ + file_name);
-        }
+//        size_t file_name_pos  = msg.find(TYPE_DELIMITER);
+//        std::string file_name = msg.substr(0, file_name_pos);
+//
+//        size_t proto_type_name_pos = msg.find(TYPE_DELIMITER, file_name_pos + 1);
+//        std::string proto_type_name =
+//            msg.substr(file_name_pos + TYPE_DELIMITER.length(),
+//                       proto_type_name_pos - TYPE_DELIMITER.length());
+//        std::string serialized_proto =
+//            msg.substr(proto_type_name_pos + TYPE_DELIMITER.length());
+//
+//        // Use the protobuf type as the file name, if no file name was specified in the
+//        // message
+//        if (file_name.length() == 0)
+//        {
+//            file_name = "/" + proto_type_name;
+//        }
+//
+//        // If we don't already have a unix sender for this type, let's create it
+//        if (unix_senders_.count(file_name) == 0)
+//        {
+//            unix_senders_[file_name] =
+//                std::make_unique<ThreadedUnixSender>(runtime_dir_ + file_name);
+//        }
 
         // Send the protobuf
-        unix_senders_[file_name]->sendString(serialized_proto);
+//        unix_senders_[file_name]->sendString(msg);
+        unix_sender_.sendString(msg);
     }
     else
     {

@@ -5,6 +5,7 @@ import socketserver
 from threading import Thread
 from software.logger.logger import createLogger
 from software import py_constants
+from proto.import_all_protos import *
 
 logger = createLogger(__name__)
 
@@ -117,8 +118,25 @@ class Session(socketserver.BaseRequestHandler):
 
         """
         payload = self.request[0]
+
+        # Unpack metadata
+        path, protobuf_type, payload = payload.split(
+            bytes("!!!", encoding="utf-8")
+        )
+
+        # Convert string to type. eval is an order of magnitude
+        # faster than iterating over the protobuf library to find
+        # the type from the string.
+        try:
+            # The format of the protobuf type is:
+            # package.proto_class (e.g. TbotsProto.Primitive)
+            proto_class = eval(str(protobuf_type.split(b".")[-1], encoding="utf-8"))
+        except Exception as e:
+            logger.error("Failed to eval protobuf type: {}".format(e))
+            return
+
         result = base64.b64decode(payload)
-        msg = self.proto_class()
+        msg = proto_class()
 
         any_msg = Any.FromString(result)
         any_msg.Unpack(msg)
