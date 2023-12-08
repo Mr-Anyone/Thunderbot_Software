@@ -29,10 +29,9 @@ py_proto_library(
     srcs = glob([
         "*.proto",
     ]),
-    default_runtime = "@com_google_protobuf//python:protobuf_python",
     deps = [
         "//proto:software_py_proto",
-#        "@com_google_protobuf//:protobuf_python",
+        "@com_google_protobuf//:protobuf_python",
     ],
 )
 

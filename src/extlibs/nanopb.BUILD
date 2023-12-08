@@ -93,8 +93,7 @@ proto_library(
 py_proto_library(
     name = "nanopb_options_py_proto",
     srcs = ["generator/nanopb/options.proto"],
-    default_runtime = "@com_google_protobuf//python:protobuf_python",
     deps = [
-        # "@com_google_protobuf//python:protobuf_python",
+        "@com_google_protobuf//:protobuf_python",
     ],
 )

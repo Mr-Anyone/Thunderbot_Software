@@ -86,7 +86,7 @@ load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
 
 git_repository(
     name = "com_google_protobuf",
-    commit = "2c5fa078d8e86e5f4bd34e6f4c9ea9e8d7d4d44a",
+    commit = "21027a27c4c2ec1000859ccbcfff46d83b16e1ed",
     # We need this patch to properly add generated dependencies to the protoc
     # compiler. It also fixes an issue with the python imports.
     remote = "https://github.com/protocolbuffers/protobuf",
@@ -106,17 +106,17 @@ git_repository(
 
 git_repository(
     name = "pybind11_protobuf",
-    commit = "b713501f1da56d9b76c42f89efd00b97c26c9eac",
+    commit = "f20537c3285636716ed86a7ef96baa19a788c944",
     remote = "https://github.com/pybind/pybind11_protobuf",
 )
 
 # Used by pybind11 proto autocasters
 http_archive(
     name = "com_google_absl",
-    sha256 = "987ce98f02eefbaf930d6e38ab16aa05737234d7afbab2d5c4ea7adbe50c28ed",  # SHARED_ABSL_SHA
-    strip_prefix = "abseil-cpp-20230802.1",
+    sha256 = "dcf71b9cba8dc0ca9940c4b316a0c796be8fab42b070bb6b7cab62b48f0e66c4",  # SHARED_ABSL_SHA
+    strip_prefix = "abseil-cpp-20211102.0",
     urls = [
-        "https://github.com/abseil/abseil-cpp/archive/refs/tags/20230802.1.tar.gz",
+        "https://github.com/abseil/abseil-cpp/archive/refs/tags/20211102.0.tar.gz",
     ],
 )
 
