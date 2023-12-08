@@ -22,15 +22,15 @@ void ProtobufSink::sendProtobuf(g3::LogMessageMover log_entry)
     if (level.value == VISUALIZE.value)
     {
         std::string msg       = log_entry.get().message();
-//        size_t file_name_pos  = msg.find(TYPE_DELIMITER);
-//        std::string file_name = msg.substr(0, file_name_pos);
-//
-//        size_t proto_type_name_pos = msg.find(TYPE_DELIMITER, file_name_pos + 1);
-//        std::string proto_type_name =
-//            msg.substr(file_name_pos + TYPE_DELIMITER.length(),
-//                       proto_type_name_pos - TYPE_DELIMITER.length());
-//        std::string serialized_proto =
-//            msg.substr(proto_type_name_pos + TYPE_DELIMITER.length());
+        size_t file_name_pos  = msg.find(TYPE_DELIMITER);
+        std::string file_name = msg.substr(0, file_name_pos);
+
+        size_t proto_type_name_pos = msg.find(TYPE_DELIMITER, file_name_pos + 1);
+        std::string proto_type_name =
+            msg.substr(file_name_pos + TYPE_DELIMITER.length(),
+                       proto_type_name_pos - TYPE_DELIMITER.length());
+        std::string serialized_proto =
+        base64_decode(msg.substr(proto_type_name_pos + TYPE_DELIMITER.length()));
 //
 //        // Use the protobuf type as the file name, if no file name was specified in the
 //        // message
@@ -48,7 +48,7 @@ void ProtobufSink::sendProtobuf(g3::LogMessageMover log_entry)
 
         // Send the protobuf
 //        unix_senders_[file_name]->sendString(msg);
-        unix_sender_.sendString(msg);
+        unix_sender_.sendString(proto_type_name + TYPE_DELIMITER + serialized_proto);
     }
     else
     {

@@ -79,7 +79,6 @@ class ProtoRequestHandler(socketserver.BaseRequestHandler):
         """Handle proto
 
         """
-        print(f"Received {self.server.proto_class.DESCRIPTOR.full_name}")
         if not self.server.is_base64_encoded:
             self.handle_proto()
         else:
@@ -106,7 +105,7 @@ class ProtoRequestHandler(socketserver.BaseRequestHandler):
         payload = self.request[0]
 
         # Unpack metadata
-        path, protobuf_type, payload = payload.split(
+        protobuf_type, payload = payload.split(
             bytes("!!!", encoding="utf-8")
         )
 
@@ -121,7 +120,7 @@ class ProtoRequestHandler(socketserver.BaseRequestHandler):
             logger.error("Failed to eval protobuf type: {}".format(e))
             return
 
-        result = base64.b64decode(payload)
+        result = payload
         msg = proto_class()
 
         any_msg = Any.FromString(result)
