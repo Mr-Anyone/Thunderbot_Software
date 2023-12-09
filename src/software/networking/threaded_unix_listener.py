@@ -2,6 +2,7 @@ import base64
 import os
 import queue
 import socketserver
+import time
 from threading import Thread
 from software.logger.logger import createLogger
 from software import py_constants
@@ -11,6 +12,9 @@ logger = createLogger(__name__)
 
 import proto
 from google.protobuf.any_pb2 import Any
+
+total_duration = 0
+last_measure_time = time.time()
 
 
 class ThreadedUnixListener:
@@ -79,10 +83,22 @@ class ProtoRequestHandler(socketserver.BaseRequestHandler):
         """Handle proto
 
         """
+        start = time.time()
         if not self.server.is_base64_encoded:
             self.handle_proto()
         else:
             self.handle_log_visualize()
+
+        end = time.time()
+        global total_duration
+        global last_measure_time
+
+        total_duration += end - start
+        time_since_last_print = end - last_measure_time
+        if time_since_last_print > 10.0:
+            print(f"unix listener time per sec: {total_duration / time_since_last_print}")
+            last_measure_time = time.time()
+            total_duration = 0
 
     def handle_proto(self):
         """If a specific protobuf class is passed in, this handler is called.
