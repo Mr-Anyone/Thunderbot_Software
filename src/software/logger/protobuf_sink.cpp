@@ -78,15 +78,7 @@ void ProtobufSink::sendProtobuf(g3::LogMessageMover log_entry)
 
 std::ostream& operator<<(std::ostream& os, const google::protobuf::Message& message)
 {
-    // Pack into Any
-    google::protobuf::Any any;
-    any.PackFrom(message);
-
-    // Serialize into any
-    std::string serialized_any;
-    any.SerializeToString(&serialized_any);
-
     os << TYPE_DELIMITER << message.GetTypeName() << TYPE_DELIMITER
-       << base64_encode(serialized_any);
+       << base64_encode(message.SerializeAsString());
     return os;
 }

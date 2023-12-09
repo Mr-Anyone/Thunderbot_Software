@@ -105,7 +105,7 @@ class ProtoRequestHandler(socketserver.BaseRequestHandler):
         payload = self.request[0]
 
         # Unpack metadata
-        protobuf_type, payload = payload.split(
+        protobuf_type, serialized_proto = payload.split(
             bytes("!!!", encoding="utf-8")
         )
 
@@ -120,11 +120,7 @@ class ProtoRequestHandler(socketserver.BaseRequestHandler):
             logger.error("Failed to eval protobuf type: {}".format(e))
             return
 
-        result = payload
-        msg = proto_class()
-
-        any_msg = Any.FromString(result)
-        any_msg.Unpack(msg)
+        msg = proto_class.FromString(serialized_proto)
         self.__buffer_protobuf(msg)
 
     def __buffer_protobuf(self, proto_msg):
