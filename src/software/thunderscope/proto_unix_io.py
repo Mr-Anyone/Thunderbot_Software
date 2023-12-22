@@ -1,3 +1,4 @@
+import time
 from threading import Thread
 import queue
 
@@ -5,6 +6,7 @@ import os
 
 from software.networking.threaded_unix_listener import ThreadedUnixListener
 from software.networking.threaded_unix_sender import ThreadedUnixSender
+from software.thunderscope.replay.proto_logger import ProtoLogger
 from software.thunderscope.thread_safe_buffer import ThreadSafeBuffer
 from typing import Type
 from google.protobuf.message import Message
@@ -84,6 +86,7 @@ class ProtoUnixIO:
 
             for buffer in self.all_proto_observers:
                 try:
+                    # buffer.put(ProtoLogger.create_log_entry(proto, time.time()), block=False)
                     buffer.put(proto, block=False)
                 except queue.Full:
                     print("Buffer registered to receive everything dropped data")
@@ -129,11 +132,12 @@ class ProtoUnixIO:
         if proto_class.DESCRIPTOR.full_name in self.proto_observers:
             for buffer in self.proto_observers[proto_class.DESCRIPTOR.full_name]:
                 buffer.put(data, block, timeout)
-        for buffer in self.all_proto_observers:
-            try:
-                buffer.put(data, block, timeout)
-            except queue.Full:
-                print("Buffer registered to receive everything dropped data")
+        # for buffer in self.all_proto_observers: # TODO: Can't pickle Referee msgs...
+        #     try:
+        #         # buffer.put(data, block, timeout)
+        #         buffer.put(ProtoLogger.create_log_entry(data, time.time()), block=block, timeout=timeout)
+        #     except queue.Full:
+        #         print("Buffer registered to receive everything dropped data")
 
     def attach_unix_sender(
         self,
