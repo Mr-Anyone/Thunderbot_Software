@@ -12,6 +12,7 @@ from typing import Callable
 
 from software.py_constants import *
 from software.thunderscope.constants import *
+from software.thunderscope.common.fps_widget import FrameTimeCounter
 
 from software.thunderscope.thunderscope_config import TScopeConfig
 
@@ -33,11 +34,11 @@ class Thunderscope(object):
     """
 
     def __init__(
-            self,
-            config: TScopeConfig,
-            layout_path: os.PathLike = None,
-            refresh_interval_ms: int = 10,
-            ) -> None:
+        self,
+        config: TScopeConfig,
+        layout_path: os.PathLike = None,
+        refresh_interval_ms: int = THUNDERSCOPE_REFRESH_INTERVAL_MS,
+    ) -> None:
         """Initialize Thunderscope
 
         :param config: The current Thunderscope UI configuration
@@ -47,6 +48,7 @@ class Thunderscope(object):
 
         """
 
+        # getting the counter
         self.refresh_interval_ms = refresh_interval_ms
         self.widgets = {}
         self.refresh_timers = []
@@ -89,6 +91,12 @@ class Thunderscope(object):
             self.load_layout(path)
         except Exception:
             pass
+
+        # Keyboard Estop shortcut
+        # only used when in keyboard estop mode
+        self.keyboard_estop_shortcut = QtGui.QShortcut(
+            QtGui.QKeySequence(" "), self.window
+        )
 
         # Save and Load Prompts
         #
