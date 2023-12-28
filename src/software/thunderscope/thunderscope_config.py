@@ -188,26 +188,26 @@ def configure_base_fullsystem(
             anchor="Field",
             position="bottom",
         ),
+        # TODO: Comment out
+        TScopeWidget(
+            name="Performance",
+            widget=setup_performance_plot(
+                **{"proto_unix_io": full_system_proto_unix_io}
+            ),
+            # this is because this widget specifically has to be added like so:
+            # dock.addWidget(widget.win) instead of dock.addWidget(widget)
+            # otherwise, it opens in a new window
+            # the setup functions returns the widget.win and the refresh function separately
+            in_window=True,
+            anchor="Referee Info",
+            position="below",
+        ),
         TScopeWidget(
             name="Play Info",
             widget=setup_play_info(**{"proto_unix_io": full_system_proto_unix_io}),
             anchor="Referee Info",
             position="above",
         ),
-        # TODO: Comment out
-        # TScopeWidget(
-        #     name="Performance",
-        #     widget=setup_performance_plot(
-        #         **{"proto_unix_io": full_system_proto_unix_io}
-        #     ),
-        #     # this is because this widget specifically has to be added like so:
-        #     # dock.addWidget(widget.win) instead of dock.addWidget(widget)
-        #     # otherwise, it opens in a new window
-        #     # the setup functions returns the widget.win and the refresh function separately
-        #     in_window=True,
-        #     anchor="Play Info",
-        #     position="right",
-        # ),
     ] + extra_widgets
 
 

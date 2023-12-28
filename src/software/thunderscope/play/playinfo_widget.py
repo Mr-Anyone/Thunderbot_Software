@@ -21,10 +21,9 @@ class PlayInfoWidget(QWidget):
     HEADER_SIZE_HINT_WIDTH_EXPANSION = 12
     ITEM_SIZE_HINT_WIDTH_EXPANSION = 10
 
-    def __init__(self, minimum_column_width: int = 200, buffer_size: int = 5) -> None:
+    def __init__(self, buffer_size: int = 5) -> None:
         """Shows the current play information including tactic and FSM state
 
-        :param minimum_column_width: minimum width of columns
         :param buffer_size: The buffer size, set higher for smoother plots.
                             Set lower for more realtime plots. Default is arbitrary
 
