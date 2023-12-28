@@ -1,3 +1,4 @@
+import time
 from typing import Callable, Optional, Sequence, Any, Dict
 from software.thunderscope.constants import TabNames
 
@@ -6,6 +7,8 @@ from PyQt6.QtWebEngineWidgets import QWebEngineView
 from pyqtgraph.Qt import QtCore
 from pyqtgraph.Qt.QtWidgets import *
 from pyqtgraph.dockarea import *
+import cProfile
+import atexit
 
 
 class WidgetStretchData:
@@ -101,6 +104,19 @@ class TScopeQTTab(TScopeTab):
         for widget in self.widgets:
             self.add_one_widget(widget)
 
+        self.profiler = cProfile.Profile()
+        atexit.register(self.print_stats)
+        self.total_dt_call_time = 0
+        self.total_refresh_time = 0
+        self.last_refresh_time = time.time()
+        self.num_refresh_calls = 0
+        self.last_print_time = time.time()
+        self.init_time = time.time()
+
+    def print_stats(self) -> None:
+        print(f"Profiling results of {self.name} tab after {time.time() - self.init_time}:")
+        self.profiler.print_stats(sort="cumtime")
+
     def add_one_widget(self, data: TScopeWidget) -> None:
         """
         Gets the widget name and object from the given data
@@ -136,8 +152,28 @@ class TScopeQTTab(TScopeTab):
         """
         Refreshes all the widgets belonging to this tab
         """
+        self.num_refresh_calls += 1
+        now = time.time()
+        self.total_dt_call_time += now - self.last_refresh_time
+        self.last_refresh_time = now
+
+        self.profiler.enable()
+
+        start = time.time()
         for refresh_func in self.refresh_functions.values():
             refresh_func()
+        end = time.time()
+
+        self.total_refresh_time += end - start
+        if now - self.last_print_time > 10:
+            print(
+                f"Average delta time between refresh calls {self.name} tab: {self.total_dt_call_time / self.num_refresh_calls}\n Average refresh time {self.name} tab: {self.total_refresh_time / self.num_refresh_calls}"
+            )
+            self.last_print_time = now
+            self.total_dt_call_time = 0
+            self.num_refresh_calls = 0
+
+        self.profiler.disable()
 
     def find_widget(self, widget_name: str) -> Optional[TScopeWidget]:
         """
