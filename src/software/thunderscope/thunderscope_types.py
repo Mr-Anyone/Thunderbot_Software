@@ -150,8 +150,11 @@ class TScopeQTTab(TScopeTab):
 
     def refresh(self) -> None:
         """
-        Refreshes all the widgets belonging to this tab
+        Refreshes all the widgets belonging to this tab if this tab is visible
         """
+        if not self.dock_area.isVisible():
+            return
+
         self.num_refresh_calls += 1
         now = time.time()
         self.total_dt_call_time += now - self.last_refresh_time
@@ -172,6 +175,7 @@ class TScopeQTTab(TScopeTab):
             self.last_print_time = now
             self.total_dt_call_time = 0
             self.num_refresh_calls = 0
+            self.total_refresh_time = 0
 
         self.profiler.disable()
 

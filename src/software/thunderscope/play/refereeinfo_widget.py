@@ -43,6 +43,9 @@ class RefereeInfoWidget(QWidget):
     def refresh(self) -> None:
         """Update the referee info widget with new referee information
         """
+        if not self.isVisible():
+            return
+
         referee = self.referee_buffer.get(block=False)
         referee_msg_dict = MessageToDict(referee)
 

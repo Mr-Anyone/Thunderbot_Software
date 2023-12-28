@@ -43,6 +43,9 @@ class PlayInfoWidget(QWidget):
     def refresh(self) -> None:
         """Update the play info widget with new play information
         """
+        if not self.isVisible():
+            return
+
         playinfo = self.playinfo_buffer.get(block=False)
 
         play_info_dict = MessageToDict(playinfo)
@@ -87,5 +90,5 @@ class PlayInfoWidget(QWidget):
             PlayInfoWidget.ITEM_SIZE_HINT_WIDTH_EXPANSION,
         )
 
-        self.play_table.resizeColumnsToContents()
-        self.play_table.resizeRowsToContents()
+        # self.play_table.resizeColumnsToContents()
+        # self.play_table.resizeRowsToContents()

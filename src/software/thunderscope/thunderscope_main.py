@@ -390,18 +390,18 @@ if __name__ == "__main__":
             args.debug_yellow_full_system,
             True,
             False,
-        ) as yellow_fs, ProtoLogger(
-            args.blue_full_system_runtime_dir,
-        ) as blue_logger, ProtoLogger(
-            args.yellow_full_system_runtime_dir,
-        ) as yellow_logger, Gamecontroller() as gamecontroller:
-
-            tscope.proto_unix_io_map[
-                ProtoUnixIOTypes.BLUE
-            ].register_to_observe_everything(blue_logger.buffer)
-            tscope.proto_unix_io_map[
-                ProtoUnixIOTypes.YELLOW
-            ].register_to_observe_everything(yellow_logger.buffer)
+        ) as yellow_fs, Gamecontroller() as gamecontroller:
+# ProtoLogger(
+#     args.blue_full_system_runtime_dir,
+# ) as blue_logger, ProtoLogger(
+#     args.yellow_full_system_runtime_dir,
+# ) as yellow_logger,
+#             tscope.proto_unix_io_map[
+#                 ProtoUnixIOTypes.BLUE
+#             ].register_to_observe_everything(blue_logger.buffer)
+#             tscope.proto_unix_io_map[
+#                 ProtoUnixIOTypes.YELLOW
+#             ].register_to_observe_everything(yellow_logger.buffer)
 
             blue_fs.setup_proto_unix_io(tscope.proto_unix_io_map[ProtoUnixIOTypes.BLUE])
             yellow_fs.setup_proto_unix_io(
