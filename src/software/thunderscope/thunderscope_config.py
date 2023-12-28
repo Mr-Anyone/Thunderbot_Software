@@ -163,57 +163,57 @@ def configure_base_fullsystem(
             widget=setup_frametime_widget(counter), 
             has_refresh_func=True,
         ),
-        TScopeWidget(
-            name="Parameters",
-            widget=setup_parameter_widget(
-                **{
-                    "proto_unix_io": full_system_proto_unix_io,
-                    "friendly_colour_yellow": friendly_colour_yellow,
-                }
-            ),
-            anchor="Field",
-            position="left",
-            has_refresh_func=False,
-        ),
-        TScopeWidget(
-            name="Logs",
-            widget=setup_log_widget(**{"proto_unix_io": full_system_proto_unix_io}),
-            anchor="Parameters",
-            position="above",
-        ),
-        TScopeWidget(
-            name="Error Log",
-            widget=setup_robot_error_log_view_widget(
-                **{"proto_unix_io": full_system_proto_unix_io}
-            ),
-            position="below",
-            anchor="Logs",
-        ),
-        TScopeWidget(
-            name="Referee Info",
-            widget=setup_referee_info(**{"proto_unix_io": full_system_proto_unix_io}),
-            anchor="Field",
-            position="bottom",
-        ),
-        TScopeWidget(
-            name="Play Info",
-            widget=setup_play_info(**{"proto_unix_io": full_system_proto_unix_io}),
-            anchor="Referee Info",
-            position="above",
-        ),
-        TScopeWidget(
-            name="Performance",
-            widget=setup_performance_plot(
-                **{"proto_unix_io": full_system_proto_unix_io}
-            ),
-            # this is because this widget specifically has to be added like so:
-            # dock.addWidget(widget.win) instead of dock.addWidget(widget)
-            # otherwise, it opens in a new window
-            # the setup functions returns the widget.win and the refresh function separately
-            in_window=True,
-            anchor="Play Info",
-            position="right",
-        ),
+        #TScopeWidget(
+        #    name="Parameters",
+        #    widget=setup_parameter_widget(
+        #        **{
+        #            "proto_unix_io": full_system_proto_unix_io,
+        #            "friendly_colour_yellow": friendly_colour_yellow,
+        #        }
+        #    ),
+        #    anchor="Field",
+        #    position="left",
+        #    has_refresh_func=False,
+        #),
+        #TScopeWidget(
+        #    name="Logs",
+        #    widget=setup_log_widget(**{"proto_unix_io": full_system_proto_unix_io}),
+        #    anchor="Parameters",
+        #    position="above",
+        #),
+        #TScopeWidget(
+        #    name="Error Log",
+        #    widget=setup_robot_error_log_view_widget(
+        #        **{"proto_unix_io": full_system_proto_unix_io}
+        #    ),
+        #    position="below",
+        #    anchor="Logs",
+        #),
+        #TScopeWidget(
+        #    name="Referee Info",
+        #    widget=setup_referee_info(**{"proto_unix_io": full_system_proto_unix_io}),
+        #    anchor="Field",
+        #    position="bottom",
+        #),
+        #TScopeWidget(
+        #    name="Play Info",
+        #    widget=setup_play_info(**{"proto_unix_io": full_system_proto_unix_io}),
+        #    anchor="Referee Info",
+        #    position="above",
+        #),
+        #TScopeWidget(
+        #    name="Performance",
+        #    widget=setup_performance_plot(
+        #        **{"proto_unix_io": full_system_proto_unix_io}
+        #    ),
+        #    # this is because this widget specifically has to be added like so:
+        #    # dock.addWidget(widget.win) instead of dock.addWidget(widget)
+        #    # otherwise, it opens in a new window
+        #    # the setup functions returns the widget.win and the refresh function separately
+        #    in_window=True,
+        #    anchor="Play Info",
+        #    position="right",
+        #),
     ] + extra_widgets
 
 
@@ -288,7 +288,7 @@ def configure_two_ai_gamecontroller_view(
     initialize_application()
 
     counter1 = FrameTimeCounter()
-    counter2 = FrameTimeCounter()
+    #counter2 = FrameTimeCounter()
     return TScopeConfig(
         proto_unix_io_map=proto_unix_io_map,
         tabs=[

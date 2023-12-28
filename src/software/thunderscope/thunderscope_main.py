@@ -331,6 +331,7 @@ def main():
             config=config.configure_two_ai_gamecontroller_view(
                 args.visualization_buffer_size
             ),
+            refresh_interval_ms=0,
             layout_path=args.layout,
         )
 
@@ -434,23 +435,27 @@ def main():
             tscope.show()
             thread.join()
 
-if __name__ == "__main__":
-    #import pyinstrument
-    #save_path = "/tmp"
+def profile_entry():
+    import pyinstrument
+    save_path = "/tmp"
 
-    #profiler = pyinstrument.Profiler()
+    profiler = pyinstrument.Profiler()
 
-    #profiler.start()
+    profiler.start()
     main()
-    #profiler.stop()
+    profiler.stop()
 
-    ## write to file
-    #profiler.write_html(os.path.join(save_path, "thunderscope_profile.html"))
-    #profiler.print()
-    ## flamegrpah output
-    #renderer = pyinstrument.renderers.SpeedscopeRenderer(show_all=True)
-    #render = profiler.output(renderer)
+    # write to file
+    profiler.write_html(os.path.join(save_path, "thunderscope_profile.html"))
+    profiler.print()
+    # flamegrpah output
+    renderer = pyinstrument.renderers.SpeedscopeRenderer(show_all=True)
+    render = profiler.output(renderer)
 
-    ## use this to see the flamegraph https://www.speedscope.app/
-    #with open(os.path.join(save_path, "speed_scope_render.json"), "w") as f:
-    #    f.write(render)
+    # use this to see the flamegraph https://www.speedscope.app/
+    with open(os.path.join(save_path, "speed_scope_render.json"), "w") as f:
+        f.write(render)
+
+if __name__ == "__main__":
+    main()
+    #profile_entry()

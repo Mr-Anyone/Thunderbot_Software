@@ -25,6 +25,9 @@ class FrameTimeCounter():
 
         return sum(self.datapoints) / len(self.datapoints)
 
+    def get_average_last_30(self):
+        return sum(self.datapoints[-30:]) / 30
+
 
 class FrameTimeWidget(QWidget):
     def __init__(self, counter:FrameTimeCounter):
@@ -41,10 +44,12 @@ class FrameTimeWidget(QWidget):
     def refresh(self):
         frametime = self.counter.get_last_frametime() * 1000
         average_frametime = self.counter.get_average_frametime() * 1000
+        average_last_30  = self.counter.get_average_last_30() * 1000
 
         # fps
         average_fps =  1/(average_frametime/1000)
         fps =  1/(frametime/1000)
+        average_last_30_fps = 1/(average_last_30/1000)
 
-        self.fps_label.setText(f"frametime: {frametime:3f} fps: {fps:3f}\naverage frametime: {average_frametime:3f} average fps: {average_fps:3f}")
 
+        self.fps_label.setText(f"frametime: {frametime:3f} fps: {fps:3f}\naverage frametime: {average_frametime:3f} average fps: {average_fps:3f}\nlast_30: {average_last_30} last_30_fps: {average_last_30_fps}")
