@@ -28,3 +28,10 @@ py_library(
         ":common_widgets",
     ],
 )
+
+py_library(
+    name ="frametime_counter",
+    srcs = ["fps_widget.py"],
+    deps = [
+    ],
+)

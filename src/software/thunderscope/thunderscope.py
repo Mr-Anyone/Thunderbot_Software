@@ -12,9 +12,9 @@ from typing import Callable
 
 from software.py_constants import *
 from software.thunderscope.constants import *
-from software.thunderscope.common.fps_widget import FrameTimeCounter
 
 from software.thunderscope.thunderscope_config import TScopeConfig
+from PyQt6.QtWidgets import *
 
 
 class Thunderscope(object):
@@ -217,7 +217,8 @@ class Thunderscope(object):
         """Show the main window"""
 
         self.window.show()
-        self.window.showMaximized()
+        #self.window.showMaximized()
+
         pyqtgraph.exec()
 
     def is_open(self) -> bool:

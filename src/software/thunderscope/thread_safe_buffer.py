@@ -3,7 +3,6 @@ from software.logger.logger import createLogger
 from typing import Type, Optional
 from google.protobuf.message import Message
 
-
 class ThreadSafeBuffer(object):
 
     MIN_DROPPED_BEFORE_LOG = 20

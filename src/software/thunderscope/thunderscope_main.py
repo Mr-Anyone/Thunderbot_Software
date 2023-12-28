@@ -15,6 +15,7 @@ from software.thunderscope.replay.proto_logger import ProtoLogger
 from software.thunderscope.constants import EstopMode, ProtoUnixIOTypes
 from software.thunderscope.estop_helpers import get_estop_config
 import software.thunderscope.thunderscope_config as config
+from software.thunderscope.common.fps_widget import FrameTimeCounter
 
 from software.thunderscope.binary_context_managers.full_system import FullSystem
 from software.thunderscope.binary_context_managers.simulator import Simulator
@@ -434,23 +435,22 @@ def main():
             thread.join()
 
 if __name__ == "__main__":
-    import pyinstrument
+    #import pyinstrument
+    #save_path = "/tmp"
 
-    save_path = "/tmp"
+    #profiler = pyinstrument.Profiler()
 
-    profiler = pyinstrument.Profiler()
-
-    profiler.start()
+    #profiler.start()
     main()
-    profiler.stop()
+    #profiler.stop()
 
-    # write to file
-    profiler.write_html(os.path.join(save_path, "thunderscope_profile.html"))
-    profiler.print()
-    # flamegrpah output
-    renderer = pyinstrument.renderers.SpeedscopeRenderer(show_all=True)
-    render = profiler.output(renderer)
+    ## write to file
+    #profiler.write_html(os.path.join(save_path, "thunderscope_profile.html"))
+    #profiler.print()
+    ## flamegrpah output
+    #renderer = pyinstrument.renderers.SpeedscopeRenderer(show_all=True)
+    #render = profiler.output(renderer)
 
-    # use this to see the flamegraph https://www.speedscope.app/
-    with open(os.path.join(save_path, "speed_scope_render.json"), "w") as f:
-        f.write(render)
+    ## use this to see the flamegraph https://www.speedscope.app/
+    #with open(os.path.join(save_path, "speed_scope_render.json"), "w") as f:
+    #    f.write(render)

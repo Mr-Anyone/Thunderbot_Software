@@ -57,6 +57,7 @@ class GLHeatmap(GLMeshItem):
         self.x_length = x_length
         self.y_length = y_length
 
+    # THIS IS SLOW
     def setData(self, data: npt.ArrayLike) -> None:
         """Update the data in this heatmap
 

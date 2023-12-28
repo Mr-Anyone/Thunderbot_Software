@@ -44,6 +44,7 @@ from software.thunderscope.robot_diagnostics.robot_view import RobotView
 from software.thunderscope.robot_diagnostics.robot_error_log import RobotErrorLog
 from software.thunderscope.robot_diagnostics.estop_view import EstopView
 from software.thunderscope.replay.proto_player import ProtoPlayer
+from software.thunderscope.common.fps_widget import FrameTimeCounter, FrameTimeWidget
 
 ################################
 #  FULLSYSTEM RELATED WIDGETS  #
@@ -291,6 +292,11 @@ def setup_diagnostics_input_widget() -> FullSystemConnectWidget:
     diagnostics_input_widget = FullSystemConnectWidget()
 
     return diagnostics_input_widget
+
+def setup_frametime_widget(
+    counter: FrameTimeCounter
+) -> FrameTimeWidget:
+    return FrameTimeWidget(counter=counter)
 
 
 def setup_drive_and_dribbler_widget(

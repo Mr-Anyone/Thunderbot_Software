@@ -1,3 +1,4 @@
+from software.thunderscope.common.fps_widget import FrameTimeCounter
 from software.thunderscope.widget_setup_functions import *
 from software.thunderscope.constants import (
     TabNames,
@@ -123,6 +124,7 @@ def configure_base_fullsystem(
     full_system_proto_unix_io: ProtoUnixIO,
     sim_proto_unix_io: ProtoUnixIO,
     friendly_colour_yellow: bool,
+    counter: FrameTimeCounter,
     replay: bool = False,
     replay_log: os.PathLike = None,
     visualization_buffer_size: int = 5,
@@ -142,7 +144,7 @@ def configure_base_fullsystem(
     :param extra_widgets: a list of additional widget data to append
     :return: list of widget data for FullSystem
     """
-    return [
+    return [ 
         TScopeWidget(
             name="Field",
             widget=setup_gl_widget(
@@ -155,6 +157,11 @@ def configure_base_fullsystem(
                     "visualization_buffer_size": visualization_buffer_size,
                 }
             ),
+        ),
+        TScopeWidget(
+            name="FPS Widget",
+            widget=setup_frametime_widget(counter), 
+            has_refresh_func=True,
         ),
         TScopeWidget(
             name="Parameters",
@@ -280,6 +287,8 @@ def configure_two_ai_gamecontroller_view(
     # Must be called before widgets are initialized below
     initialize_application()
 
+    counter1 = FrameTimeCounter()
+    counter2 = FrameTimeCounter()
     return TScopeConfig(
         proto_unix_io_map=proto_unix_io_map,
         tabs=[
@@ -292,26 +301,30 @@ def configure_two_ai_gamecontroller_view(
                     friendly_colour_yellow=False,
                     visualization_buffer_size=visualization_buffer_size,
                     extra_widgets=[],
+                    counter=counter1
                 ),
-            ),
-            TScopeQTTab(
-                name="Yellow FullSystem",
-                key=TabNames.YELLOW,
-                widgets=configure_base_fullsystem(
-                    full_system_proto_unix_io=proto_unix_io_map[
-                        ProtoUnixIOTypes.YELLOW
-                    ],
-                    sim_proto_unix_io=proto_unix_io_map[ProtoUnixIOTypes.SIM],
-                    friendly_colour_yellow=True,
-                    visualization_buffer_size=visualization_buffer_size,
-                    extra_widgets=[],
-                ),
-            ),
-            TScopeWebTab(
-                name="Gamecontroller",
-                key=TabNames.GAMECONTROLLER,
-                url=GAME_CONTROLLER_URL,
-            ),
+                counter=counter1
+            )
+            #TScopeQTTab(
+            #    name="Yellow FullSystem",
+            #    key=TabNames.YELLOW,
+            #    widgets=configure_base_fullsystem(
+            #        full_system_proto_unix_io=proto_unix_io_map[
+            #            ProtoUnixIOTypes.YELLOW
+            #        ],
+            #        sim_proto_unix_io=proto_unix_io_map[ProtoUnixIOTypes.SIM],
+            #        friendly_colour_yellow=True,
+            #        visualization_buffer_size=visualization_buffer_size,
+            #        extra_widgets=[],
+            #        counter=counter2
+            #    ),
+            #    counter=counter2
+            #),
+            #TScopeWebTab(
+            #    name="Gamecontroller",
+            #    key=TabNames.GAMECONTROLLER,
+            #    url=GAME_CONTROLLER_URL,
+            #),
         ],
     )
 
@@ -343,6 +356,9 @@ def configure_simulated_test_view(
     # Must be called before widgets are initialized below
     initialize_application()
 
+    counter1 = FrameTimeCounter()
+    counter2 = FrameTimeCounter()
+
     return TScopeConfig(
         proto_unix_io_map=proto_unix_io_map,
         tabs=[
@@ -355,7 +371,9 @@ def configure_simulated_test_view(
                     friendly_colour_yellow=False,
                     visualization_buffer_size=visualization_buffer_size,
                     extra_widgets=[],
+                    counter=counter1
                 ),
+                counter=counter1
             ),
             TScopeQTTab(
                 name="Yellow FullSystem",
@@ -368,7 +386,9 @@ def configure_simulated_test_view(
                     friendly_colour_yellow=True,
                     visualization_buffer_size=visualization_buffer_size,
                     extra_widgets=[],
+                    counter=counter2
                 ),
+                counter=counter2
             ),
         ],
     )

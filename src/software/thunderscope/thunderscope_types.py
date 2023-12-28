@@ -1,10 +1,11 @@
 from typing import Callable, Optional, Sequence, Any, Dict
+from software.thunderscope.common.fps_widget import FrameTimeCounter
 from software.thunderscope.constants import TabNames
 
 import PyQt6
 from PyQt6.QtWebEngineWidgets import QWebEngineView
 from pyqtgraph.Qt import QtCore
-from pyqtgraph.Qt.QtWidgets import *
+from pyqtgraph.Qt.QtWidgets import QWidget
 from pyqtgraph.dockarea import *
 
 
@@ -35,15 +36,15 @@ class TScopeWidget:
     in_window: Optional[bool]  # if this widget should be added in window or not
 
     def __init__(
-        self,
-        name: str,
-        widget: Any,
-        anchor: Optional[str] = None,
-        position: Optional[str] = None,
-        in_window: Optional[bool] = False,
-        stretch: Optional[object] = None,
-        has_refresh_func: Optional[bool] = True,
-    ) -> None:
+            self,
+            name: str,
+            widget: Any,
+            anchor: Optional[str] = None,
+            position: Optional[str] = None,
+            in_window: Optional[bool] = False,
+            stretch: Optional[object] = None,
+            has_refresh_func: Optional[bool] = True,
+            ) -> None:
         self.name = name
         self.widget = widget
         self.anchor = anchor
@@ -79,13 +80,20 @@ class TScopeQTTab(TScopeTab):
     widgets_map: Dict[str, TScopeWidget]  # Mapping of widget names to widget objects
     dock_map: Dict[str, DockArea]  # Mapping of widget names to dock areas
     refresh_functions: Dict[
-        str, Callable[[], None]
-    ]  # Mapping of widget names to refresh functions
+            str, Callable[[], None]
+            ]  # Mapping of widget names to refresh functions
 
     def __init__(
-        self, name: str, key: TabNames, widgets: Sequence[TScopeWidget]
-    ) -> None:
+            self, name: str, key: TabNames, widgets: Sequence[TScopeWidget], counter:FrameTimeCounter=None
+            ) -> None:
         super().__init__(name, key)
+
+
+        # creating a frametime counter
+        self.counter = counter
+        if self.counter is None:
+            self.counter = FrameTimeCounter()
+
         self.widgets = widgets
         self.refresh_functions = {}
 
@@ -136,6 +144,7 @@ class TScopeQTTab(TScopeTab):
         """
         Refreshes all the widgets belonging to this tab
         """
+        self.counter.add_one_datapoint()
         for refresh_func in self.refresh_functions.values():
             refresh_func()
 

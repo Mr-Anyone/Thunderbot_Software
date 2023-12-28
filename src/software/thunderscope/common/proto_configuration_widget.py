@@ -5,6 +5,7 @@ from google.protobuf.json_format import MessageToDict
 from thefuzz import fuzz
 from proto.import_all_protos import *
 from software.thunderscope.common import proto_parameter_tree_util
+from PyQt6.QtWidgets import *
 
 
 class ProtoConfigurationWidget(QWidget):
