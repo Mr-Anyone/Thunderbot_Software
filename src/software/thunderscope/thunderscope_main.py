@@ -328,7 +328,7 @@ def main():
     else:
 
         tscope = Thunderscope(
-            config=config.configure_two_ai_gamecontroller_view(
+           config=config.configure_two_ai_gamecontroller_view(
                 args.visualization_buffer_size
             ),
             refresh_interval_ms=0,
