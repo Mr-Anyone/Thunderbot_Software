@@ -1,3 +1,4 @@
+from PyQt6.QtOpenGLWidgets import QOpenGLWidget
 import pyqtgraph as pg
 from pyqtgraph.Qt import QtCore, QtGui
 from pyqtgraph.Qt.QtCore import Qt
@@ -17,7 +18,7 @@ from software.thunderscope.replay.replay_controls import ReplayControls
 from software.thunderscope.gl.helpers.extended_gl_view_widget import *
 
 
-class GLWidget(QWidget):
+class GLWidget(QOpenGLWidget):
     """Widget that handles GLLayers to produce a 3D visualization of the field/world 
     and our AI. GLWidget can also provide replay controls.
     """

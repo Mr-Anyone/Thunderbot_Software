@@ -457,5 +457,5 @@ def profile_entry():
         f.write(render)
 
 if __name__ == "__main__":
-    main()
-    #profile_entry()
+    #main()
+    profile_entry()
