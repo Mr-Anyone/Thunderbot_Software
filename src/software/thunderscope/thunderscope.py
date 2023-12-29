@@ -216,7 +216,7 @@ class Thunderscope(object):
     def show(self) -> None:
         """Show the main window"""
 
-        #pyqtgraph.setConfigOptions(useOpenGL=True)
+        pyqtgraph.setConfigOptions(useOpenGL=True)
         self.window.show()
         self.window.showMaximized()
 

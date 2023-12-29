@@ -145,19 +145,19 @@ def configure_base_fullsystem(
     :return: list of widget data for FullSystem
     """
     return [ 
-        TScopeWidget(
-            name="Field",
-            widget=setup_gl_widget(
-                **{
-                    "replay": replay,
-                    "replay_log": replay_log,
-                    "full_system_proto_unix_io": full_system_proto_unix_io,
-                    "sim_proto_unix_io": sim_proto_unix_io,
-                    "friendly_colour_yellow": friendly_colour_yellow,
-                    "visualization_buffer_size": visualization_buffer_size,
-                }
-            ),
-        ),
+        #TScopeWidget(
+        #    name="Field",
+        #    widget=setup_gl_widget(
+        #        **{
+        #            "replay": replay,
+        #            "replay_log": replay_log,
+        #            "full_system_proto_unix_io": full_system_proto_unix_io,
+        #            "sim_proto_unix_io": sim_proto_unix_io,
+        #            "friendly_colour_yellow": friendly_colour_yellow,
+        #            "visualization_buffer_size": visualization_buffer_size,
+        #        }
+        #    ),
+        #),
         TScopeWidget(
             name="FPS Widget",
             widget=setup_frametime_widget(counter), 
@@ -171,7 +171,7 @@ def configure_base_fullsystem(
                     "friendly_colour_yellow": friendly_colour_yellow,
                 }
             ),
-            anchor="Field",
+            #anchor="Field",
             position="left",
             has_refresh_func=False,
         ),
@@ -192,7 +192,7 @@ def configure_base_fullsystem(
         TScopeWidget(
             name="Referee Info",
             widget=setup_referee_info(**{"proto_unix_io": full_system_proto_unix_io}),
-            anchor="Field",
+            #anchor="Field",
             position="bottom",
         ),
         TScopeWidget(

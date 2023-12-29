@@ -116,7 +116,6 @@ class TScopeQTTab(TScopeTab):
         And to this tab's map of widgets and docks
         :param data: the data describing the widget of type TScopeWidget
         """
-
         widget_name = data.name
         new_widget = data.widget
 
