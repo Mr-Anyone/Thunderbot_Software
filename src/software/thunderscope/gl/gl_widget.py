@@ -297,6 +297,7 @@ class GLWidget(QWidget):
 
     def refresh(self) -> None:
         """Trigger an update on all the layers"""
+        # return Seems to lock refresh rate at 60hz when enabled
 
         if self.player:
             self.replay_controls.refresh()

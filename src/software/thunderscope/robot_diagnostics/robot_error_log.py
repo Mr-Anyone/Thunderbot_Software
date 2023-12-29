@@ -78,6 +78,8 @@ class RobotErrorLog(QScrollArea):
 
         Updates the time since of the existing messages
         """
+        # return # This doesn't seem to affect the hz when its just running by itself (i.e. doesnt run at 60hz)
+
         # remove all closed widgets first
         self.__remove_closed_widgets()
 

@@ -42,6 +42,8 @@ class PlayInfoWidget(QWidget):
     def refresh(self) -> None:
         """Update the play info widget with new play information
         """
+        # return Seems to lock refresh rate at 60hz when enabled
+
         if not self.isVisible():
             return
 
