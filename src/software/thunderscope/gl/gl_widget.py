@@ -38,7 +38,7 @@ class GLWidget(QOpenGLWidget):
             self.counter = FrameTimeCounter()
             exit(-1)
 
-        #self.frameSwapped.connect(self.frameswap_callback)
+        self.frameSwapped.connect(self.frameswap_callback)
 
         self.gl_view_widget = ExtendedGLViewWidget()
         self.setFocusPolicy(QtCore.Qt.FocusPolicy.StrongFocus)

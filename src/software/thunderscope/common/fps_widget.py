@@ -1,5 +1,4 @@
 import time
-from PyQt6 import QtOpenGLWidgets
 from PyQt6.QtWidgets import *
 from pyqtgraph.widgets.RawImageWidget import QOpenGLWidget
 
@@ -12,7 +11,7 @@ class FrameTimeCounter():
         current_time = time.time()
         self.datapoints.append(current_time - self.previous_timestamp)
         self.previous_timestamp = current_time
-        if len(self.datapoints) % 1000 == 0:
+        if len(self.datapoints) % 10 == 0:
             self.report_fps_and_frametime()
 
 
@@ -61,14 +60,15 @@ class FrameTimeWidget(QOpenGLWidget):
         self.setLayout(self.vertical_layout)
 
     def refresh(self):
-        frametime = self.counter.get_last_frametime() * 1000
-        average_frametime = self.counter.get_average_frametime() * 1000
-        average_last_30  = self.counter.get_average_last_30() * 1000
+        pass
+        #frametime = self.counter.get_last_frametime() * 1000
+        #average_frametime = self.counter.get_average_frametime() * 1000
+        #average_last_30  = self.counter.get_average_last_30() * 1000
 
-        # fps
-        average_fps =  1/(average_frametime/1000)
-        fps =  1/(frametime/1000)
-        average_last_30_fps = 1/(average_last_30/1000)
+        ## fps
+        #average_fps =  1/(average_frametime/1000)
+        #fps =  1/(frametime/1000)
+        #average_last_30_fps = 1/(average_last_30/1000)
 
 
-        self.fps_label.setText(f"frametime: {frametime:3f} fps: {fps:3f}\naverage frametime: {average_frametime:3f} average fps: {average_fps:3f}\nlast_30: {average_last_30} last_30_fps: {average_last_30_fps}")
+        #self.fps_label.setText(f"frametime: {frametime:3f} fps: {fps:3f}\naverage frametime: {average_frametime:3f} average fps: {average_fps:3f}\nlast_30: {average_last_30} last_30_fps: {average_last_30_fps}")
