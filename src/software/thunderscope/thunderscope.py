@@ -15,7 +15,7 @@ from software.thunderscope.constants import *
 
 from software.thunderscope.thunderscope_config import TScopeConfig
 from PyQt6.QtWidgets import *
-
+from threading import Thread
 
 class Thunderscope(object):
 
@@ -52,6 +52,7 @@ class Thunderscope(object):
         self.refresh_interval_ms = refresh_interval_ms
         self.widgets = {}
         self.refresh_timers = []
+        self.refresh_functions = [] # more important 
 
         self.tabs = QTabWidget()
 
@@ -121,6 +122,7 @@ class Thunderscope(object):
         self.show_help.activated.connect(
             lambda: QMessageBox.information(self.window, "Help", THUNDERSCOPE_HELP_TEXT)
         )
+
 
     def reset_layout(self) -> None:
         """Reset the layout to the default layout"""
@@ -199,28 +201,39 @@ class Thunderscope(object):
                         default_shelf[key] = val
                     default_shelf.sync()
 
+    # This is the most evil line
     def register_refresh_function(self, refresh_func: Callable[[], None]) -> None:
         """Register the refresh functions to run at the refresh_interval_ms
         passed into thunderscope.
 
+        # this is really bad because it takes time to refresh and all.
         :param refresh_func: The function to call at refresh_interval_ms
-
         """
-        refresh_timer = QtCore.QTimer()
-        refresh_timer.setTimerType(QtCore.Qt.TimerType.PreciseTimer)
-        refresh_timer.timeout.connect(lambda: refresh_func())
-        refresh_timer.start(self.refresh_interval_ms)
+        self.refresh_functions.append(refresh_func)
+        #refresh_timer = QtCore.QTimer()
+        #refresh_timer.setTimerType(QtCore.Qt.TimerType.PreciseTimer)
+        #refresh_timer.timeout.connect(lambda: refresh_func())
+        #refresh_timer.start(self.refresh_interval_ms)
 
-        self.refresh_timers.append(refresh_timer)
+        #self.refresh_timers.append(refresh_timer)
 
     def show(self) -> None:
         """Show the main window"""
+        def refresh_all_refresh_functions():
+            
+            while True:
+                for func in self.refresh_functions:
+                    func()
+                time.sleep(1)
 
-        pyqtgraph.setConfigOptions(useOpenGL=True)
+        thread = Thread(target=refresh_all_refresh_functions)
+        thread.start()
+
         self.window.show()
         self.window.showMaximized()
 
         pyqtgraph.exec()
+        thread.join()
 
     def is_open(self) -> bool:
         """Returns true if the window is open"""

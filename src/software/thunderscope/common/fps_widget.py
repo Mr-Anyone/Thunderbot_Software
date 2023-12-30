@@ -1,6 +1,7 @@
 import time
+from PyQt6 import QtOpenGLWidgets
 from PyQt6.QtWidgets import *
-from pyqtgraph.graphicsItems.PlotDataItem import dataType
+from pyqtgraph.widgets.RawImageWidget import QOpenGLWidget
 
 class FrameTimeCounter():
     def __init__(self) -> None:
@@ -29,9 +30,9 @@ class FrameTimeCounter():
         return sum(self.datapoints[-30:]) / 30
 
 
-class FrameTimeWidget(QWidget):
+class FrameTimeWidget(QOpenGLWidget):
     def __init__(self, counter:FrameTimeCounter):
-        QWidget.__init__(self)
+        QOpenGLWidget.__init__(self)
         self.counter = counter
 
         self.fps_label = QLabel("some string to be show") 

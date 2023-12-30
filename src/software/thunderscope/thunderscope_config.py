@@ -145,75 +145,75 @@ def configure_base_fullsystem(
     :return: list of widget data for FullSystem
     """
     return [ 
+        TScopeWidget(
+            name="Field",
+            widget=setup_gl_widget(
+                **{
+                    "replay": replay,
+                    "replay_log": replay_log,
+                    "full_system_proto_unix_io": full_system_proto_unix_io,
+                    "sim_proto_unix_io": sim_proto_unix_io,
+                    "friendly_colour_yellow": friendly_colour_yellow,
+                    "visualization_buffer_size": visualization_buffer_size,
+                }
+            ),
+        ),
         #TScopeWidget(
-        #    name="Field",
-        #    widget=setup_gl_widget(
+        #    name="Parameters",
+        #    widget=setup_parameter_widget(
         #        **{
-        #            "replay": replay,
-        #            "replay_log": replay_log,
-        #            "full_system_proto_unix_io": full_system_proto_unix_io,
-        #            "sim_proto_unix_io": sim_proto_unix_io,
+        #            "proto_unix_io": full_system_proto_unix_io,
         #            "friendly_colour_yellow": friendly_colour_yellow,
-        #            "visualization_buffer_size": visualization_buffer_size,
         #        }
         #    ),
+        #    anchor="Field",
+        #    position="left",
+        #    has_refresh_func=False,
+        #),
+        #TScopeWidget(
+        #    name="Logs",
+        #    widget=setup_log_widget(**{"proto_unix_io": full_system_proto_unix_io}),
+        #    anchor="Parameters",
+        #    position="above",
+        #),
+        #TScopeWidget(
+        #    name="Error Log",
+        #    widget=setup_robot_error_log_view_widget(
+        #        **{"proto_unix_io": full_system_proto_unix_io}
+        #    ),
+        #    position="below",
+        #    anchor="Logs",
         #),
         TScopeWidget(
             name="FPS Widget",
             widget=setup_frametime_widget(counter), 
-            has_refresh_func=True,
-        ),
-        TScopeWidget(
-            name="Parameters",
-            widget=setup_parameter_widget(
-                **{
-                    "proto_unix_io": full_system_proto_unix_io,
-                    "friendly_colour_yellow": friendly_colour_yellow,
-                }
-            ),
-            #anchor="Field",
-            position="left",
-            has_refresh_func=False,
-        ),
-        TScopeWidget(
-            name="Logs",
-            widget=setup_log_widget(**{"proto_unix_io": full_system_proto_unix_io}),
-            anchor="Parameters",
-            position="above",
-        ),
-        TScopeWidget(
-            name="Error Log",
-            widget=setup_robot_error_log_view_widget(
-                **{"proto_unix_io": full_system_proto_unix_io}
-            ),
             position="below",
-            anchor="Logs",
         ),
-        TScopeWidget(
-            name="Referee Info",
-            widget=setup_referee_info(**{"proto_unix_io": full_system_proto_unix_io}),
-            #anchor="Field",
-            position="bottom",
-        ),
-        TScopeWidget(
-            name="Play Info",
-            widget=setup_play_info(**{"proto_unix_io": full_system_proto_unix_io}),
-            anchor="Referee Info",
-            position="above",
-        ),
-        TScopeWidget(
-            name="Performance",
-            widget=setup_performance_plot(
-                **{"proto_unix_io": full_system_proto_unix_io}
-            ),
-            # this is because this widget specifically has to be added like so:
-            # dock.addWidget(widget.win) instead of dock.addWidget(widget)
-            # otherwise, it opens in a new window
-            # the setup functions returns the widget.win and the refresh function separately
-            in_window=True,
-            anchor="Play Info",
-            position="right",
-        ),
+        #TScopeWidget(
+        #    name="Referee Info",
+        #    widget=setup_referee_info(**{"proto_unix_io": full_system_proto_unix_io}),
+        #    anchor="Field",
+        #    position="bottom",
+        #),
+        #TScopeWidget(
+        #    name="Play Info",
+        #    widget=setup_play_info(**{"proto_unix_io": full_system_proto_unix_io}),
+        #    anchor="Referee Info",
+        #    position="above",
+        #),
+        #TScopeWidget(
+        #    name="Performance",
+        #    widget=setup_performance_plot(
+        #        **{"proto_unix_io": full_system_proto_unix_io}
+        #    ),
+        #    # this is because this widget specifically has to be added like so:
+        #    # dock.addWidget(widget.win) instead of dock.addWidget(widget)
+        #    # otherwise, it opens in a new window
+        #    # the setup functions returns the widget.win and the refresh function separately
+        #    in_window=True,
+        #    anchor="Play Info",
+        #    position="below",
+        #),
     ] + extra_widgets
 
 
@@ -306,26 +306,26 @@ def configure_two_ai_gamecontroller_view(
                 ),
                 counter=counter1
             ),
-            TScopeQTTab(
-                name="Yellow FullSystem",
-                key=TabNames.YELLOW,
-                widgets=configure_base_fullsystem(
-                    full_system_proto_unix_io=proto_unix_io_map[
-                        ProtoUnixIOTypes.YELLOW
-                    ],
-                    sim_proto_unix_io=proto_unix_io_map[ProtoUnixIOTypes.SIM],
-                    friendly_colour_yellow=True,
-                    visualization_buffer_size=visualization_buffer_size,
-                    extra_widgets=[],
-                    counter=counter2
-                ),
-                counter=counter2
-            ),
-            TScopeWebTab(
-                name="Gamecontroller",
-                key=TabNames.GAMECONTROLLER,
-                url=GAME_CONTROLLER_URL,
-            ),
+            #TScopeQTTab(
+            #    name="Yellow FullSystem",
+            #    key=TabNames.YELLOW,
+            #    widgets=configure_base_fullsystem(
+            #        full_system_proto_unix_io=proto_unix_io_map[
+            #            ProtoUnixIOTypes.YELLOW
+            #        ],
+            #        sim_proto_unix_io=proto_unix_io_map[ProtoUnixIOTypes.SIM],
+            #        friendly_colour_yellow=True,
+            #        visualization_buffer_size=visualization_buffer_size,
+            #        extra_widgets=[],
+            #        counter=counter2
+            #    ),
+            #    counter=counter2
+            #),
+            #TScopeWebTab(
+            #    name="Gamecontroller",
+            #    key=TabNames.GAMECONTROLLER,
+            #    url=GAME_CONTROLLER_URL,
+            #),
         ],
     )
 
