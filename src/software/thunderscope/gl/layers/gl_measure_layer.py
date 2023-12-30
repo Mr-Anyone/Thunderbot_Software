@@ -145,14 +145,14 @@ class GLMeasureLayer(GLLayer):
 
         # Display coordinates of point at mouse cursor
 
-        if not self.cursor_coords_graphic:
-            self.cursor_coords_graphic = GLTextItem(
-                parentItem=self,
-                font=QtGui.QFont("Roboto", 10),
-                color=Colors.PRIMARY_TEXT_COLOR,
-            )
+        #if not self.cursor_coords_graphic:
+        #    self.cursor_coords_graphic = GLTextItem(
+        #        parentItem=self,
+        #        font=QtGui.QFont("Roboto", 10),
+        #        color=Colors.PRIMARY_TEXT_COLOR,
+        #    )
 
-        self.cursor_coords_graphic.setData(
-            text=f"({self.mouse_point_in_scene.x():.2f} m, {self.mouse_point_in_scene.y():.2f} m)",
-            pos=[self.mouse_point_in_scene.x(), self.mouse_point_in_scene.y(), 0],
-        )
+        #self.cursor_coords_graphic.setData(
+        #    text=f"({self.mouse_point_in_scene.x():.2f} m, {self.mouse_point_in_scene.y():.2f} m)",
+        #    pos=[self.mouse_point_in_scene.x(), self.mouse_point_in_scene.y(), 0],
+        #)

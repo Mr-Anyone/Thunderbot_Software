@@ -155,6 +155,7 @@ def configure_base_fullsystem(
                     "sim_proto_unix_io": sim_proto_unix_io,
                     "friendly_colour_yellow": friendly_colour_yellow,
                     "visualization_buffer_size": visualization_buffer_size,
+                    "counter": counter
                 }
             ),
         ),
@@ -288,7 +289,6 @@ def configure_two_ai_gamecontroller_view(
     initialize_application()
 
     counter1 = FrameTimeCounter()
-    counter2 = FrameTimeCounter()
 
     return TScopeConfig(
         proto_unix_io_map=proto_unix_io_map,
@@ -304,7 +304,6 @@ def configure_two_ai_gamecontroller_view(
                     extra_widgets=[],
                     counter=counter1
                 ),
-                counter=counter1
             ),
             #TScopeQTTab(
             #    name="Yellow FullSystem",
@@ -321,11 +320,11 @@ def configure_two_ai_gamecontroller_view(
             #    ),
             #    counter=counter2
             #),
-            #TScopeWebTab(
-            #    name="Gamecontroller",
-            #    key=TabNames.GAMECONTROLLER,
-            #    url=GAME_CONTROLLER_URL,
-            #),
+            TScopeWebTab(
+                name="Gamecontroller",
+                key=TabNames.GAMECONTROLLER,
+                url=GAME_CONTROLLER_URL,
+            ),
         ],
     )
 

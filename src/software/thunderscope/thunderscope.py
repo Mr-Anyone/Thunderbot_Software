@@ -52,7 +52,6 @@ class Thunderscope(object):
         self.refresh_interval_ms = refresh_interval_ms
         self.widgets = {}
         self.refresh_timers = []
-        self.refresh_functions = [] # more important 
 
         self.tabs = QTabWidget()
 
@@ -209,31 +208,19 @@ class Thunderscope(object):
         # this is really bad because it takes time to refresh and all.
         :param refresh_func: The function to call at refresh_interval_ms
         """
-        self.refresh_functions.append(refresh_func)
-        #refresh_timer = QtCore.QTimer()
-        #refresh_timer.setTimerType(QtCore.Qt.TimerType.PreciseTimer)
-        #refresh_timer.timeout.connect(lambda: refresh_func())
-        #refresh_timer.start(self.refresh_interval_ms)
+        refresh_timer = QtCore.QTimer()
+        refresh_timer.setTimerType(QtCore.Qt.TimerType.PreciseTimer)
+        refresh_timer.timeout.connect(lambda: refresh_func())
+        refresh_timer.start(self.refresh_interval_ms)
 
-        #self.refresh_timers.append(refresh_timer)
+        self.refresh_timers.append(refresh_timer)
 
     def show(self) -> None:
         """Show the main window"""
-        def refresh_all_refresh_functions():
-            
-            while True:
-                for func in self.refresh_functions:
-                    func()
-                time.sleep(1)
-
-        thread = Thread(target=refresh_all_refresh_functions)
-        thread.start()
-
         self.window.show()
         self.window.showMaximized()
 
         pyqtgraph.exec()
-        thread.join()
 
     def is_open(self) -> bool:
         """Returns true if the window is open"""

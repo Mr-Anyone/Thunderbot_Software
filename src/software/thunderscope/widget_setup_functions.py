@@ -57,6 +57,7 @@ def setup_gl_widget(
     friendly_colour_yellow: bool,
     visualization_buffer_size: int,
     replay: bool = False,
+    counter: FrameTimeCounter=None,
     replay_log: os.PathLike = None,
 ) -> Field:
     """Setup the GLWidget with its constituent layers
@@ -70,11 +71,16 @@ def setup_gl_widget(
     :returns: The GLWidget
 
     """
+    # pelase 
+    if counter == None:
+        print("Please pass in a frametime counter")
+        counter = FrameTimeCounter()
+
     # Create ProtoPlayer if replay is enabled
     player = ProtoPlayer(replay_log, full_system_proto_unix_io) if replay else None
 
     # Create widget
-    gl_widget = GLWidget(player=player)
+    gl_widget = GLWidget(player=player,counter=counter)
 
     # Create layers
     validation_layer = gl_validation_layer.GLValidationLayer(

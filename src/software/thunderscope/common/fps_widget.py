@@ -12,6 +12,9 @@ class FrameTimeCounter():
         current_time = time.time()
         self.datapoints.append(current_time - self.previous_timestamp)
         self.previous_timestamp = current_time
+        if len(self.datapoints) % 1000 == 0:
+            self.report_fps_and_frametime()
+
 
     def get_last_frametime(self):
         # return unit in s
@@ -27,8 +30,23 @@ class FrameTimeCounter():
         return sum(self.datapoints) / len(self.datapoints)
 
     def get_average_last_30(self):
+        if (len(self.datapoints) == 0):
+            return -1
+
         return sum(self.datapoints[-30:]) / 30
 
+    def report_fps_and_frametime(self):
+        frametime = self.get_last_frametime() * 1000
+        average_frametime = self.get_average_frametime() * 1000
+        average_last_30  = self.get_average_last_30() * 1000
+
+        # fps
+        average_fps =  1/(average_frametime/1000)
+        fps =  1/(frametime/1000)
+        average_last_30_fps = 1/(average_last_30/1000)
+
+        text = f"frametime: {frametime:3f} fps: {fps:3f}\naverage frametime: {average_frametime:3f} average fps: {average_fps:3f}\nlast_30: {average_last_30} last_30_fps: {average_last_30_fps}"
+        print(text)
 
 class FrameTimeWidget(QOpenGLWidget):
     def __init__(self, counter:FrameTimeCounter):
