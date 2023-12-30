@@ -104,6 +104,9 @@ class TScopeQTTab(TScopeTab):
         for widget in self.widgets:
             self.add_one_widget(widget)
 
+        self.refresh_count = 0
+        self.field_fresh_func: Optional[Callable] = None
+
     def add_one_widget(self, data: TScopeWidget) -> None:
         """
         Gets the widget name and object from the given data
@@ -134,12 +137,23 @@ class TScopeQTTab(TScopeTab):
         if data.has_refresh_func:
             self.refresh_functions[widget_name] = new_widget.refresh
 
-    def refresh(self) -> None:
+    def refresh(self, ratio=100) -> None:
         """
         Refreshes all the widgets belonging to this tab
         """
-        for refresh_func in self.refresh_functions.values():
-            refresh_func()
+        # refresh everything every 100 (ratio) refresh calls being called
+        self.refresh_count += 1
+        if self.refresh_count % ratio == 0 or self.refresh_count == 1:
+            for refresh_func in self.refresh_functions.values():
+                refresh_func()
+            return 
+        
+        if "Field" not in self.refresh_functions:
+            print("Cannot get field widget fresh functino. What are you doing!")
+            return 
+
+        self.refresh_functions["Field"]()
+        
 
     def find_widget(self, widget_name: str) -> Optional[TScopeWidget]:
         """
