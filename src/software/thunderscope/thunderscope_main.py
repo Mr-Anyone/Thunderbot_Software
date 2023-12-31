@@ -1,4 +1,5 @@
 import argparse
+from re import L
 import numpy
 import os
 import threading
@@ -435,7 +436,7 @@ def main():
             tscope.show()
             thread.join()
 
-def profile_entry():
+def profile_entry_pyinstrument():
     import pyinstrument
     save_path = "/tmp"
 
@@ -456,6 +457,20 @@ def profile_entry():
     with open(os.path.join(save_path, "speed_scope_render.json"), "w") as f:
         f.write(render)
 
+def profile_entry_cprofile():
+    import cProfile  
+    import pstats
+
+    with cProfile.Profile() as profile:
+        try:
+            main()
+        except Exception:
+            pass
+
+        stats = pstats.Stats(profile)
+        stats.dump_stats("/tmp/cProfile.prof")
+
 if __name__ == "__main__":
     main()
-    #profile_entry()
+    #profile_entry_pyinstrument()
+    #profile_entry_cprofile()
