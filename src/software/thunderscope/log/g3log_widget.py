@@ -12,7 +12,7 @@ from software.thunderscope.thread_safe_buffer import ThreadSafeBuffer
 
 
 class g3logWidget(QWidget):
-    def __init__(self, buffer_size=10):
+    def __init__(self, buffer_size=50):
         """The g3log widget is a console widget that displays g3log messages
 
         :param buffer_size: The buffer size, set higher for smoother plots.

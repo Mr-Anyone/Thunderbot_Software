@@ -65,18 +65,6 @@ class ExtendedGLViewWidget(GLViewWidget):
         self.count = 0
         self.sum = 0
 
-        self.frameSwapped.connect(self.callback)
-
-    def callback(self):
-        self.sum += 1000 * (time.time() - self.previous_time)
-        self.count += 1
-        if self.count % 60 == 0:
-            print(f"avg={self.sum / self.count}ms  #threads={threading.active_count()}")
-            self.sum = 0
-            self.count = 0
-
-        self.previous_time = time.time()
-
     def mousePressEvent(self, event: QtGui.QMouseEvent) -> None:
         """Detect that the mouse was pressed
         

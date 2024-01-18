@@ -98,6 +98,8 @@ class ProtoPlotter(QWidget):
         plots.
 
         """
+        if not self.win.isVisible():
+            return
 
         # Dump the entire buffer into a deque. This operation is fast because
         # its just consuming data from the buffer and appending it to a deque.

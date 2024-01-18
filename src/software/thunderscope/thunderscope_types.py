@@ -1,3 +1,4 @@
+import time
 from typing import Callable, Optional, Sequence, Any, Dict
 from software.thunderscope.common.fps_widget import FrameTimeCounter
 from software.thunderscope.constants import TabNames
@@ -7,6 +8,8 @@ from PyQt6.QtWebEngineWidgets import QWebEngineView
 from pyqtgraph.Qt import QtCore
 from pyqtgraph.Qt.QtWidgets import QWidget
 from pyqtgraph.dockarea import *
+import cProfile
+import atexit
 
 
 class WidgetStretchData:
@@ -140,7 +143,7 @@ class TScopeQTTab(TScopeTab):
 
     def refresh(self) -> None:
         """
-        Refreshes all the widgets belonging to this tab
+        Refreshes all the widgets belonging to this tab if this tab is visible
         """
         if not self.dock_area.isVisible():
             return 

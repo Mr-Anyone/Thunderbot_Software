@@ -43,6 +43,9 @@ class RefereeInfoWidget(QWidget):
     def refresh(self) -> None:
         """Update the referee info widget with new referee information
         """
+        if not self.isVisible():
+            return
+
         referee = self.referee_buffer.get(block=False)
         referee_msg_dict = MessageToDict(referee)
 
@@ -101,5 +104,6 @@ class RefereeInfoWidget(QWidget):
             RefereeInfoWidget.ITEM_SIZE_HINT_WIDTH_EXPANSION,
         )
 
+        # self.referee_table.si
         self.referee_table.resizeColumnsToContents()
-        self.referee_table.resizeRowsToContents()
+        self.referee_table.resizeRowsToContents() # TODO: This takes %5-10 of the time to refresh, can we make it faster?
