@@ -142,6 +142,9 @@ class TScopeQTTab(TScopeTab):
         """
         Refreshes all the widgets belonging to this tab
         """
+        if not self.dock_area.isVisible():
+            return 
+
         for refresh_func in self.refresh_functions.values():
             refresh_func()
 
