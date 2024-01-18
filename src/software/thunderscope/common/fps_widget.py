@@ -2,7 +2,7 @@ import time
 from PyQt6.QtWidgets import *
 
 class FrameTimeCounter():
-    def __init__(self) -> None:
+    def __init__(self, name=None) -> None:
         self.datapoints = []  # stores the timeframe of every data cycle
         self.previous_timestamp = time.time()
 
