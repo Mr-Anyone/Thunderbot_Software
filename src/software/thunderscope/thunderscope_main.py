@@ -426,6 +426,9 @@ def main():
                 tscope.proto_unix_io_map[ProtoUnixIOTypes.YELLOW],
             )
 
+            from google.protobuf.internal import api_implementation
+            print(f"protobuf {api_implementation.Type()=}")
+
             # Start the simulator
             thread = threading.Thread(
                 target=__async_sim_ticker, args=(SIM_TICK_RATE_MS,), daemon=True,

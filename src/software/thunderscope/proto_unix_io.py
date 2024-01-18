@@ -1,3 +1,4 @@
+import time
 from threading import Thread
 import queue
 
@@ -5,6 +6,7 @@ import os
 
 from software.networking.threaded_unix_listener import ThreadedUnixListener
 from software.networking.threaded_unix_sender import ThreadedUnixSender
+from software.thunderscope.replay.proto_logger import ProtoLogger
 from software.thunderscope.thread_safe_buffer import ThreadSafeBuffer
 from typing import Type
 from google.protobuf.message import Message
@@ -62,6 +64,8 @@ class ProtoUnixIO:
         self.unix_listeners = {}
         self.send_proto_to_observer_threads = {}
         self.running = True
+        self.default_listener = None
+        self.default_listener_thread = None
 
     def __send_proto_to_observers(self, receive_buffer: ThreadSafeBuffer) -> None:
         """Given a ThreadSafeBuffer (receive_buffer) consume it and
@@ -82,6 +86,7 @@ class ProtoUnixIO:
 
             for buffer in self.all_proto_observers:
                 try:
+                    # buffer.put(ProtoLogger.create_log_entry(proto, time.time()), block=False)
                     buffer.put(proto, block=False)
                 except queue.Full:
                     print("Buffer registered to receive everything dropped data")
@@ -127,11 +132,12 @@ class ProtoUnixIO:
         if proto_class.DESCRIPTOR.full_name in self.proto_observers:
             for buffer in self.proto_observers[proto_class.DESCRIPTOR.full_name]:
                 buffer.put(data, block, timeout)
-        for buffer in self.all_proto_observers:
-            try:
-                buffer.put(data, block, timeout)
-            except queue.Full:
-                print("Buffer registered to receive everything dropped data")
+        # for buffer in self.all_proto_observers: # TODO: Can't pickle Referee msgs...
+        #     try:
+        #         # buffer.put(data, block, timeout)
+        #         buffer.put(ProtoLogger.create_log_entry(data, time.time()), block=block, timeout=timeout)
+        #     except queue.Full:
+        #         print("Buffer registered to receive everything dropped data")
 
     def attach_unix_sender(
         self,
@@ -173,21 +179,38 @@ class ProtoUnixIO:
         :param from_log_visualize: If the protobuf is coming from LOG(VISUALIZE)
 
         """
-        listener = ThreadedUnixListener(
-            runtime_dir + f"/{proto_class.DESCRIPTOR.full_name}"
-            if from_log_visualize and not unix_path
-            else runtime_dir + unix_path,
-            proto_class=proto_class,
-            is_base64_encoded=from_log_visualize,
-        )
-        key = proto_class.DESCRIPTOR.full_name
-        self.unix_listeners[key] = listener
-        self.send_proto_to_observer_threads[key] = Thread(
-            target=self.__send_proto_to_observers,
-            args=(listener.proto_buffer,),
-            daemon=True,
-        )
-        self.send_proto_to_observer_threads[key].start()
+        if self.default_listener is None and from_log_visualize:
+            print(f"Creating default log visualize listener thread for {proto_class.DESCRIPTOR.full_name}", flush=True)
+            self.default_listener = ThreadedUnixListener(
+                runtime_dir + f"/protobuf",
+                proto_class=proto_class,
+                is_base64_encoded=from_log_visualize,
+            )
+            self.default_listener_thread = Thread(
+                target=self.__send_proto_to_observers,
+                args=(self.default_listener.proto_buffer,),
+                daemon=True,
+            )
+            self.default_listener_thread.start()
+        elif not from_log_visualize:
+            print(f"creating listener thread for {proto_class.DESCRIPTOR.full_name}", flush=True)
+            listener = ThreadedUnixListener(
+                runtime_dir + f"/{proto_class.DESCRIPTOR.full_name}"
+                if from_log_visualize and not unix_path
+                else runtime_dir + unix_path,
+                proto_class=proto_class,
+                is_base64_encoded=from_log_visualize,
+            )
+            key = proto_class.DESCRIPTOR.full_name
+            self.unix_listeners[key] = listener
+            self.send_proto_to_observer_threads[key] = Thread(
+                target=self.__send_proto_to_observers,
+                args=(listener.proto_buffer,),
+                daemon=True,
+            )
+            self.send_proto_to_observer_threads[key].start()
+        else:
+            print(f"Did not create listener for {proto_class.DESCRIPTOR.full_name}", flush=True)
 
     def force_close(self) -> None:
         """

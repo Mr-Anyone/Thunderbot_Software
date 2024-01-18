@@ -2,19 +2,24 @@ import base64
 import os
 import queue
 import socketserver
+import time
 from threading import Thread
 from software.logger.logger import createLogger
 from software import py_constants
+from proto.import_all_protos import *
 
 logger = createLogger(__name__)
 
 import proto
 from google.protobuf.any_pb2 import Any
 
+total_duration = 0
+last_measure_time = time.time()
+
 
 class ThreadedUnixListener:
     def __init__(
-        self, unix_path, proto_class=None, is_base64_encoded=False, max_buffer_size=100
+            self, unix_path, proto_class=None, is_base64_encoded=False, max_buffer_size=100
     ):
 
         """Receive protobuf over unix sockets and buffers them
@@ -36,77 +41,74 @@ class ThreadedUnixListener:
         except:
             pass
 
-        self.server = socketserver.UnixDatagramServer(
-            unix_path,
-            handler_factory(self.__buffer_protobuf, proto_class, is_base64_encoded),
-        )
-        self.server.max_packet_size = py_constants.UNIX_BUFFER_SIZE
-        self.stop = False
-
-        self.unix_path = unix_path
         self.proto_buffer = queue.Queue(max_buffer_size)
 
+        # TODO: Python3.12 adds ForkingUnixDatagramServer which launch another process
+        #  (true parallelism for CPU bound apps)
+        self.server = socketserver.ThreadingUnixDatagramServer(
+            unix_path,
+            ProtoRequestHandler,
+        )
+        self.server.daemon_threads = True
+        self.server.max_packet_size = py_constants.UNIX_BUFFER_SIZE
+
+        # Add new attributes to the server object so that we can access them
+        # in the handler
+        self.server.is_base64_encoded = is_base64_encoded
+        self.server.proto_class = proto_class
+        self.server.buffer = self.proto_buffer
+
+        # Start the server in a separate thread, so it is not blocking
+        # the main thread.
         # We want to set daemon to true so that the program can exit
         # even if there are still unix listener threads running
-        self.thread = Thread(target=self.start, daemon=True)
+        self.thread = Thread(target=self.server.serve_forever, daemon=True)
         self.thread.start()
-
-    def __buffer_protobuf(self, proto):
-        """Buffer the protobuf, and raise a warning if we overrun the buffer
-
-        :param proto: The protobuf to buffer
-        :raises: Warning
-
-        """
-        try:
-            self.proto_buffer.put_nowait(proto)
-        except queue.Full as queue_full:
-            logger.warning("buffer overrun for {}".format(self.unix_path))
-
-    def serve_till_stopped(self):
-        """Keep handling requests until force_stop is called
-        """
-        while not self.stop:
-            self.server.handle_request()
 
     def force_stop(self):
         """Stop handling requests
         """
-        self.stop = True
         self.server.server_close()
 
-    def start(self):
-        """Start handling requests
-        """
-        self.stop = False
-        self.serve_till_stopped()
 
+class ProtoRequestHandler(socketserver.BaseRequestHandler):
+    """
+    Handler class created for each request from the unix sender.
 
-class Session(socketserver.BaseRequestHandler):
-    def __init__(self, handle_callback, proto_class, is_base64_encoded, *args, **keys):
-        self.handle_callback = handle_callback
-        self.proto_class = proto_class
-        self.is_base64_encoded = is_base64_encoded
-        super().__init__(*args, **keys)
+    self.server refers to the ThreadingUnixDatagramServer which holds
+    references to the ThreadedUnixListener fields.
+    """
 
     def handle(self):
         """Handle proto
 
         """
-        if not self.is_base64_encoded:
+        start = time.time()
+        if not self.server.is_base64_encoded:
             self.handle_proto()
         else:
             self.handle_log_visualize()
 
+        end = time.time()
+        global total_duration
+        global last_measure_time
+
+        total_duration += end - start
+        time_since_last_print = end - last_measure_time
+        if time_since_last_print > 10.0:
+            print(f"unix listener time per sec: {total_duration / time_since_last_print}")
+            last_measure_time = time.time()
+            total_duration = 0
+
     def handle_proto(self):
         """If a specific protobuf class is passed in, this handler is called.
 
-        It deserializes the incoming msg into the class and triggers the 
+        It deserializes the incoming msg into the class and triggers the
         handle callback.
 
         """
-        if self.proto_class:
-            self.handle_callback(self.proto_class.FromString(self.request[0]))
+        if self.server.proto_class:
+            self.__buffer_protobuf(self.server.proto_class.FromString(self.request[0]))
         else:
             raise Exception("proto_class is None but handle_proto called")
 
@@ -117,26 +119,34 @@ class Session(socketserver.BaseRequestHandler):
 
         """
         payload = self.request[0]
-        result = base64.b64decode(payload)
-        msg = self.proto_class()
 
-        any_msg = Any.FromString(result)
-        any_msg.Unpack(msg)
-        self.handle_callback(msg)
+        # Unpack metadata
+        protobuf_type, serialized_proto = payload.split(
+            bytes("!!!", encoding="utf-8")
+        )
 
+        # Convert string to type. eval is an order of magnitude
+        # faster than iterating over the protobuf library to find
+        # the type from the string.
+        try:
+            # The format of the protobuf type is:
+            # package.proto_class (e.g. TbotsProto.Primitive)
+            proto_class = eval(str(protobuf_type.split(b".")[-1], encoding="utf-8"))
+        except Exception as e:
+            logger.error("Failed to eval protobuf type: {}".format(e))
+            return
 
-def handler_factory(handle_callback, proto_class, is_base64_encoded):
-    """To pass in an arbitrary handle callback into the SocketServer,
-    we need to create a constructor that can create a Session object with
-    appropriate handle function.
+        msg = proto_class.FromString(serialized_proto)
+        self.__buffer_protobuf(msg)
 
-    :param handle_callback: The callback to run
-    :param proto_class: The protobuf to unpack from (None if its encoded in the payload)
-    :param is_base64_encoded: If sent over fom LOG(VISUALIZE) the data will be is_base64_encoded
+    def __buffer_protobuf(self, proto_msg):
+        """Buffer the protobuf, and raise a warning if we overrun the buffer
 
-    """
+        :param proto_msg: The protobuf to buffer
+        :raises: Warning
 
-    def create_handler(*args, **keys):
-        return Session(handle_callback, proto_class, is_base64_encoded, *args, **keys)
-
-    return create_handler
+        """
+        try:
+            self.server.buffer.put_nowait(proto_msg)
+        except queue.Full as queue_full:
+            logger.warning(f"buffer overrun for {self.server.proto_class.DESCRIPTOR.full_name}")
