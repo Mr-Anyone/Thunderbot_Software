@@ -300,9 +300,11 @@ def setup_diagnostics_input_widget() -> FullSystemConnectWidget:
     return diagnostics_input_widget
 
 def setup_frametime_widget(
-    counter: FrameTimeCounter
+    buffer_counter: FrameTimeCounter,
+    refresh_func_counter: FrameTimeCounter
+    
 ) -> FrameTimeWidget:
-    return FrameTimeWidget(counter=counter)
+    return FrameTimeWidget(buffer_counter=buffer_counter, refresh_counter=refresh_func_counter)
 
 
 def setup_drive_and_dribbler_widget(

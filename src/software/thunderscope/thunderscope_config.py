@@ -124,7 +124,8 @@ def configure_base_fullsystem(
     full_system_proto_unix_io: ProtoUnixIO,
     sim_proto_unix_io: ProtoUnixIO,
     friendly_colour_yellow: bool,
-    counter: FrameTimeCounter,
+    bufferswap_counter: FrameTimeCounter,
+    refresh_func_counter: FrameTimeCounter,
     replay: bool = False,
     replay_log: os.PathLike = None,
     visualization_buffer_size: int = 5,
@@ -155,7 +156,7 @@ def configure_base_fullsystem(
                     "sim_proto_unix_io": sim_proto_unix_io,
                     "friendly_colour_yellow": friendly_colour_yellow,
                     "visualization_buffer_size": visualization_buffer_size,
-                    "counter": counter
+                    "counter": bufferswap_counter
                 }
             ),
         ),
@@ -187,7 +188,7 @@ def configure_base_fullsystem(
         ),
         TScopeWidget(
             name="FPS Widget",
-            widget=setup_frametime_widget(counter), 
+            widget=setup_frametime_widget(bufferswap_counter, refresh_func_counter), 
             position="below",
             anchor="Parameters",
         ),
@@ -289,7 +290,11 @@ def configure_two_ai_gamecontroller_view(
     # Must be called before widgets are initialized below
     initialize_application()
 
-    counter1 = FrameTimeCounter()
+    buffertime_counter_blue = FrameTimeCounter()
+    resfresh_time_counter_blue = FrameTimeCounter()
+
+    buffertime_counter_yellow = FrameTimeCounter()
+    resfresh_time_counter_yellow = FrameTimeCounter()
 
     return TScopeConfig(
         proto_unix_io_map=proto_unix_io_map,
@@ -303,8 +308,10 @@ def configure_two_ai_gamecontroller_view(
                     friendly_colour_yellow=False,
                     visualization_buffer_size=visualization_buffer_size,
                     extra_widgets=[],
-                    counter=counter1
+                    bufferswap_counter=buffertime_counter_blue,
+                    refresh_func_counter=resfresh_time_counter_blue
                 ),
+                refresh_func_counter=resfresh_time_counter_blue,
             ),
             TScopeQTTab(
                 name="Yellow FullSystem",
@@ -317,8 +324,10 @@ def configure_two_ai_gamecontroller_view(
                     friendly_colour_yellow=True,
                     visualization_buffer_size=visualization_buffer_size,
                     extra_widgets=[],
-                    counter=counter1
+                    bufferswap_counter=buffertime_counter_yellow,
+                    refresh_func_counter=resfresh_time_counter_yellow
                 ),
+                refresh_func_counter=resfresh_time_counter_yellow,
             ),
             TScopeWebTab(
                 name="Gamecontroller",
@@ -371,7 +380,7 @@ def configure_simulated_test_view(
                     friendly_colour_yellow=False,
                     visualization_buffer_size=visualization_buffer_size,
                     extra_widgets=[],
-                    counter=counter1
+                    bufferswap_counter=counter1
                 ),
                 counter=counter1
             ),
@@ -386,7 +395,7 @@ def configure_simulated_test_view(
                     friendly_colour_yellow=True,
                     visualization_buffer_size=visualization_buffer_size,
                     extra_widgets=[],
-                    counter=counter2
+                    bufferswap_counter=counter2
                 ),
                 counter=counter2
             ),

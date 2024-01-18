@@ -332,7 +332,6 @@ def main():
            config=config.configure_two_ai_gamecontroller_view(
                 args.visualization_buffer_size
             ),
-            refresh_interval_ms=0,
             layout_path=args.layout,
         )
 

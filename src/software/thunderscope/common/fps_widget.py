@@ -5,7 +5,6 @@ class FrameTimeCounter():
     def __init__(self) -> None:
         self.datapoints = []  # stores the timeframe of every data cycle
         self.previous_timestamp = time.time()
-        self.log_file = open("/tmp/fps.log", "w")
 
     def add_one_datapoint(self):
         current_time = time.time()
@@ -23,6 +22,7 @@ class FrameTimeCounter():
         if len(self.datapoints) == 0:
             return -1
 
+        self.report_fps_and_frametime()
         return sum(self.datapoints) / len(self.datapoints)
 
     def get_average_last_30(self):
@@ -31,22 +31,18 @@ class FrameTimeCounter():
 
         return sum(self.datapoints[-30:]) / 30
 
-    def report_fps_and_frametime(self):
-        frametime = self.get_last_frametime() * 1000
-        average_last_30  = self.get_average_last_30() * 1000
+    def get_average_all(self):
+        if (len(self.datapoints) == 0):
+            return -1
 
-        # fps
-        fps =  1/(frametime/1000)
-        average_last_30_fps = 1/(average_last_30/1000)
+        return sum(self.datapoints) / len(self.datapoints)
 
-        text = f"frametime: {frametime:3f} fps: {fps:3f}\nlast_30: {average_last_30} last_30_fps: {average_last_30_fps}"
-        self.log_file.write(text)
-        print(text)
 
 class FrameTimeWidget(QWidget):
-    def __init__(self, counter:FrameTimeCounter):
+    def __init__(self, buffer_counter:FrameTimeCounter, refresh_counter: FrameTimeCounter):
         super().__init__()
-        self.counter = counter
+        self.buffer_counter = buffer_counter
+        self.refresh_counter = refresh_counter
 
         self.fps_label = QLabel("some string to be show") 
         self.fps_label.setText("some fps: ")
@@ -56,12 +52,37 @@ class FrameTimeWidget(QWidget):
         self.setLayout(self.vertical_layout)
 
     def refresh(self):
-        frametime = self.counter.get_last_frametime() * 1000
-        average_last_30  = self.counter.get_average_last_30() * 1000
-
-        # fps
+        frametime = self.buffer_counter.get_last_frametime() * 1000
+        average_last_30  = self.buffer_counter.get_average_last_30() * 1000
+        frametime_average_all = self.buffer_counter.get_average_all() * 1000
         fps =  1/(frametime/1000)
         average_last_30_fps = 1/(average_last_30/1000)
+        fps_all = 1/(frametime_average_all/1000)
 
+        refresh_func_frametime = self.refresh_counter.get_last_frametime() * 1000
+        refresh_func_average_last_30  = self.refresh_counter.get_average_last_30() * 1000
+        refresh_func_frametime_average_all = self.refresh_counter.get_average_all() * 1000
+        refresh_func_fps =  1/(refresh_func_frametime/1000)
+        refresh_func_average_last_30_fps = 1/(refresh_func_average_last_30/1000)
+        refresh_func_fps_all = 1/(refresh_func_frametime_average_all/1000)
 
-        self.fps_label.setText(f"frametime: {frametime:3f} fps: {fps:3f}\nlast_30: {average_last_30} last_30_fps: {average_last_30_fps}")
+        display_text = f"""
+        Bufferswap time:
+        frametime: {frametime} 
+        fps: {fps:3f}\n
+        last 30: {average_last_30} 
+        last 30_fps: {average_last_30_fps}\n
+        frametime all: {frametime_average_all}
+        fps_all: {fps_all}\n  
+        
+        Refresh Function:
+        frametime: {refresh_func_frametime} 
+        fps: {refresh_func_fps:3f}\n
+        last 30: {refresh_func_average_last_30} 
+        last 30_fps: {refresh_func_average_last_30_fps}\n
+        frametime all: {refresh_func_frametime_average_all}
+        fps_all: {refresh_func_fps_all}\n  
+
+        """
+
+        self.fps_label.setText(display_text)

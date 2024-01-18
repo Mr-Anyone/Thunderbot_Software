@@ -84,11 +84,12 @@ class TScopeQTTab(TScopeTab):
             ]  # Mapping of widget names to refresh functions
 
     def __init__(
-            self, name: str, key: TabNames, widgets: Sequence[TScopeWidget]
+            self, name: str, key: TabNames, widgets: Sequence[TScopeWidget], refresh_func_counter: FrameTimeCounter
             ) -> None:
         super().__init__(name, key)
 
 
+        self.refresh_counter = refresh_func_counter
         self.widgets = widgets
         self.refresh_functions = {}
 
@@ -137,23 +138,14 @@ class TScopeQTTab(TScopeTab):
         if data.has_refresh_func:
             self.refresh_functions[widget_name] = new_widget.refresh
 
-    def refresh(self, ratio=100) -> None:
+    def refresh(self) -> None:
         """
         Refreshes all the widgets belonging to this tab
         """
-        # refresh everything every 100 (ratio) refresh calls being called
-        self.refresh_count += 1
-        if self.refresh_count % ratio == 0 or self.refresh_count == 1:
-            for refresh_func in self.refresh_functions.values():
-                refresh_func()
-            return 
-        
-        if "Field" not in self.refresh_functions:
-            print("Cannot get field widget fresh functino. What are you doing!")
-            return 
+        for refresh_func in self.refresh_functions.values():
+            refresh_func()
 
-        self.refresh_functions["Field"]()
-        
+        self.refresh_counter.add_one_datapoint()
 
     def find_widget(self, widget_name: str) -> Optional[TScopeWidget]:
         """
