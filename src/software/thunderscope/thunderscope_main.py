@@ -16,12 +16,19 @@ from software.thunderscope.replay.proto_logger import ProtoLogger
 from software.thunderscope.constants import EstopMode, ProtoUnixIOTypes
 from software.thunderscope.estop_helpers import get_estop_config
 import software.thunderscope.thunderscope_config as config
-from software.thunderscope.common.fps_widget import FrameTimeCounter
 
 from software.thunderscope.binary_context_managers.full_system import FullSystem
 from software.thunderscope.binary_context_managers.simulator import Simulator
 from software.thunderscope.binary_context_managers.game_controller import Gamecontroller
+import datetime
 
+
+PROFILE_LOG_DIR = f"/tmp/tbots/thunderscope-profile/{datetime.datetime.now().strftime('%Y-%m-%d %H-%M-%S')}"
+print(PROFILE_LOG_DIR)
+try:
+    os.makedirs(PROFILE_LOG_DIR)
+except Exception:
+    pass
 
 NUM_ROBOTS = 6
 SIM_TICK_RATE_MS = 16
@@ -438,7 +445,7 @@ def main():
 
 def profile_entry_pyinstrument():
     import pyinstrument
-    save_path = "/tmp"
+    save_path = "/tmp/tbots/profile"
 
     profiler = pyinstrument.Profiler()
 
@@ -470,7 +477,23 @@ def profile_entry_cprofile():
         stats = pstats.Stats(profile)
         stats.dump_stats("/tmp/cProfile.prof")
 
-if __name__ == "__main__":
+def profile_yappi_entry():
+    import yappi
+
+    yappi.set_clock_type('wall')
+    yappi.start()
     main()
+
+    yappi.stop()
+    stats = yappi.get_func_stats()
+    #stats.print_all()
+    for stat_type in ['pstat', 'callgrind']:
+        stats.save('{}/{}.{}'.format(PROFILE_LOG_DIR, "yappi_output", stat_type), type=stat_type)
+    yappi.get_thread_stats().print_all()
+
+
+if __name__ == "__main__":
+    #main()
     #profile_entry_pyinstrument()
     #profile_entry_cprofile()
+    profile_yappi_entry()

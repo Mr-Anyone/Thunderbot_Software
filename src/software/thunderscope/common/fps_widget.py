@@ -1,15 +1,30 @@
 import time
 from PyQt6.QtWidgets import *
+import os
 
 class FrameTimeCounter():
-    def __init__(self, name=None) -> None:
+    def __init__(self, name=None, filename=None) -> None:
         self.datapoints = []  # stores the timeframe of every data cycle
         self.previous_timestamp = time.time()
+
+        directories = os.listdir("/tmp/tbots/thunderscope-profile")
+        directories = sorted(directories, reverse=True)
+        save_dir = "/tmp/tbots/thunderscope-profile/" + directories[0]
+
+        if filename is None:
+            self.filename = f"{save_dir}/{time.time()}.csv"
+        else:
+            self.filename = f"{save_dir}/{filename}-{time.time()}.csv"
+
+        self.log_file = open(self.filename, "w")
+        self.log_file.write("current time, last frametime\n")
 
     def add_one_datapoint(self):
         current_time = time.time()
         self.datapoints.append(current_time - self.previous_timestamp)
         self.previous_timestamp = current_time
+
+        self.log_file.write(f"{time.time()}, {self.get_last_frametime()}\n")
 
     def get_last_frametime(self):
         # return unit in s

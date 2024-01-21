@@ -14,4 +14,6 @@ PyOpenGL
 PyOpenGL_accelerate
 psutil
 numpy
+pyinstrument
+yappi
 protobuf==3.20.1
