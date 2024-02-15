@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package TbotsProto;
 
-import "proto/tbots_timestamp_msg.proto";
+import "tbots_timestamp_msg.proto";
 
 // the severity level of the log
 enum LogLevel

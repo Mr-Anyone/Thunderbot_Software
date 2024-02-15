@@ -1,7 +1,7 @@
 syntax = 'proto3';
 
-import "proto/geometry.proto";
-import "proto/world.proto";
+import "geometry.proto";
+import "world.proto";
 
 package TbotsProto;
 

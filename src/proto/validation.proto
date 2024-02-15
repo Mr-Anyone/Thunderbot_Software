@@ -2,7 +2,7 @@ syntax = "proto2";
 
 package TbotsProto;
 
-import "proto/geometry.proto";
+import "geometry.proto";
 
 enum ValidationStatus
 {

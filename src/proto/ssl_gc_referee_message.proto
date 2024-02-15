@@ -2,7 +2,7 @@ syntax = "proto2";
 
 package SSLProto;
 
-import "proto/ssl_gc_game_event.proto";
+import "ssl_gc_game_event.proto";
 
 // Each UDP packet contains one of these messages.
 message Referee

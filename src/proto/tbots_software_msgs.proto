@@ -2,8 +2,8 @@ syntax = "proto3";
 
 package TbotsProto;
 
-import "proto/primitive.proto";
-import "proto/tbots_timestamp_msg.proto";
+import "primitive.proto";
+import "tbots_timestamp_msg.proto";
 
 message PrimitiveSet
 {

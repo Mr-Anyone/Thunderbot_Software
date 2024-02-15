@@ -2,8 +2,8 @@ syntax = "proto3";
 
 package TbotsProto;
 
-import "proto/geometry.proto";
-import "proto/geneva_slot.proto";
+import "geometry.proto";
+import "geneva_slot.proto";
 import "google/protobuf/descriptor.proto";
 
 extend google.protobuf.EnumValueOptions

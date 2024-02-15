@@ -2,8 +2,8 @@ syntax = "proto2";
 
 package TbotsProto;
 
-import "proto/geometry.proto";
-import "proto/ball.proto";
+import "geometry.proto";
+import "ball.proto";
 
 message GameState
 {

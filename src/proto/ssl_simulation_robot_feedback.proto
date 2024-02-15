@@ -2,7 +2,7 @@ syntax = "proto2";
 
 package SSLSimulationProto;
 
-import "proto/ssl_simulation_error.proto";
+import "ssl_simulation_error.proto";
 import "google/protobuf/any.proto";
 
 // Feedback from a robot

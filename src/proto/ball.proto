@@ -2,8 +2,8 @@ syntax = "proto2";
 
 package TbotsProto;
 
-import "proto/vision.proto";
-import "proto/tbots_timestamp_msg.proto";
+import "vision.proto";
+import "tbots_timestamp_msg.proto";
 
 message Ball
 {

@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package TbotsProto;
 
-import "proto/robot_status_msg.proto";
+import "robot_status_msg.proto";
 
 message RobotCrash
 {

@@ -2,9 +2,9 @@ syntax = "proto3";
 
 package TbotsProto;
 
-import "proto/tbots_timestamp_msg.proto";
-import "proto/geneva_slot.proto";
-import "proto/geometry.proto";
+import "tbots_timestamp_msg.proto";
+import "geneva_slot.proto";
+import "geometry.proto";
 
 message RobotStatus
 {

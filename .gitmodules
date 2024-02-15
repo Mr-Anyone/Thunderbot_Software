@@ -1,0 +1,6 @@
+[submodule "vendor/protobuf"]
+	path = vendor/protobuf
+	url = https://github.com/protocolbuffers/protobuf.git
+[submodule "vendor/nanopb"]
+	path = vendor/nanopb
+	url = git@github.com:nanopb/nanopb.git

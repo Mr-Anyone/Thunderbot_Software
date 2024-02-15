@@ -2,8 +2,8 @@ syntax = "proto2";
 
 package TbotsProto;
 
-import "proto/tbots_timestamp_msg.proto";
-import "proto/vision.proto";
+import "tbots_timestamp_msg.proto";
+import "vision.proto";
 
 message Robot
 {

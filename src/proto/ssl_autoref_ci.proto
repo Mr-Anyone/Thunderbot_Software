@@ -4,10 +4,10 @@ syntax = "proto2";
 
 package SSLProto;
 
-import "proto/ssl_vision_wrapper_tracked.proto";
-import "proto/ssl_vision_detection.proto";
-import "proto/ssl_vision_geometry.proto";
-import "proto/ssl_gc_referee_message.proto";
+import "ssl_vision_wrapper_tracked.proto";
+import "ssl_vision_detection.proto";
+import "ssl_vision_geometry.proto";
+import "ssl_gc_referee_message.proto";
 
 // The AutoRefCiInput contains all packets/messages that would otherwise be received
 // through multicast by the auto-referee It may contain either a raw or a tracked

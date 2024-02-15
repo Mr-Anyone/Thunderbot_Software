@@ -2,7 +2,7 @@ syntax = "proto2";
 
 package TbotsProto;
 
-import "proto/play.proto";
+import "play.proto";
 import "google/protobuf/descriptor.proto";
 
 message ParameterRangeOptions

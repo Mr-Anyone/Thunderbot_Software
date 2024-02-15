@@ -2,8 +2,8 @@ syntax = "proto3";
 
 package TbotsProto;
 
-import "proto/robot_status_msg.proto";
-import "proto/geneva_slot.proto";
+import "robot_status_msg.proto";
+import "geneva_slot.proto";
 
 // This is used on the robots. Similar proto in primitive.proto but with m_per_s instead
 // of pulse width
