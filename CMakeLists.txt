@@ -8,4 +8,4 @@ add_subdirectory(vendor)
 add_subdirectory(src)
 
 add_executable(test_proto_build test_build.cpp)
-target_link_libraries(test_proto_build PRIVATE tbots_proto)
+target_link_libraries(test_proto_build PRIVATE tbots_proto tbots_ssl_proto)
