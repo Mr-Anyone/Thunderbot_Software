@@ -4,6 +4,10 @@ message("Configuring Protobuf")
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/vendor/nanopb/extra)
 find_package(Nanopb REQUIRED)
 include_directories(${NANOPB_INCLUDE_DIRS})
+include_directories(${CMAKE_CURRENT_BINARY_DIR})
+# see: https://dominikberner.ch/cmake-interface-lib/
+include(GNUInstallDirs)
+
 
 # build and generating protobufs
 # these are our sources files
@@ -27,11 +31,13 @@ set(TBOTS_PROTO_SRCS
     vision.proto
     world.proto
 )
-
 NANOPB_GENERATE_CPP(PROTO_SRCS PROTO_HDRS RELPATH . ${TBOTS_PROTO_SRCS})
 
-# compiling tbots_protobuf
-add_library(tbots_proto STATIC ${PROTO_SRCS} ${PROTO_HDRS})
+add_library(tbots_proto SHARED STATIC ${PROTO_SRCS} ${PROTO_HDRS})
+target_include_directories(tbots_proto INTERFACE  
+    ${CMAKE_CURRENT_BINARY_DIR}
+    ${NANOPB_INCLUDE_DIRS}
+)
 
-add_executable(test_proto_build test_build.cpp)
+# compiling/testing tbots_protobuf
 message("Done Configuring Protobuf")
