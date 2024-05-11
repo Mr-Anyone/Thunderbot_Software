@@ -1,3 +1,4 @@
+import pudb
 import time
 import threading
 import base64
@@ -86,13 +87,9 @@ class ProtoPlayer:
             return int(replay_index)
 
         self.sorted_chunks = sorted(replay_files, key=__sort_replay_chunks)
+        self.end_time = self.find_actual_endtime()
 
         # We can get the total runtime of the log from the last entry in the last chunk
-        last_chunk_data = ProtoPlayer.load_replay_chunk(self.sorted_chunks[-1])
-        try:
-            self.end_time, _, _ = ProtoPlayer.unpack_log_entry(last_chunk_data[-1])
-        except DecodeError:
-            self.end_time, _, _ = ProtoPlayer.unpack_log_entry(last_chunk_data[-2])
         logging.info(
             "Loaded log file with total runtime of {:.2f} seconds".format(self.end_time)
         )
@@ -101,6 +98,23 @@ class ProtoPlayer:
         self.seek(0.0)
         self.thread = threading.Thread(target=self.__play_protobufs, daemon=True)
         self.thread.start()
+
+    def find_actual_endtime(self):
+        """
+        There could be corrruption, so the actual endtime may the last file in the buffer
+        """
+        end_time = 0.0
+        for i in range(1, len(self.sorted_chunks)+1, 1):
+            last_chunk_data = ProtoPlayer.load_replay_chunk(self.sorted_chunks[-i])
+            for j in range(1, len(last_chunk_data)+1, 1):
+                try:
+                    end_time, _, _ = ProtoPlayer.unpack_log_entry(last_chunk_data[-j])
+                    return end_time
+
+                except Exception:
+                    pass
+
+        return end_time
 
     @staticmethod
     def load_replay_chunk(replay_chunk_path: str) -> list:
@@ -145,12 +159,14 @@ class ProtoPlayer:
         try:
             # The format of the protobuf type is:
             # package.proto_class (e.g. TbotsProto.Primitive)
-            proto_class = eval(str(protobuf_type.split(b".")[-1], encoding="utf-8"))
+            proto_class_string = str(protobuf_type.split(b".")[-1], encoding="utf-8") 
+            proto_class = eval(proto_class_string)
         except NameError:
             raise TypeError(f"Unknown proto type in replay: '{protobuf_type}'")
 
         # Deserialize protobuf
-        proto = proto_class.FromString(base64.b64decode(data[len("b") : -len("\n")]))
+        decoded_string = base64.b64decode(data[len("b") : -len("\n")])
+        proto = proto_class.FromString(decoded_string)
 
         return float(timestamp), proto_class, proto
 
@@ -386,6 +402,7 @@ class ProtoPlayer:
             - Set playback speed through self.playback_speed
 
         """
+        #pudb.set_trace()
         self.time_elapsed = 0.0
         self.start_playback_time = time.time()
 
