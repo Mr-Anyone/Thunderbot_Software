@@ -1,3 +1,4 @@
+import pudb
 import pyqtgraph as pg
 from pyqtgraph.Qt import QtCore, QtGui
 from pyqtgraph.Qt.QtCore import Qt
@@ -96,6 +97,7 @@ class GLWidget(QWidget):
 
         # Setup replay controls if player is provided and the log has some size
         self.player = player
+        #pudb.set_trace()
         if self.player and self.player.end_time != 0.0:
             self.replay_controls = ReplayControls(player=player)
             self.replay_controls.setFocusPolicy(QtCore.Qt.FocusPolicy.NoFocus)

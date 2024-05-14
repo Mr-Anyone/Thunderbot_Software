@@ -1,3 +1,4 @@
+from re import L
 import pudb
 import time
 import threading
@@ -44,7 +45,7 @@ class ProtoPlayer:
 
     """
 
-    def __init__(self, log_folder_path: str, proto_unix_io: ProtoUnixIO) -> None:
+    def __init__(self, log_folder_path: str, proto_unix_io: ProtoUnixIO, is_from_test_fixture=False) -> None:
         """Creates a proto player that plays back all protos
 
         :param log_folder_path: The path to the log file.
@@ -94,21 +95,41 @@ class ProtoPlayer:
             "Loaded log file with total runtime of {:.2f} seconds".format(self.end_time)
         )
 
+
         # Start playing thread
         self.seek(0.0)
         self.thread = threading.Thread(target=self.__play_protobufs, daemon=True)
         self.thread.start()
 
+
+    def write_all_endtime(self):
+        path_to_file = "/tmp/all_end_time.txt"
+        with  open(path_to_file, 'w') as f:
+            for i in range(1, len(self.sorted_chunks)+1, 1):
+                last_chunk_data = ProtoPlayer.load_replay_chunk(self.sorted_chunks[-i])
+                for j in range(1, len(last_chunk_data)+1, 1):
+                    try:
+                        end_time, proto_class, proto = ProtoPlayer.unpack_log_entry(last_chunk_data[-j])
+                        f.write(f"\n === {end_time} {proto_class} {proto} ===\n")
+                    except Exception:
+                        pass
+        
     def find_actual_endtime(self):
         """
         There could be corrruption, so the actual endtime may the last file in the buffer
         """
         end_time = 0.0
+        self.write_all_endtime()
         for i in range(1, len(self.sorted_chunks)+1, 1):
             last_chunk_data = ProtoPlayer.load_replay_chunk(self.sorted_chunks[-i])
             for j in range(1, len(last_chunk_data)+1, 1):
                 try:
                     end_time, _, _ = ProtoPlayer.unpack_log_entry(last_chunk_data[-j])
+
+                    if end_time > 1_000_000:
+                        continue
+
+                    print("I've found an end time{}".format(end_time))
                     return end_time
 
                 except Exception:
@@ -148,6 +169,7 @@ class ProtoPlayer:
 
         """
 
+        #pudb.set_trace()
         # Unpack metadata
         timestamp, protobuf_type, data = log_entry.split(
             bytes(REPLAY_METADATA_DELIMETER, encoding="utf-8")
@@ -167,7 +189,7 @@ class ProtoPlayer:
         # Deserialize protobuf
         decoded_string = base64.b64decode(data[len("b") : -len("\n")])
         proto = proto_class.FromString(decoded_string)
-
+        
         return float(timestamp), proto_class, proto
 
     def save_clip(self, filename: str, start_time: float, end_time: float) -> None:
@@ -178,6 +200,8 @@ class ProtoPlayer:
         :param end_time: the end time for the clip
     
         """
+        pudb.set_trace()
+
         if not filename:
             print("No filename selected")
             return
@@ -393,22 +417,10 @@ class ProtoPlayer:
 
         return min(abs(low), abs(high))
 
-    def __play_protobufs(self) -> None:
-        """Plays all protos in the file in chronologoical order. 
-
-        Playback controls:
-            - Play/Pause through self.is_playing
-            - Seek to a specific time through self.current_chunk and self.current_entry_index
-            - Set playback speed through self.playback_speed
-
-        """
-        #pudb.set_trace()
-        self.time_elapsed = 0.0
-        self.start_playback_time = time.time()
-
+    def _play_non_testfixture_protobuf(self):
         while True:
 
-            # Only play if we are playing
+            # Only play if we are vg
             if not self.is_playing:
                 time.sleep(PLAY_PAUSE_POLL_INTERVAL_SECONDS)
                 continue
@@ -463,3 +475,23 @@ class ProtoPlayer:
                             self.sorted_chunks[self.current_chunk_index]
                         )
                         self.current_entry_index = 0
+
+
+    def _play_test_fixture_protobuf(self):
+         pass
+
+    def __play_protobufs(self) -> None:
+        """Plays all protos in the file in chronologoical order. 
+
+        Playback controls:
+            - Play/Pause through self.is_playing
+            - Seek to a specific time through self.current_chunk and self.current_entry_index
+            - Set playback speed through self.playback_speed
+
+        """
+        #pudb.set_trace()
+        self.time_elapsed = 0.0
+        self.start_playback_time = time.time()
+
+        self._play_test_fixture_protobuf()
+        #self._play_non_testfixture_protobuf()
