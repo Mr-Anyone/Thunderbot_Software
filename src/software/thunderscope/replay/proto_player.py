@@ -126,9 +126,6 @@ class ProtoPlayer:
                 try:
                     end_time, _, _ = ProtoPlayer.unpack_log_entry(last_chunk_data[-j])
 
-                    if end_time > 1_000_000:
-                        continue
-
                     print("I've found an end time{}".format(end_time))
                     return end_time
 
