@@ -2,6 +2,19 @@ package(default_visibility = ["//visibility:public"])
 
 load("@thunderscope_deps//:requirements.bzl", "requirement")
 
+py_binary(
+    name = "recover_zip",
+    srcs = ["recover_zip.py"],
+    deps = [
+        "proto_logger",
+        "proto_player",
+        "//software/thunderscope:proto_unix_io",
+        "//proto:software_py_proto",
+        "//proto/message_translation:py_tbots_protobuf",
+        "//extlibs/er_force_sim/src/protobuf:erforce_py_proto",
+    ]
+)
+
 py_library(
     name = "proto_logger",
     srcs = [
