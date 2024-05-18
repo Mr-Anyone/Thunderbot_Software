@@ -574,7 +574,7 @@ def simulated_test_runner():
             runner = None
 
             # Initialise the right runner based on which testing mode is selected
-            if aggregate:
+            if True:
                 runner = AggregateTestRunner(
                     current_test,
                     tscope,
@@ -599,6 +599,8 @@ def simulated_test_runner():
             # test will run as fast as possible with a varying tick rate. The
             # SimulatorTestRunner time provider is tied to the simulators
             # t_capture coming out of the wrapper packet (rather than time.time).
+            print("my runner is {}".format(runner))
+            print("the runner's time provider is {}".format(runner.time_provider))
             with ProtoLogger(
                 f"{args.blue_full_system_runtime_dir}/logs/{current_test}",
                 time_provider=runner.time_provider,

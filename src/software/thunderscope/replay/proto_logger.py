@@ -74,6 +74,8 @@ class ProtoLogger:
         self.start_time = self.time_provider()
         self.stop_logging = False
 
+        print("My time provider is {}. My log path is: {}".format(time_provider, log_path))
+
     def __enter__(self) -> ProtoLogger:
         """Starts the logger.
 
@@ -131,7 +133,8 @@ class ProtoLogger:
                         current_time = self.time_provider() - self.start_time
                         log_entry = ProtoLogger.create_log_entry(proto, current_time)
 
-                        self.log_file.write(bytes(log_entry, encoding="utf-8"))
+                        data = bytes(log_entry, encoding="utf-8")
+                        ProtoLogger.write_to_logfile(self.log_file, data)
 
                         # Stop writing to this chunk if we've reached the max size
                         size = os.fstat(self.log_file.fileno()).st_size
@@ -140,6 +143,10 @@ class ProtoLogger:
 
         except Exception:
             logging.exception("Exception detected in ProtoLogger")
+
+    @staticmethod 
+    def write_to_logfile(log_file, data):
+        log_file.write(data)
 
     @staticmethod
     def create_log_entry(proto: Message, current_time: float) -> str:
