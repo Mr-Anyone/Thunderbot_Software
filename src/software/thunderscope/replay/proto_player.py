@@ -174,7 +174,7 @@ class ProtoPlayer:
                     except Exception:
                         pass
         
-    def find_actual_endtime(self):
+    def find_actual_endtime(self)->float:
         """
         There could be corrruption, so the actual endtime may the last file in the buffer
         """
