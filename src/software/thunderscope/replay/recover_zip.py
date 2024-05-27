@@ -54,6 +54,8 @@ import shutil
 
 def create_invalid_log_entries(proto, current_time, frequency=0.1):
     some_value = random.random()
+
+    # remove some delimeter
     if some_value < frequency/2: 
         # intentionally corrupt some entries 
         serialized_proto = base64.b64encode(proto.SerializeToString())
@@ -63,6 +65,7 @@ def create_invalid_log_entries(proto, current_time, frequency=0.1):
             + f"{serialized_proto}\n"
         )
         return log_entry
+    # create invalid/corrupt data
     elif some_value < frequency:
         # intentionally corrupt some entries 
         serialized_proto = base64.b64encode(proto.SerializeToString())
