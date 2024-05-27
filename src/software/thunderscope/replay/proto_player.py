@@ -16,6 +16,57 @@ from software.thunderscope.proto_unix_io import ProtoUnixIO
 from google.protobuf.message import DecodeError, Message
 from typing import Callable, Type
 
+from software.thunderscope.replay.proto_logger import ProtoLogger
+import gzip
+import os
+import shutil
+
+def has_timestamp_in_message(message):
+    try:
+        if message.time_sent.epoch_timestamp_seconds > 1611235119:
+            return True
+        return False
+    except Exception:
+        return False
+
+def recover_protobufs(path_to_recover, should_delete=True):
+    print("I am going to recover {}".format(path_to_recover))
+    export_path = path_to_recover
+
+    messages_that_has_timestamp = []
+
+    for file in os.listdir(path_to_recover):
+        path_to_file = os.path.join(path_to_recover, file)
+        #ProtoLogger.create_log_entry(, 10)
+        entries = ProtoPlayer.load_replay_chunk(path_to_file)
+        for entry in entries:
+            _, _, message = ProtoPlayer.unpack_log_entry(entry)
+
+            if has_timestamp_in_message(message):
+                messages_that_has_timestamp.append(message)
+
+    if should_delete:
+        for file in os.listdir(path_to_recover):
+            path_to_file = os.path.join(path_to_recover, file)
+            print(f"I am deleting {path_to_file}")
+            try:
+                os.remove(path_to_file)
+            except OSError:
+                print("cannot delete file: {}".format(file))
+
+    print("There are {} messages in the list".format(len(messages_that_has_timestamp)))
+    sorted(messages_that_has_timestamp, key=lambda x: x.time_sent.epoch_timestamp_seconds)
+
+    # write file to export path
+    smallest_timestamp = messages_that_has_timestamp[0].time_sent.epoch_timestamp_seconds
+    with gzip.open(os.path.join(export_path, "0.replay"), "wb") as f:
+        for message in messages_that_has_timestamp:
+            current_time = message.time_sent.epoch_timestamp_seconds - smallest_timestamp
+            log_entry = ProtoLogger.create_log_entry(message, current_time)
+            data = bytes(log_entry, encoding='utf-8')
+
+            ProtoLogger.write_to_logfile(f, data)
+
 
 class ProtoPlayer:
 
@@ -45,7 +96,7 @@ class ProtoPlayer:
 
     """
 
-    def __init__(self, log_folder_path: str, proto_unix_io: ProtoUnixIO, is_from_test_fixture=False) -> None:
+    def __init__(self, log_folder_path: str, proto_unix_io: ProtoUnixIO) -> None:
         """Creates a proto player that plays back all protos
 
         :param log_folder_path: The path to the log file.
@@ -72,6 +123,14 @@ class ProtoPlayer:
         self.current_chunk_index = 0
         self.current_entry_index = 0
 
+
+        # doing some processing if this is from field test 
+        is_from_field_test = self.is_from_field_test(log_folder_path)
+        if is_from_field_test: 
+            print("exporting protobuf into protobufs that proto player could play!")
+            recover_protobufs(self.log_folder_path)
+            print("exporting done!")
+            
         # Load up all replay files in the log folder
         replay_files = glob.glob(self.log_folder_path + f"/*.{REPLAY_FILE_EXTENSION}")
 
@@ -89,6 +148,7 @@ class ProtoPlayer:
 
         self.sorted_chunks = sorted(replay_files, key=__sort_replay_chunks)
         self.end_time = self.find_actual_endtime()
+        
 
         # We can get the total runtime of the log from the last entry in the last chunk
         logging.info(
@@ -114,12 +174,12 @@ class ProtoPlayer:
                     except Exception:
                         pass
         
-    def find_actual_endtime(self):
+    def find_actual_endtime(self)->float:
         """
         There could be corrruption, so the actual endtime may the last file in the buffer
         """
         end_time = 0.0
-        self.write_all_endtime()
+        #self.write_all_endtime()
         for i in range(1, len(self.sorted_chunks)+1, 1):
             last_chunk_data = ProtoPlayer.load_replay_chunk(self.sorted_chunks[-i])
             for j in range(1, len(last_chunk_data)+1, 1):
@@ -133,6 +193,31 @@ class ProtoPlayer:
                     pass
 
         return end_time
+
+    @staticmethod 
+    def is_from_field_test(log_folder_dir):
+        from datetime  import datetime
+        valid_start_date = datetime(year=2023, month=1, day=1).timestamp()
+        valid_end_date = datetime(year=2030, month=1, day=1).timestamp()
+
+        print(valid_end_date)
+        print(valid_start_date)
+
+        chunks = []
+        for file in os.listdir(log_folder_dir):
+            path_to_chunk = os.path.join(log_folder_dir, file)
+            chunks += ProtoPlayer.load_replay_chunk(path_to_chunk)
+
+        counter = 0
+        for chunk in chunks:
+            try:
+                timestamp, _, _ = ProtoPlayer.unpack_log_entry(chunk)
+                if timestamp > valid_start_date and timestamp < valid_end_date:
+                    counter += 1
+            except Exception:
+                pass
+        
+        return counter/len(chunks) > 0.85
 
     @staticmethod
     def load_replay_chunk(replay_chunk_path: str) -> list:
@@ -166,7 +251,6 @@ class ProtoPlayer:
 
         """
 
-        #pudb.set_trace()
         # Unpack metadata
         timestamp, protobuf_type, data = log_entry.split(
             bytes(REPLAY_METADATA_DELIMETER, encoding="utf-8")
@@ -414,7 +498,19 @@ class ProtoPlayer:
 
         return min(abs(low), abs(high))
 
-    def _play_non_testfixture_protobuf(self):
+    def __play_protobufs(self) -> None:
+        """Plays all protos in the file in chronologoical order. 
+
+        Playback controls:
+            - Play/Pause through self.is_playing
+            - Seek to a specific time through self.current_chunk and self.current_entry_index
+            - Set playback speed through self.playback_speed
+
+        """
+        #pudb.set_trace()
+        self.time_elapsed = 0.0
+        self.start_playback_time = time.time()
+
         while True:
 
             # Only play if we are vg
@@ -473,22 +569,3 @@ class ProtoPlayer:
                         )
                         self.current_entry_index = 0
 
-
-    def _play_test_fixture_protobuf(self):
-         pass
-
-    def __play_protobufs(self) -> None:
-        """Plays all protos in the file in chronologoical order. 
-
-        Playback controls:
-            - Play/Pause through self.is_playing
-            - Seek to a specific time through self.current_chunk and self.current_entry_index
-            - Set playback speed through self.playback_speed
-
-        """
-        #pudb.set_trace()
-        self.time_elapsed = 0.0
-        self.start_playback_time = time.time()
-
-        self._play_test_fixture_protobuf()
-        #self._play_non_testfixture_protobuf()
