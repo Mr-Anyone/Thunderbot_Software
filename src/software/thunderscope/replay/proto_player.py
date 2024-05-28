@@ -219,8 +219,16 @@ class ProtoPlayer:
         
         return counter/len(chunks) > 0.85
 
+    @staticmethod 
+    def is_log_entry_corrupt(log_entry):
+        try:
+            _ = ProtoPlayer.unpack_log_entry(log_entry)
+            return True
+        except Exception: 
+            return False 
+
     @staticmethod
-    def load_replay_chunk(replay_chunk_path: str) -> list:
+    def load_replay_chunk(replay_chunk_path: str, clean_data=False) -> list:
         """Reads a replay chunk.
 
         :param replay_chunk_path: The path to the replay chunk.
@@ -234,9 +242,15 @@ class ProtoPlayer:
             while True:
                 try:
                     line = log_file.readline()
+
                     if not line:
                         break
-                    cached_data.append(line)
+
+                    if not clean_data: 
+                        cached_data.append(line)
+                    elif ProtoPlayer.is_log_entry_corrupt(line): 
+                        cached_data.append(line)
+
                 except EOFError:
                     break
 
@@ -281,7 +295,6 @@ class ProtoPlayer:
         :param end_time: the end time for the clip
     
         """
-        pudb.set_trace()
 
         if not filename:
             print("No filename selected")
@@ -441,7 +454,7 @@ class ProtoPlayer:
 
             # Load the chunk that would have the entry
             self.current_chunk = ProtoPlayer.load_replay_chunk(
-                self.sorted_chunks[self.current_chunk_index]
+                self.sorted_chunks[self.current_chunk_index], clean_data=True
             )
 
             # Search through the chunk to find the entry that is closest to
@@ -482,6 +495,8 @@ class ProtoPlayer:
 
         while low <= high:
 
+            logging.info("I am binary seraching!")
+
             mid = (high + low) // 2
 
             # If x is greater, ignore left half
@@ -507,7 +522,6 @@ class ProtoPlayer:
             - Set playback speed through self.playback_speed
 
         """
-        #pudb.set_trace()
         self.time_elapsed = 0.0
         self.start_playback_time = time.time()
 
@@ -539,7 +553,7 @@ class ProtoPlayer:
                         ) = ProtoPlayer.unpack_log_entry(
                             self.current_chunk[self.current_entry_index]
                         )
-                    except ValueError:
+                    except Exception:
                         self.current_entry_index += 1
                         logging.error("[ProtoPlayer] Error parsing log entry")
                         continue
@@ -550,12 +564,14 @@ class ProtoPlayer:
                     time_elapsed = self.seek_offset_time + (
                         (time.time() - self.start_playback_time) / self.playback_speed
                     )
+                    logging.info(f"Current time stamp: {self.current_packet_time}")
 
                     if self.current_packet_time > time_elapsed:
                         time.sleep(self.current_packet_time - time_elapsed)
 
                 # Send protobuf
                 self.proto_unix_io.send_proto(proto_class, proto)
+                logging.info("I am sending protobuf!")
 
             # Load the next chunk
             with self.replay_controls_mutex:

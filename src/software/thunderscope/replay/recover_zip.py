@@ -1,13 +1,10 @@
 import random
-from software.thunderscope.replay.proto_logger import ProtoLogger
 import base64
 from software.thunderscope.replay.replay_constants import *
 from software.thunderscope.replay.proto_player import ProtoPlayer
 import gzip
 import os
-import shutil
 
-#def mkdir(path):
 #    shutil.rmtree(path)
 #
 #    try:
@@ -53,10 +50,10 @@ import shutil
 
 
 def create_invalid_log_entries(proto, current_time, frequency=0.1):
-    some_value = random.random()
+    some_random_value_between_one_and_zero = random.random()
 
     # remove some delimeter
-    if some_value < frequency/2: 
+    if some_random_value_between_one_and_zero < frequency/2: 
         # intentionally corrupt some entries 
         serialized_proto = base64.b64encode(proto.SerializeToString())
         log_entry = (
@@ -66,13 +63,13 @@ def create_invalid_log_entries(proto, current_time, frequency=0.1):
         )
         return log_entry
     # create invalid/corrupt data
-    elif some_value < frequency:
+    elif some_random_value_between_one_and_zero < frequency:
         # intentionally corrupt some entries 
         serialized_proto = base64.b64encode(proto.SerializeToString())
         log_entry = (
             f"{current_time}{REPLAY_METADATA_DELIMETER}"
-            + f"{proto.DESCRIPTOR.full_name}inserting some random dataa so that proto player would fail!{REPLAY_METADATA_DELIMETER}"
-            + f"{serialized_proto} this is some random line aswell\n"
+            + f"{proto.DESCRIPTOR.full_name}thisissomethingthatwouldbebad{REPLAY_METADATA_DELIMETER}"
+            + f"{serialized_proto}thisisalsosomethingbad\n"
         )
         return log_entry
 
@@ -86,7 +83,7 @@ def create_invalid_log_entries(proto, current_time, frequency=0.1):
     return log_entry
     
 if __name__ == "__main__":
-    path_to_recover = "/tmp/tbots/blue/proto_2024_05_27_060158"
+    path_to_recover = "/home/vhe/Desktop/backup/original_proto"
     save_path = "/tmp/save"
     os.makedirs(save_path, exist_ok=True)
 
