@@ -11,6 +11,7 @@
 #include "software/jetson_nano/primitive_executor.h"
 #include "software/jetson_nano/services/motor.h"
 #include "software/logger/logger.h"
+#include "software/logger/logger_singleton.h"
 #include "software/logger/network_logger.h"
 #include "software/tracy/tracy_constants.h"
 #include "software/util/scoped_timespec_timer/scoped_timespec_timer.h"

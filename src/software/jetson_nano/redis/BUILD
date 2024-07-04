@@ -5,6 +5,7 @@ cc_library(
     srcs = ["redis_client.cpp"],
     hdrs = ["redis_client.h"],
     deps = [
+        "//shared:constants",
         "//software/logger",
         "@cpp_redis",
     ],

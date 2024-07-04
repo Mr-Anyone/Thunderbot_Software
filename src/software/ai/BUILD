@@ -34,6 +34,7 @@ cc_library(
     hdrs = ["threaded_ai.h"],
     deps = [
         "//proto:tbots_cc_proto",
+        "//software/logger:logger",
         "//software/ai",
         "//software/multithreading:subject",
         "//software/multithreading:threaded_observer",

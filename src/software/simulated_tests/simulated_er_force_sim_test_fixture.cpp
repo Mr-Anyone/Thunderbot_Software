@@ -14,6 +14,7 @@
 #include "shared/2021_robot_constants.h"
 #include "shared/test_util/test_util.h"
 #include "software/logger/logger.h"
+#include "software/logger/logger_singleton.h"
 #include "software/simulation/er_force_simulator.h"
 #include "software/test_util/test_util.h"
 

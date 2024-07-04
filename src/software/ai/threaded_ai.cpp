@@ -2,6 +2,7 @@
 
 #include <boost/bind.hpp>
 
+#include "software/logger/logger.h"
 #include "proto/message_translation/tbots_protobuf.h"
 #include "proto/parameters.pb.h"
 #include "software/ai/hl/stp/play/assigned_tactics_play.h"

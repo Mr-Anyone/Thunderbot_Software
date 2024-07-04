@@ -28,6 +28,7 @@ cc_library(
         "//software/jetson_nano/services:power",
         "//software/jetson_nano/services/network",
         "//software/logger:network_logger",
+        "//software/logger:logger_singleton",
         "//software/tracy:tracy_constants",
         "//software/util/scoped_timespec_timer",
         "//software/world:team",

@@ -14,10 +14,10 @@ cc_library(
 )
 
 cc_library(
-    name = "logger",
+    name = "logger_singleton",
     hdrs = [
         "custom_logging_levels.h",
-        "logger.h",
+        "logger_singleton.h",
     ],
     linkopts = ["-lstdc++fs"],
     deps = [
@@ -26,6 +26,21 @@ cc_library(
         ":log_merger",
         ":plotjuggler_sink",
         ":protobuf_sink",
+        "@g3log",
+        "@g3sinks",
+    ],
+)
+
+cc_library(
+    name = "logger",
+    srcs = ["logger.cpp"],
+    hdrs = [
+        "custom_logging_levels.h",
+        "logger.h",
+    ],
+    linkopts = ["-lstdc++fs"],
+    deps = [
+        "@base64",
         "@g3log",
         "@g3sinks",
     ],
@@ -174,9 +189,11 @@ cc_library(
         "proto_logger.cpp",
     ],
     hdrs = [
+        "custom_logging_levels.h",
         "proto_logger.h",
     ],
     deps = [
+        ":logger",
         "//proto:tbots_cc_proto",
         "//software/multithreading:thread_safe_buffer",
         "@base64",

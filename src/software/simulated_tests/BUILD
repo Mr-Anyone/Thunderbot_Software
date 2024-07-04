@@ -25,7 +25,8 @@ cc_library(
     srcs = ["simulated_er_force_sim_test_fixture.cpp"],
     hdrs = ["simulated_er_force_sim_test_fixture.h"],
     deps = [
-        "//software/logger",
+        "//software/logger:logger",
+        "//software/logger:logger_singleton",
         "//proto/message_translation:tbots_protobuf",
         "//proto:play_info_msg_cc_proto",
         "//software/sensor_fusion",

@@ -14,6 +14,7 @@
 #include "software/constants.h"
 #include "software/estop/arduino_util.h"
 #include "software/logger/logger.h"
+#include "software/logger/logger_singleton.h"
 #include "software/logger/proto_logger.h"
 #include "software/multithreading/observer_subject_adapter.hpp"
 #include "software/networking/udp/threaded_proto_udp_listener.hpp"
@@ -90,7 +91,8 @@ int main(int argc, char** argv)
         if (!args.ci)
         {
             // Return the current time since epoch in seconds
-            time_provider = []() {
+            time_provider = []()
+            {
                 return std::chrono::duration<double>(
                            std::chrono::system_clock::now().time_since_epoch())
                     .count();
@@ -128,9 +130,8 @@ int main(int argc, char** argv)
         auto tactic_override_listener =
             ThreadedProtoUnixListener<TbotsProto::AssignedTacticPlayControlParams>(
                 args.runtime_dir + TACTIC_OVERRIDE_PATH,
-                [&ai](TbotsProto::AssignedTacticPlayControlParams input) {
-                    ai->overrideTactics(input);
-                });
+                [&ai](TbotsProto::AssignedTacticPlayControlParams input)
+                { ai->overrideTactics(input); });
 
         auto play_override_listener = ThreadedProtoUnixListener<TbotsProto::Play>(
             args.runtime_dir + PLAY_OVERRIDE_PATH,

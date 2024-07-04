@@ -13,6 +13,7 @@
 
 #include "base64.h"
 #include "shared/constants.h"
+#include "software/logger/logger.h"
 
 ProtoLogger::ProtoLogger(const std::string& log_path,
                          std::function<double()> time_provider,
@@ -80,8 +81,8 @@ void ProtoLogger::logProtobufs()
                                             static_cast<unsigned>(file_metadata.size()));
             if (num_bytes_written == 0)
             {
-                std::cerr << "ProtoLogger: Failed to write metadata to log file: "
-                          << log_file_path << std::endl;
+                LOG(FATAL) << "ProtoLogger: Failed to write metadata to log file: "
+                           << log_file_path << std::endl;
             }
 
             while (!shouldStopLogging())
@@ -108,10 +109,10 @@ void ProtoLogger::logProtobufs()
                 {
                     if (num_failed_logs_++ % FAILED_LOG_PRINT_FREQUENCY == 0)
                     {
-                        std::cerr << "ProtoLogger: Failed to write " << proto_full_name
-                                  << " to log file: " << log_file_path << " "
-                                  << std::to_string(num_failed_logs_) << " times"
-                                  << std::endl;
+                        LOG(FATAL)
+                            << "ProtoLogger: Failed to write " << proto_full_name
+                            << " to log file: " << log_file_path << " "
+                            << std::to_string(num_failed_logs_) << " times" << std::endl;
                     }
                 }
 
@@ -128,7 +129,7 @@ void ProtoLogger::logProtobufs()
     }
     catch (const std::exception& e)
     {
-        std::cerr << "Exception detected in ProtoLogger: " << e.what() << std::endl;
+        LOG(FATAL) << "Exception detected in ProtoLogger: " << e.what() << std::endl;
     }
 }
 

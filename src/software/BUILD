@@ -15,7 +15,8 @@ cc_binary(
         "//software/backend",
         "//software/backend:all_backends",
         "//software/estop:arduino_util",
-        "//software/logger",
+        "//software/logger:logger",
+        "//software/logger:logger_singleton",
         "//software/multithreading:observer_subject_adapter",
         "//software/networking/udp:threaded_proto_udp_listener",
         "//software/networking/udp:threaded_proto_udp_sender",
@@ -31,6 +32,7 @@ cc_binary(
     name = "er_force_simulator_main",
     srcs = ["er_force_simulator_main.cpp"],
     deps = [
+        "//software/logger:logger_singleton",
         "//software:constants",
         "//software/networking/unix:threaded_proto_unix_listener",
         "//software/networking/unix:threaded_proto_unix_sender",
@@ -80,6 +82,7 @@ pybind_library(
     deps = [
         "//proto:ssl_cc_proto",
         "//proto:tbots_cc_proto",
+        "//software/logger:proto_logger",
         "//proto/message_translation:ssl_geometry",
         "//proto/message_translation:tbots_geometry",
         "//shared:robot_constants",

@@ -5,7 +5,7 @@
 #include <boost/program_options.hpp>
 
 #include "proto/parameters.pb.h"
-#include "software/logger/logger.h"
+#include "software/logger/logger_singleton.h"
 
 bool TbotsGtestMain::help                = false;
 bool TbotsGtestMain::enable_visualizer   = false;
