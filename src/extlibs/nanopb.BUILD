@@ -4,7 +4,6 @@ exports_files(["LICENSE.txt"])
 
 package(default_visibility = ["//visibility:public"])
 
-load("@nanopb_deps//:requirements.bzl", "requirement")
 load("@com_google_protobuf//:protobuf.bzl", "py_proto_library")
 load(
     "@platformio_rules//platformio:platformio.bzl",
@@ -78,7 +77,6 @@ py_binary(
     name = "nanopb_generator",
     srcs = ["generator/nanopb_generator.py"],
     deps = [
-        requirement("protobuf"),
     ],
 )
 

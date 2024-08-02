@@ -1,6 +1,5 @@
 package(default_visibility = ["//visibility:public"])
 
-load("@simulated_tests_deps//:requirements.bzl", "requirement")
 
 py_test(
     name = "simulated_test_ball_model",

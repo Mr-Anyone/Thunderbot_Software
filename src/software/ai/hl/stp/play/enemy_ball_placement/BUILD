@@ -1,6 +1,5 @@
 package(default_visibility = ["//visibility:public"])
 
-load("@simulated_tests_deps//:requirements.bzl", "requirement")
 
 cc_library(
     name = "enemy_ball_placement_play",
@@ -32,6 +31,5 @@ py_test(
     deps = [
         "//software/simulated_tests:simulated_test_fixture",
         "//software/simulated_tests:validation",
-        requirement("pytest"),
     ],
 )

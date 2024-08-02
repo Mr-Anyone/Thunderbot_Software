@@ -1,6 +1,5 @@
 package(default_visibility = ["//visibility:public"])
 
-load("@thunderscope_deps//:requirements.bzl", "requirement")
 
 py_library(
     name = "proto_logger",
@@ -9,7 +8,6 @@ py_library(
         "replay_constants.py",
     ],
     deps = [
-        requirement("pyqtgraph"),
     ],
 )
 
@@ -20,7 +18,6 @@ py_library(
         "replay_constants.py",
     ],
     deps = [
-        requirement("pyqtgraph"),
     ],
 )
 
@@ -30,7 +27,6 @@ py_library(
         "replay_controls.py",
     ],
     deps = [
-        requirement("pyqtgraph"),
         ":proto_player",
     ],
 )

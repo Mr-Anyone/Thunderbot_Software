@@ -1,6 +1,5 @@
 package(default_visibility = ["//visibility:public"])
 
-load("@thunderscope_deps//:requirements.bzl", "requirement")
 
 py_library(
     name = "icon_loader",
@@ -16,6 +15,5 @@ py_library(
         "//software/thunderscope/gl/widgets:icon_loader",
     ],
     deps = [
-        requirement("pyqtgraph"),
     ],
 )

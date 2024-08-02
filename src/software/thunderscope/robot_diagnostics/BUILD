@@ -1,6 +1,5 @@
 package(default_visibility = ["//visibility:public"])
 
-load("@thunderscope_deps//:requirements.bzl", "requirement")
 
 py_library(
     name = "drive_and_dribbler_widget",
@@ -9,7 +8,6 @@ py_library(
         "//proto:software_py_proto",
         "//software/thunderscope:constants",
         "//software/thunderscope/common:common_widgets",
-        requirement("pyqtgraph"),
     ],
 )
 
@@ -19,7 +17,6 @@ py_library(
     deps = [
         "//software/thunderscope:constants",
         "//software/thunderscope:thread_safe_buffer",
-        requirement("pyqtgraph"),
     ],
 )
 
@@ -29,7 +26,6 @@ py_library(
     deps = [
         "//software/thunderscope:constants",
         "//software/thunderscope:thread_safe_buffer",
-        requirement("pyqtgraph"),
     ],
 )
 
@@ -40,7 +36,6 @@ py_library(
         ":motor_fault_view",
         "//software/thunderscope:constants",
         "//software/thunderscope:thread_safe_buffer",
-        requirement("pyqtgraph"),
     ],
 )
 
@@ -61,7 +56,6 @@ py_library(
         "//software/thunderscope:constants",
         "//software/thunderscope:thread_safe_buffer",
         "//software/thunderscope/robot_diagnostics:robot_info",
-        requirement("pyqtgraph"),
     ],
 )
 
@@ -71,7 +65,6 @@ py_library(
     deps = [
         "//software/thunderscope:constants",
         "//software/thunderscope:thread_safe_buffer",
-        requirement("pyqtgraph"),
     ],
 )
 
@@ -85,7 +78,6 @@ py_library(
     srcs = ["robot_error_log.py"],
     deps = [
         ":error_log_widgets",
-        requirement("pyqtgraph"),
     ],
 )
 
@@ -95,6 +87,5 @@ py_library(
     deps = [
         ":robot_status",
         "//software/thunderscope/robot_diagnostics/robot_error_log_icons:error_log_constants",
-        requirement("pyqtgraph"),
     ],
 )

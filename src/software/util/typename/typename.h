@@ -1,7 +1,6 @@
 #pragma once
 
-#include <cxxabi.h>
-
+#include <string>
 #include <memory>
 
 /**
@@ -29,7 +28,24 @@ std::string demangleTypeId(const char* mangled_name);
 template <typename T>
 std::string objectTypeName(const T& obj_ref)
 {
-    return demangleTypeId(typeid(obj_ref).name());
+    // I think this would work in MSVC!
+    return std::string {typeid(T).name()};
+
+//     // stackover: https://stackoverflow.com/questions/81870/is-it-possible-to-print-a-variables-type-in-standard-c
+// #ifdef __clang__
+//     std::string p = __PRETTY_FUNCTION__;
+//     return std::string(p.data() + 34, p.size() - 34 - 1);
+// #elif defined(__GNUC__)
+//     std::string p = __PRETTY_FUNCTION__;
+// #  if __cplusplus < 201402
+//     return std::string(p.data() + 36, p.size() - 36 - 1);
+// #  else
+//     return std::string(p.data() + 49, p.find(';', 49) - 49);
+// #  endif
+// #elif defined(_MSC_VER)
+//     std::string p = __FUNCSIG__;
+//     return std::string(p.data() + 84, p.size() - 84 - 7);
+// #endif
 }
 
 /**
@@ -43,4 +59,4 @@ std::string objectTypeName(const T& obj_ref)
  *
  * @return the string representation of the object
  */
-#define TYPENAME(object) (demangleTypeId(typeid(object).name()))
+// #define TYPENAME(object) (demangleTypeId(typeid(object).name()))

@@ -131,7 +131,7 @@ class Point final
  *
  * @return the Point sum of the given Point and Vector
  */
-Point operator+(const Point &p, const Vector &v) __attribute__((warn_unused_result));
+Point operator+(const Point &p, const Vector &v) ;
 
 /**
  * Adds a vector to a point
@@ -141,7 +141,7 @@ Point operator+(const Point &p, const Vector &v) __attribute__((warn_unused_resu
  *
  * @return the Point sum of the given Point and Vector
  */
-Point operator+(const Vector &v, const Point &p) __attribute__((warn_unused_result));
+Point operator+(const Vector &v, const Point &p) ;
 
 /**
  * Adds the negation of a vector to a point
@@ -151,7 +151,7 @@ Point operator+(const Vector &v, const Point &p) __attribute__((warn_unused_resu
  *
  * @return the Point sum of the given Point and the negated Vector
  */
-Point operator-(const Point &p, const Vector &v) __attribute__((warn_unused_result));
+Point operator-(const Point &p, const Vector &v) ;
 
 /**
  * Adds a negated vector to a point and sets that point to the resulting sum
@@ -180,7 +180,7 @@ Point &operator+=(Point &p, const Vector &v);
  *
  * @return the point with its coordinates negated
  */
-Point operator-(const Point &p) __attribute__((warn_unused_result));
+Point operator-(const Point &p) ;
 
 /**
  * Subtracts one Point from another
@@ -190,7 +190,7 @@ Point operator-(const Point &p) __attribute__((warn_unused_result));
  *
  * @return the vector-difference of the two points
  */
-Vector operator-(const Point &p, const Point &q) __attribute__((warn_unused_result));
+Vector operator-(const Point &p, const Point &q) ;
 
 /**
  * Prints a point to a stream
@@ -226,6 +226,7 @@ bool operator!=(const Point &p, const Point &q);
 // containers
 // like unordered_set and unordered_map
 // https://prateekvjoshi.com/2014/06/05/using-hash-function-in-c-for-user-defined-classes/
+
 namespace std
 {
     template <>

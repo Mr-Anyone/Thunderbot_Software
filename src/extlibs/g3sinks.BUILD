@@ -18,6 +18,6 @@ cc_library(
     deps = [
         "@boost//:filesystem",
         "@g3log",
-        "@zlib",
+        #"@zlib",
     ],
 )

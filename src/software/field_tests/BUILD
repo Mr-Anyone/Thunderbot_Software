@@ -1,6 +1,5 @@
 package(default_visibility = ["//visibility:public"])
 
-load("@simulated_tests_deps//:requirements.bzl", "requirement")
 
 py_library(
     name = "field_test_fixture",

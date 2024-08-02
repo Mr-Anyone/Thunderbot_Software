@@ -1,6 +1,5 @@
 package(default_visibility = ["//visibility:public"])
 
-load("@thunderscope_deps//:requirements.bzl", "requirement")
 
 py_binary(
     name = "thunderscope_main",
@@ -41,8 +40,6 @@ py_library(
         "//software/thunderscope/binary_context_managers:game_controller",
         "//software/thunderscope/binary_context_managers:simulator",
         "//software/thunderscope/binary_context_managers:tigers_autoref",
-        requirement("pyqtgraph"),
-        requirement("numpy"),
     ],
 )
 

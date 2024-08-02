@@ -230,7 +230,7 @@ class Vector final
  *
  * @return the vector-sum of the two vectors
  */
-Vector operator+(const Vector &p, const Vector &q) __attribute__((warn_unused_result));
+Vector operator+(const Vector &p, const Vector &q) ;
 
 /**
  * Adds a Vector to another Vector and set the former vector to the sum
@@ -249,7 +249,7 @@ Vector &operator+=(Vector &u, const Vector &v);
  *
  * @return the vector with its magnitudes negated
  */
-Vector operator-(const Vector &p) __attribute__((warn_unused_result));
+Vector operator-(const Vector &p) ;
 
 /**
  * Subtracts one Vector from another
@@ -259,7 +259,7 @@ Vector operator-(const Vector &p) __attribute__((warn_unused_result));
  *
  * @return the vector-difference of the two vectors
  */
-Vector operator-(const Vector &u, const Vector &v) __attribute__((warn_unused_result));
+Vector operator-(const Vector &u, const Vector &v) ;
 
 /**
  * Subtracts from a Vector another Vector and set the former vector to the difference
@@ -279,7 +279,7 @@ Vector &operator-=(Vector &u, const Vector &v);
  *
  * @return the scaled vector
  */
-Vector operator*(double s, const Vector &v) __attribute__((warn_unused_result));
+Vector operator*(double s, const Vector &v) ;
 
 /**
  * Multiplies a vector by a scalar
@@ -289,7 +289,7 @@ Vector operator*(double s, const Vector &v) __attribute__((warn_unused_result));
  *
  * @return the scaled vector
  */
-Vector operator*(const Vector &p, double s) __attribute__((warn_unused_result));
+Vector operator*(const Vector &p, double s) ;
 
 /**
  * Scales a vector by a scalar
@@ -309,7 +309,7 @@ Vector &operator*=(Vector &p, double s);
  *
  * @return the scaled vector
  */
-Vector operator/(const Vector &p, double s) __attribute__((warn_unused_result));
+Vector operator/(const Vector &p, double s) ;
 
 /**
  * Scales a vector by a scalar

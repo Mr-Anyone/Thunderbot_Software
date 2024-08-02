@@ -1,6 +1,5 @@
 package(default_visibility = ["//visibility:public"])
 
-load("@thunderscope_deps//:requirements.bzl", "requirement")
 
 py_library(
     name = "gl_widget",
@@ -13,6 +12,5 @@ py_library(
         "//software/thunderscope/gl/widgets:gl_field_toolbar",
         "//software/thunderscope/gl/widgets:gl_gamecontroller_toolbar",
         "//software/thunderscope/replay:replay_controls",
-        requirement("pyqtgraph"),
     ],
 )

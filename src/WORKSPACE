@@ -18,12 +18,24 @@ rules_foreign_cc_dependencies()
 
 http_archive(
     name = "rules_python",
-    sha256 = "a30abdfc7126d497a7698c29c46ea9901c6392d6ed315171a6df5ce433aa4502",
-    strip_prefix = "rules_python-0.6.0",
-    url = "https://github.com/bazelbuild/rules_python/archive/0.6.0.tar.gz",
+    #sha256 = "778aaeab3e6cfd56d681c89f5c10d7ad6bf8d2f1a72de9de55b23081b2d31618",
+    strip_prefix = "rules_python-0.32.0",
+    url = "https://github.com/bazelbuild/rules_python/releases/download/0.32.0/rules_python-0.32.0.tar.gz",
 )
 
-load("@rules_python//python:pip.bzl", "pip_install")
+load("@rules_python//python:repositories.bzl", "py_repositories", "python_register_toolchains")
+
+
+register_toolchains("//:py_toolchain")
+
+python_register_toolchains(
+    name = "local_config_python",
+    python_version = "3.8",
+)
+
+
+py_repositories()
+load("@rules_python//python:pip.bzl", "pip_parse")
 
 all_contents = """filegroup(name = "all", srcs = glob(["**/**"]), visibility = ["//visibility:public"])"""
 
@@ -99,9 +111,9 @@ protobuf_deps()
 
 git_repository(
     name = "com_github_nelhage_rules_boost",
-    commit = "7332c6cf2afb2642f53bc23f9b4d9c1817318685",
+    commit = "8fa193c4e21daaa2d46ff6b9c2b5a2de70b6caa1",
     remote = "https://github.com/nelhage/rules_boost",
-    shallow_since = "1606097530 -0500",
+    #shallow_since = "1606097530 -0500",
 )
 
 git_repository(
@@ -187,11 +199,11 @@ new_local_repository(
     path = "/usr/include/x86_64-linux-gnu/qt5/",
 )
 
-new_local_repository(
-    name = "linux_gcc",
-    build_file = "@//extlibs:linux_gcc.BUILD",
-    path = "/",
-)
+# new_local_repository(
+#     name = "linux_gcc",
+#     build_file = "@//extlibs:linux_gcc.BUILD",
+#     path = "/",
+# )
 
 # libclang-dev is installed into the system through setup_software.sh
 new_local_repository(
@@ -288,31 +300,33 @@ new_git_repository(
     shallow_since = "1631132123 +0200",
 )
 
-register_toolchains("//:py_toolchain")
 
-pip_install(
-    name = "nanopb_deps",
-    python_interpreter = "/opt/tbotspython/bin/python",
-    requirements = "//extlibs:nanopb_requirements.txt",
-)
+# pip_install(
+#     name = "nanopb_deps",
+#     python_interpreter = "C:/Users/Vince/AppData/Local/Programs/Python/Python38/python",
+#     requirements = "//extlibs:nanopb_requirements.txt",
+# )
 
-pip_install(
-    name = "thunderscope_deps",
-    python_interpreter = "/opt/tbotspython/bin/python",
-    requirements = "//software/thunderscope:requirements.txt",
-)
+# pip_install(
+#     name = "thunderscope_deps",
+#     python_interpreter = "C:/Users/Vince/AppData/Local/Programs/Python/Python38/python",
+#     requirements = "//software/thunderscope:requirements.txt",
+# )
 
-pip_install(
-    name = "ansible_deps",
-    python_interpreter = "/opt/tbotspython/bin/python",
-    requirements = "//software/jetson_nano/ansible:requirements.txt",
-)
+# pip_install(
+#     name = "ansible_deps",
+#     python_interpreter = "C:/Users/Vince/AppData/Local/Programs/Python/Python38/python",
+#     requirements = "//software/jetson_nano/ansible:requirements.txt",
+# )
 
-pip_install(
-    name = "simulated_tests_deps",
-    python_interpreter = "/opt/tbotspython/bin/python",
-    requirements = "//software/simulated_tests:requirements.txt",
-)
+# pip_install(
+#     name = "simulated_tests_deps",
+#     python_interpreter = "C:/Users/Vince/AppData/Local/Programs/Python/Python38/python",
+#     requirements = "//software/simulated_tests:requirements.txt",
+# )
+
+# load("@pip//:requirements.bzl", "install_deps")
+# install_deps()
 
 # required to use `py_proto_library` from protobuf
 http_archive(
@@ -328,42 +342,39 @@ bind(
 )
 
 http_archive(
-    name = "pybind11_bazel",
-    sha256 = "9c2919136d7c3b4a4c4a4c0ac5eb97c101c5f59c417e4f1abe70c370b1590b73",
-    strip_prefix = "pybind11_bazel-2e5f4a6beece3b92d2f87744f305eb52b6852aa9",
-    urls = ["https://github.com/pybind/pybind11_bazel/archive/2e5f4a6beece3b92d2f87744f305eb52b6852aa9.zip"],
+  name = "pybind11_bazel",
+  strip_prefix = "pybind11_bazel-2.12.0",
+  urls = ["https://github.com/pybind/pybind11_bazel/archive/v2.12.0.zip"],
 )
 
 # We still require the pybind library.
 http_archive(
-    name = "pybind11",
-    build_file = "@pybind11_bazel//:pybind11.BUILD",
-    sha256 = "1c6e0141f7092867c5bf388bc3acdb2689ed49f59c3977651394c6c87ae88232",
-    strip_prefix = "pybind11-2.9.0",
-    urls = ["https://github.com/pybind/pybind11/archive/refs/tags/v2.9.0.zip"],
+  name = "pybind11",
+  build_file = "@pybind11_bazel//:pybind11-BUILD.bazel",
+  strip_prefix = "pybind11-2.12.0",
+  urls = ["https://github.com/pybind/pybind11/archive/v2.12.0.zip"],
 )
 
-load("@pybind11_bazel//:python_configure.bzl", "python_configure")
+# load("@pybind11_bazel//:python_configure.bzl", "python_configure")
 
-python_configure(
-    name = "local_config_python",
-    python_version = "3",
-)
+# python_configure(
+#     name = "local_config_python",
+#     python_version = "3",
+# )
 
 # These headers are used by pybind11
-bind(
-    name = "python_headers",
-    actual = "@local_config_python//:python_headers",
-)
+# bind(
+#     name = "python_headers",
+#     actual = "@local_config_python//:python_headers",
+# )
 
-maybe(
-    git_repository,
+git_repository(
     name = "rules_third_party",
     commit = "8d0ba00f9874588c1ea38d1be2859060ac8c8516",
     remote = "https://github.com/DraconicEnt/rules_third_party.git",
     shallow_since = "1620228587 -0400",
 )
-
+    
 load("@rules_third_party//libraries:bullet.bzl", "bullet")
 
 # Adds commit 272c7099d3ba8ac9e8c142e361e8d4cf5d91b8f2 of

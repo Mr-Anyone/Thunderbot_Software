@@ -1,4 +1,5 @@
 #include "software/geom/circle.h"
+#include <string>
 
 Circle::Circle() : origin_(Point()), radius_(0) {}
 

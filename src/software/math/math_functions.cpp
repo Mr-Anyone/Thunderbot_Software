@@ -1,3 +1,4 @@
+#include <functional>
 #include "software/math/math_functions.h"
 
 #include <algorithm>

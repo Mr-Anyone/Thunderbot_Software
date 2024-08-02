@@ -10,7 +10,7 @@ Polygon::Polygon(const std::vector<Point>& points) : points_(points)
 }
 
 Polygon::Polygon(const std::initializer_list<Point>& points)
-    : Polygon(std::vector(points))
+    : Polygon(std::vector<Point> (points))
 {
 }
 

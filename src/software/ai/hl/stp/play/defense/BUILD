@@ -1,6 +1,5 @@
 package(default_visibility = ["//visibility:public"])
 
-load("@simulated_tests_deps//:requirements.bzl", "requirement")
 
 # We force linking for all plays so that the static variables required for the
 # "factory" design pattern to work are linked in
@@ -42,7 +41,6 @@ py_test(
     deps = [
         "//software/simulated_tests:simulated_test_fixture",
         "//software/simulated_tests:validation",
-        requirement("pytest"),
     ],
 )
 

@@ -3,7 +3,6 @@ package(default_visibility = [
     "//software/simulated_tests:__subpackages__",
 ])
 
-load("@simulated_tests_deps//:requirements.bzl", "requirement")
 
 cc_library(
     name = "kinematic_constraints",
@@ -146,6 +145,5 @@ py_test(
         "//proto/message_translation:py_tbots_protobuf",
         "//software/simulated_tests:simulated_test_fixture",
         "//software/simulated_tests:validation",
-        requirement("pytest"),
     ],
 )

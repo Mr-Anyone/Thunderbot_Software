@@ -4,7 +4,6 @@ package(default_visibility = ["//visibility:public"])
 # "factory" design pattern to work are linked in
 # https://www.bfilipek.com/2018/02/static-vars-static-lib.html
 
-load("@simulated_tests_deps//:requirements.bzl", "requirement")
 
 cc_library(
     name = "ball_placement_play",
@@ -40,7 +39,6 @@ py_test(
     deps = [
         "//software/simulated_tests:simulated_test_fixture",
         "//software/simulated_tests:validation",
-        requirement("pytest"),
     ],
 )
 
