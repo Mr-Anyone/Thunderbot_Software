@@ -1,4 +1,7 @@
-#include <boost/bind.hpp>
+#include <boost/bind/bind.hpp>
+using namespace boost::placeholders
+
+
 #include <boost/coroutine2/all.hpp>
 #include <functional>
 #include <iostream>

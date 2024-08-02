@@ -31,6 +31,11 @@ std::optional<std::string> ArduinoUtil::getArduinoPort()
     return std::nullopt;
 }
 
+// realpath in line 51? 
+#include <stdlib.h>
+#define realpath(N,R) _fullpath((R),(N),_MAX_PATH)
+#include <fstream>
+
 std::optional<ArduinoUtil::HwInfo> ArduinoUtil::getInfo(std::string port)
 {
     // ported from
@@ -44,7 +49,7 @@ std::optional<ArduinoUtil::HwInfo> ArduinoUtil::getInfo(std::string port)
         return std::nullopt;
     }
 
-    boost::filesystem::path device_path = realpath(device_path_string.c_str(), NULL);
+    boost::filesystem::path device_path = std::string {realpath(device_path_string.c_str(), NULL)};
     boost::filesystem::path subsystem;
     boost::filesystem::path usb_interface_path;
     boost::filesystem::path usb_device_path;
@@ -54,8 +59,11 @@ std::optional<ArduinoUtil::HwInfo> ArduinoUtil::getInfo(std::string port)
         return std::nullopt;
     }
 
+    const char* placeholder_one = (device_path / "subsystem").string().c_str();
+    std::string placeholder_two {realpath(placeholder_one,  NULL)};
+
     subsystem =
-        boost::filesystem::basename(realpath((device_path / "subsystem").c_str(), NULL));
+        boost::filesystem::basename(placeholder_two);
 
     if (subsystem == "usb-serial")
     {
@@ -108,7 +116,7 @@ std::vector<std::string> ArduinoUtil::getSerialDevices()
 
 std::optional<std::string> ArduinoUtil::readFileLine(boost::filesystem::path path)
 {
-    boost::filesystem::ifstream f(path.c_str());
+    std::ifstream f(path.c_str());
     std::string res;
     if (f.is_open())
     {
