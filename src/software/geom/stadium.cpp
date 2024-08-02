@@ -1,4 +1,5 @@
 #include "software/geom/stadium.h"
+#include <string>
 
 Stadium::Stadium(const Segment &length, double radius) : segment_(length), radius_(radius)
 {

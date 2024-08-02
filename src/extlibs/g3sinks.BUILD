@@ -23,9 +23,9 @@
 # )
 
 
-cc_import(
+cc_library(
     name = "g3sinks",
-    static_library  = "lib/g3logrotate.lib",
+    srcs  = ["lib/g3logrotate.lib"],
     visibility = ["//visibility:public"],
     hdrs = glob(["include/**/*.hpp"]),
     includes = ["include"],

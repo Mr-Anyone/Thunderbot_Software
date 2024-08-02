@@ -2,7 +2,6 @@
 #include "arduino_util.h"
 
 #include <stdlib.h>
-#include <unistd.h>
 
 #include <boost/filesystem.hpp>
 #include <boost/format.hpp>
