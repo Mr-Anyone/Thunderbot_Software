@@ -29,7 +29,7 @@ double distance(const Segment &first, const Point &second)
     return distance(second, first);
 }
 
-double distance(const Point &first, const Polygon &second)
+double distance(const Point &first, const Tbots::Polygon &second)
 {
     if (contains(second, first))
     {
@@ -50,7 +50,7 @@ double distance(const Point &first, const Polygon &second)
     return min_dist;
 }
 
-double distance(const Polygon &first, const Point &second)
+double distance(const Tbots::Polygon &first, const Point &second)
 {
     return distance(second, first);
 }

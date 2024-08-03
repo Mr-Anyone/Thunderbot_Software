@@ -21,7 +21,7 @@ std::unique_ptr<TbotsProto::Angle> createAngleProto(const Angle& angle);
 std::unique_ptr<TbotsProto::AngularVelocity> createAngularVelocityProto(
     const AngularVelocity& angular_velocity);
 std::unique_ptr<TbotsProto::Vector> createVectorProto(const Vector& vector);
-std::unique_ptr<TbotsProto::Polygon> createPolygonProto(const Polygon& polygon);
+std::unique_ptr<TbotsProto::Polygon> createPolygonProto(const Tbots::Polygon& polygon);
 std::unique_ptr<TbotsProto::Circle> createCircleProto(const Circle& polygon);
 std::unique_ptr<TbotsProto::Segment> createSegmentProto(const Segment& segment);
 std::unique_ptr<TbotsProto::Stadium> createStadiumProto(const Stadium& stadium);
@@ -38,7 +38,7 @@ Angle createAngle(const TbotsProto::Angle& angle);
 AngularVelocity createAngularVelocity(
     const TbotsProto::AngularVelocity& angular_velocity);
 Vector createVector(const TbotsProto::Vector& vector);
-Polygon createPolygon(const TbotsProto::Polygon& polygon);
+Tbots::Polygon createPolygon(const TbotsProto::Polygon& polygon);
 Circle createCircle(const TbotsProto::Circle& circle);
 Segment createSegment(const TbotsProto::Segment& segment);
 Stadium createStadium(const TbotsProto::Stadium& stadium);

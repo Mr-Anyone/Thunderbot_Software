@@ -6,7 +6,7 @@
 #include "software/geom/algorithms/distance.h"
 #include "software/geom/algorithms/intersection.h"
 
-bool intersects(const Polygon &first, const Segment &second)
+bool intersects(const Tbots::Polygon &first, const Segment &second)
 {
     for (const auto &seg : first.getSegments())
     {
@@ -22,12 +22,12 @@ bool intersects(const Polygon &first, const Segment &second)
     return false;
 }
 
-bool intersects(const Segment &first, const Polygon &second)
+bool intersects(const Segment &first, const Tbots::Polygon &second)
 {
     return intersects(second, first);
 }
 
-bool intersects(const Polygon &first, const Ray &second)
+bool intersects(const Tbots::Polygon &first, const Ray &second)
 {
     for (const auto &seg : first.getSegments())
     {
@@ -39,12 +39,12 @@ bool intersects(const Polygon &first, const Ray &second)
     return false;
 }
 
-bool intersects(const Ray &first, const Polygon &second)
+bool intersects(const Ray &first, const Tbots::Polygon &second)
 {
     return intersects(second, first);
 }
 
-bool intersects(const Polygon &first, const Circle &second)
+bool intersects(const Tbots::Polygon &first, const Circle &second)
 {
     if (contains(first, second.origin()))
     {
@@ -60,7 +60,7 @@ bool intersects(const Polygon &first, const Circle &second)
     return false;
 }
 
-bool intersects(const Circle &first, const Polygon &second)
+bool intersects(const Circle &first, const Tbots::Polygon &second)
 {
     return intersects(second, first);
 }
@@ -238,7 +238,7 @@ bool intersects(const Segment &first, const Stadium &second)
     return intersects(second, first);
 }
 
-bool intersects(const Stadium &first, const Polygon &second)
+bool intersects(const Stadium &first, const Tbots::Polygon &second)
 {
     for (const auto &seg : second.getSegments())
     {
@@ -249,7 +249,7 @@ bool intersects(const Stadium &first, const Polygon &second)
     }
     return false;
 }
-bool intersects(const Polygon &first, const Stadium &second)
+bool intersects(const Tbots::Polygon &first, const Stadium &second)
 {
     return intersects(second, first);
 }

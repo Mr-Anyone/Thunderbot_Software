@@ -82,7 +82,7 @@ std::vector<Point> rasterize(const Circle& circle, const double resolution_size)
     return covered_points;
 }
 
-std::vector<Point> rasterize(const Rectangle& rectangle, const double resolution_size)
+std::vector<Point> rasterize(const Tbots::Rectangle& rectangle, const double resolution_size)
 {
     // Loop through the length and the width of the rectangle and add points
     // resolution_size away from each other. Also making sure that the edges are also
@@ -129,7 +129,7 @@ std::vector<Point> rasterize(const Rectangle& rectangle, const double resolution
     return covered_points;
 }
 
-std::vector<Point> rasterize(const Polygon& polygon, const double resolution_size)
+std::vector<Point> rasterize(const Tbots::Polygon& polygon, const double resolution_size)
 {
     // This rasterize function uses two steps to fully cover a polygon.
     // 1. Draw a bounding box around the polygon and loop through it using a similar
@@ -250,7 +250,7 @@ std::vector<Point> rasterize(const Stadium& stadium, double resolution_size)
         rasterize(Circle(stadium.segment().getEnd(), stadium.radius()), resolution_size);
 
     // construct rectangle polygon
-    Polygon inner_rectangle = stadium.innerRectangle();
+    Tbots::Polygon inner_rectangle = stadium.innerRectangle();
 
     std::vector<Point> rectangle_points = rasterize(inner_rectangle, resolution_size);
 

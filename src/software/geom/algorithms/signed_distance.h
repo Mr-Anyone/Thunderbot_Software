@@ -17,8 +17,8 @@
  * @param second
  * @return the signed shortest distance between the perimeter of the first and the second
  */
-double signedDistance(const Rectangle &first, const Point &second);
-double signedDistance(const Point &first, const Rectangle &second);
+double signedDistance(const Tbots::Rectangle &first, const Point &second);
+double signedDistance(const Point &first, const Tbots::Rectangle &second);
 
 /**
  * Finds the shortest distance between the perimeter of a Circle and a Point.
@@ -41,8 +41,8 @@ double signedDistance(const Point &first, const Circle &second);
  * @param second
  * @return the signed shortest distance between the perimeter of the first and the second
  */
-double signedDistance(const Polygon &first, const Point &second);
-double signedDistance(const Point &first, const Polygon &second);
+double signedDistance(const Tbots::Polygon &first, const Point &second);
+double signedDistance(const Point &first, const Tbots::Polygon &second);
 
 /**
  * Finds the shortest distance between the perimeter of a Stadium and a Point.

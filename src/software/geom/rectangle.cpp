@@ -2,6 +2,8 @@
 
 #include <algorithm>
 
+using namespace Tbots; 
+
 Rectangle::Rectangle(const Point &point1, const Point &point2)
     : ConvexPolygon({Point(point1.x() < point2.x() ? point1.x() : point2.x(),
                            point1.y() < point2.y() ? point1.y() : point2.y()),
@@ -54,20 +56,20 @@ const Point &Rectangle::negXNegYCorner() const
     return points_[0];
 }
 
-const Point &Rectangle::posXNegYCorner() const
+const Point &Tbots::Rectangle::posXNegYCorner() const
 {
     return points_[3];
 }
 
-double Rectangle::xMax() const
+double Tbots::Rectangle::xMax() const
 {
     return posXPosYCorner().x();
 }
-double Rectangle::xMin() const
+double Tbots::Rectangle::xMin() const
 {
     return negXNegYCorner().x();
 }
-double Rectangle::yMax() const
+double Tbots::Rectangle::yMax() const
 {
     return posXPosYCorner().y();
 }
@@ -78,7 +80,7 @@ double Rectangle::yMin() const
 
 Rectangle Rectangle::expand(double expansion_amount) const
 {
-    auto points = Polygon::expand(expansion_amount).getPoints();
+    auto points = Tbots::Polygon::expand(expansion_amount).getPoints();
     return Rectangle(points[0], points[2]);
 }
 

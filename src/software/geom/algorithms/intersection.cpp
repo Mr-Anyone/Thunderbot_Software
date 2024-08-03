@@ -85,7 +85,7 @@ std::vector<Point> intersection(const Segment &first, const Segment &second)
     return intersections;
 }
 
-std::unordered_set<Point> intersection(const Polygon &polygon, const Segment &segment)
+std::unordered_set<Point> intersection(const Tbots::Polygon &polygon, const Segment &segment)
 {
     std::unordered_set<Point> intersections;
 
@@ -172,7 +172,7 @@ std::optional<Point> intersection(const Line &first, const Line &second)
     }
 }
 
-std::unordered_set<Point> intersection(const Polygon &polygon, const Ray &ray)
+std::unordered_set<Point> intersection(const Tbots::Polygon &polygon, const Ray &ray)
 {
     std::unordered_set<Point> intersections;
 

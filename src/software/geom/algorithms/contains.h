@@ -17,9 +17,9 @@
  */
 bool contains(const Circle& container, const Segment& contains);
 bool contains(const Circle& container, const Point& contained);
-bool contains(const Polygon& container, const Point& contained);
+bool contains(const Tbots::Polygon& container, const Point& contained);
 bool contains(const Ray& container, const Point& contained);
 bool contains(const Segment& container, const Point& contained,
               double fixed_epsilon = FIXED_EPSILON, int ulps_distance = ULPS_EPSILON_TEN);
-bool contains(const Rectangle& container, const Point& contained);
+bool contains(const Tbots::Rectangle& container, const Point& contained);
 bool contains(const Stadium& container, const Point& contained);

@@ -6,7 +6,7 @@
 #include "software/geom/algorithms/intersection.h"
 #include "software/geom/algorithms/voronoi_diagram.h"
 
-std::vector<Circle> findOpenCircles(const Rectangle &bounding_box,
+std::vector<Circle> findOpenCircles(const Tbots::Rectangle &bounding_box,
                                     std::vector<Point> points)
 {
     // We use a Voronoi Diagram and it's Delaunay triangulation to find the largest

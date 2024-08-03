@@ -1,15 +1,15 @@
 #include "software/geom/algorithms/axis_aligned_bounding_box.h"
 
-Rectangle axisAlignedBoundingBox(const Circle& circle, const double inflation_radius)
+Tbots::Rectangle axisAlignedBoundingBox(const Circle& circle, const double inflation_radius)
 {
     Point bottom_left(circle.origin().x() - circle.radius() - inflation_radius,
                       circle.origin().y() - circle.radius() - inflation_radius);
     Point top_right(circle.origin().x() + circle.radius() + inflation_radius,
                     circle.origin().y() + circle.radius() + inflation_radius);
-    return Rectangle(bottom_left, top_right);
+    return Tbots::Rectangle(bottom_left, top_right);
 }
 
-Rectangle axisAlignedBoundingBox(const Rectangle& rectangle,
+Tbots::Rectangle axisAlignedBoundingBox(const Tbots::Rectangle& rectangle,
                                  const double inflation_radius)
 {
     if (inflation_radius == 0)
@@ -20,7 +20,7 @@ Rectangle axisAlignedBoundingBox(const Rectangle& rectangle,
     return rectangle.expand(inflation_radius);
 }
 
-Rectangle axisAlignedBoundingBox(const Polygon& polygon, const double inflation_radius)
+Tbots::Rectangle axisAlignedBoundingBox(const Tbots::Polygon& polygon, const double inflation_radius)
 {
     double min_x = std::numeric_limits<double>::max();
     double min_y = std::numeric_limits<double>::max();
@@ -35,10 +35,10 @@ Rectangle axisAlignedBoundingBox(const Polygon& polygon, const double inflation_
     }
     Point bottom_left(min_x - inflation_radius, min_y - inflation_radius);
     Point top_right(max_x + inflation_radius, max_y + inflation_radius);
-    return Rectangle(bottom_left, top_right);
+    return Tbots::Rectangle(bottom_left, top_right);
 }
 
-Rectangle axisAlignedBoundingBox(const Stadium& stadium, const double inflation_radius)
+Tbots::Rectangle axisAlignedBoundingBox(const Stadium& stadium, const double inflation_radius)
 {
     double min_x =
         std::min(stadium.segment().getEnd().x(), stadium.segment().getStart().x()) -
@@ -56,5 +56,5 @@ Rectangle axisAlignedBoundingBox(const Stadium& stadium, const double inflation_
 
     Point bottom_left(min_x - inflation_radius, min_y - inflation_radius);
     Point top_right(max_x + inflation_radius, max_y + inflation_radius);
-    return Rectangle(bottom_left, top_right);
+    return Tbots::Rectangle(bottom_left, top_right);
 }

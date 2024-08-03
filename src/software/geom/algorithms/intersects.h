@@ -22,8 +22,8 @@
  * @param second
  * @return true if the segment intersects the polygon, false otherwise
  */
-bool intersects(const Polygon &first, const Segment &second);
-bool intersects(const Segment &first, const Polygon &second);
+bool intersects(const Tbots::Polygon &first, const Segment &second);
+bool intersects(const Segment &first, const Tbots::Polygon &second);
 
 /**
  * Returns true if the ray intersects the polygon, false otherwise.
@@ -32,8 +32,8 @@ bool intersects(const Segment &first, const Polygon &second);
  * @param second
  * @return true if the ray intersects the polygon, false otherwise
  */
-bool intersects(const Polygon &first, const Ray &second);
-bool intersects(const Ray &first, const Polygon &second);
+bool intersects(const Tbots::Polygon &first, const Ray &second);
+bool intersects(const Ray &first, const Tbots::Polygon &second);
 
 /**
  * Returns true if the polygon intersects the circle, false otherwise.
@@ -42,8 +42,8 @@ bool intersects(const Ray &first, const Polygon &second);
  * @param second
  * @return true if the polygon intersects the circle, false otherwise
  */
-bool intersects(const Polygon &first, const Circle &second);
-bool intersects(const Circle &first, const Polygon &second);
+bool intersects(const Tbots::Polygon &first, const Circle &second);
+bool intersects(const Circle &first, const Tbots::Polygon &second);
 
 /**
  * Returns true if the circles intersect each other, false otherwise
@@ -128,8 +128,8 @@ bool intersects(const Segment &first, const Stadium &second);
  * @param second
  * @return true if the Stadium intersects the Polygon, false otherwise
  */
-bool intersects(const Stadium &first, const Polygon &second);
-bool intersects(const Polygon &first, const Stadium &second);
+bool intersects(const Stadium &first, const Tbots::Polygon &second);
+bool intersects(const Tbots::Polygon &first, const Stadium &second);
 
 /**
  * Returns true if the Stadium intersects the other Stadium, false otherwise

@@ -5,6 +5,7 @@
 #include "software/geom/rectangle.h"
 #include "software/geom/stadium.h"
 
+
 /**
  * Returns the axis-aligned bounding box of the given circle, inflated by the given
  *
@@ -12,10 +13,10 @@
  * @param inflation_radius Extran distance to add to the AABB in both dimensions
  * @return A rectangle which represents the AABB of the shape
  */
-Rectangle axisAlignedBoundingBox(const Circle& circle, const double inflation_radius = 0);
-Rectangle axisAlignedBoundingBox(const Rectangle& rectangle,
+Tbots::Rectangle axisAlignedBoundingBox(const Circle& circle, const double inflation_radius = 0);
+Tbots::Rectangle axisAlignedBoundingBox(const Tbots::Rectangle& rectangle,
                                  const double inflation_radius = 0);
-Rectangle axisAlignedBoundingBox(const Polygon& polygon,
+Tbots::Rectangle axisAlignedBoundingBox(const Tbots::Polygon& polygon,
                                  const double inflation_radius = 0);
-Rectangle axisAlignedBoundingBox(const Stadium& stadium,
+Tbots::Rectangle axisAlignedBoundingBox(const Stadium& stadium,
                                  const double inflation_radius = 0);

@@ -50,7 +50,7 @@ Point Polygon::centroid() const
     return Point((Vector(x_centre, y_centre) / (3 * signed_area)));
 }
 
-Polygon Polygon::expand(double expansion_amount) const
+Tbots::Polygon Tbots::Polygon::expand(double expansion_amount) const
 {
     if (expansion_amount < 0)
     {

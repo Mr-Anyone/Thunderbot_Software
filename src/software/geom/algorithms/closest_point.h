@@ -36,8 +36,8 @@ Point closestPoint(const Segment &segment, const Point &p);
  *
  * @return the Point on polygon closest to point.
  */
-Point closestPoint(const Polygon &polygon, const Point &p);
-Point closestPoint(const Point &p, const Polygon &polygon);
+Point closestPoint(const Tbots::Polygon &polygon, const Point &p);
+Point closestPoint(const Point &p, const Tbots::Polygon &polygon);
 
 /**
  * Finds the Point on circle closest to point.

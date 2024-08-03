@@ -9,4 +9,7 @@
  * @param b
  * @return The furthest point on `a` from any point on `b`
  */
-Point furthestPoint(const Rectangle& a, const Point& b);
+Point 
+furthestPoint(
+    const Tbots::Rectangle& a, 
+    const Point& b);

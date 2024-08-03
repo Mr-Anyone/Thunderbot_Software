@@ -3,12 +3,12 @@
 #include <algorithm>
 #include <sstream>
 
-ConvexPolygon::ConvexPolygon(const std::vector<Point>& points) : Polygon(points)
+ConvexPolygon::ConvexPolygon(const std::vector<Point>& points) : Tbots::Polygon(points)
 {
     validateConvexPolygon();
 }
 
-ConvexPolygon::ConvexPolygon(const std::initializer_list<Point>& points) : Polygon(points)
+ConvexPolygon::ConvexPolygon(const std::initializer_list<Point>& points) : Tbots::Polygon(points)
 {
     validateConvexPolygon();
 }

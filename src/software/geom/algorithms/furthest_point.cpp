@@ -4,7 +4,7 @@
 
 #include "software/geom/algorithms/distance.h"
 
-Point furthestPoint(const Rectangle &a, const Point &b)
+Point furthestPoint(const Tbots::Rectangle &a, const Point &b)
 {
     std::vector<Point> corners = a.getPoints();
 

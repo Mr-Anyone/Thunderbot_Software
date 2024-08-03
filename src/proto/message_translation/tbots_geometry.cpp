@@ -31,7 +31,7 @@ std::unique_ptr<TbotsProto::Vector> createVectorProto(const Vector& vector)
     return vector_msg;
 }
 
-std::unique_ptr<TbotsProto::Polygon> createPolygonProto(const Polygon& polygon)
+std::unique_ptr<TbotsProto::Polygon> createPolygonProto(const Tbots::Polygon& polygon)
 {
     auto polygon_msg   = std::make_unique<TbotsProto::Polygon>();
     const auto& points = polygon.getPoints();
@@ -90,16 +90,16 @@ Vector createVector(const TbotsProto::Vector& vector)
     return Vector(vector.x_component_meters(), vector.y_component_meters());
 }
 
-Polygon createPolygon(const TbotsProto::Polygon& polygon)
+Tbots::Polygon createPolygon(const TbotsProto::Polygon& polygon)
 {
     std::vector<Point> polygon_points;
-    const auto& polygons_msg_points = polygon.points();
+    const auto& polygons_msg_points = polygon.points(); 
     for (const TbotsProto::Point& point : polygons_msg_points)
     {
         polygon_points.emplace_back(createPoint(point));
     }
 
-    return Polygon(polygon_points);
+    return Tbots::Polygon(polygon_points);
 }
 
 Circle createCircle(const TbotsProto::Circle& circle)

@@ -6,7 +6,7 @@
 /**
  * A polygon that is convex (curved outwards).
  */
-class ConvexPolygon : public Polygon, public ConvexShape
+class ConvexPolygon : public Tbots::Polygon, public ConvexShape
 {
    public:
     ConvexPolygon() = delete;

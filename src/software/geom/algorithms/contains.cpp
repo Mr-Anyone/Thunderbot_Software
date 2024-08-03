@@ -18,7 +18,7 @@ bool contains(const Circle& container, const Point& contained)
            (container.radius() * container.radius());
 }
 
-bool contains(const Polygon& container, const Point& contained)
+bool contains(const Tbots::Polygon& container, const Point& contained)
 {
     // This algorithm is from https://stackoverflow.com/a/16391873
     // but does not include the bounding boxes.
@@ -105,7 +105,7 @@ bool contains(const Segment& container, const Point& contained, double fixed_eps
     return false;
 }
 
-bool contains(const Rectangle& container, const Point& contained)
+bool contains(const Tbots::Rectangle& container, const Point& contained)
 {
     auto& p = contained;
     auto& r = container;

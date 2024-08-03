@@ -8,7 +8,7 @@
 #include "software/geom/segment.h"
 
 
-Point stepAlongPerimeter(const Polygon& polygon, const Point& start,
+Point stepAlongPerimeter(const Tbots::Polygon& polygon, const Point& start,
                          double travel_distance)
 {
     const std::vector<Segment>& polygon_segments = polygon.getSegments();

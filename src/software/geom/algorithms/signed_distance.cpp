@@ -13,7 +13,7 @@ double signedDistance(const Point &first, const Circle &second)
     return signedDistance(second, first);
 }
 
-double signedDistance(const Rectangle &first, const Point &second)
+double signedDistance(const Tbots::Rectangle &first, const Point &second)
 {
     Vector centre_to_point = second - first.centre();
     Vector abs_centre_to_point =
@@ -26,12 +26,12 @@ double signedDistance(const Rectangle &first, const Point &second)
     return clamped_corner_to_point.length() +
            std::min(std::max(corner_to_point.x(), corner_to_point.y()), 0.0);
 }
-double signedDistance(const Point &first, const Rectangle &second)
+double signedDistance(const Point &first, const Tbots::Rectangle &second)
 {
     return signedDistance(second, first);
 }
 
-double signedDistance(const Polygon &first, const Point &second)
+double signedDistance(const Tbots::Polygon &first, const Point &second)
 {
     std::vector<Point> points = first.getPoints();
 
@@ -53,7 +53,7 @@ double signedDistance(const Polygon &first, const Point &second)
     }
     return s * sqrt(min_length);
 }
-double signedDistance(const Point &first, const Polygon &second)
+double signedDistance(const Point &first, const Tbots::Polygon &second)
 {
     return signedDistance(second, first);
 }

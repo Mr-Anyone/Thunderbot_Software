@@ -21,7 +21,7 @@
  * @return A list of circles, sorted in descending order of radius. If no points were
  * provided, returns an empty list. Any points outside the bounding_box are omitted.
  */
-std::vector<Circle> findOpenCircles(const Rectangle &bounding_box,
+std::vector<Circle> findOpenCircles(const Tbots::Rectangle &bounding_box,
                                     std::vector<Point> points);
 
 /**

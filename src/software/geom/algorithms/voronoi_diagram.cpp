@@ -1,3 +1,6 @@
+#define POINT_BOOST_COMPATABILITY_THIS_IS_NOT_IN_A_HEADER
+#include "software/geom/point_boost_geometry_compatability.h"
+
 #include "software/geom/algorithms/voronoi_diagram.h"
 
 #include <boost/polygon/voronoi.hpp>
@@ -5,10 +8,8 @@
 #include "software/geom/algorithms/contains.h"
 #include "software/geom/algorithms/distance.h"
 #include "software/geom/algorithms/intersection.h"
-#include "software/logger/logger.h"
-#define POINT_BOOST_COMPATABILITY_THIS_IS_NOT_IN_A_HEADER
 #include "software/geom/algorithms/furthest_point.h"
-#include "software/geom/point_boost_geometry_compatability.h"
+#include "software/logger/logger.h"
 
 using boost::polygon::voronoi_builder;
 using boost::polygon::voronoi_vertex;
@@ -21,7 +22,7 @@ VoronoiDiagram::VoronoiDiagram(const std::vector<Point> &points)
 }
 
 std::vector<Point> VoronoiDiagram::findVoronoiEdgeRecIntersects(
-    const Rectangle &bounding_box)
+    const Tbots::Rectangle &bounding_box)
 {
     std::vector<Point> intersects;
 
@@ -70,7 +71,7 @@ std::vector<Point> VoronoiDiagram::findVoronoiEdgeRecIntersects(
 }
 
 std::vector<Circle> VoronoiDiagram::voronoiVerticesToOpenCircles(
-    const Rectangle &bounding_box)
+    const Tbots::Rectangle &bounding_box)
 {
     // For each vertex, construct it's delauney triangle and then compute the largest
     // empty circle around it

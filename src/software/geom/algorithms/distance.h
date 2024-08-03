@@ -46,8 +46,8 @@ double distance(const Segment &first, const Point &second);
  * @param second
  * @return the shortest distance between first and second
  */
-double distance(const Point &first, const Polygon &second);
-double distance(const Polygon &first, const Point &second);
+double distance(const Point &first, const Tbots::Polygon &second);
+double distance(const Tbots::Polygon &first, const Point &second);
 
 /**
  * Finds the shortest distance between a Point and a Circle. If the Point is inside the

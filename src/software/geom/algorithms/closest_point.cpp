@@ -71,7 +71,7 @@ Point closestPoint(const Segment &segment, const Point &p)
     return closestPoint(p, segment);
 }
 
-Point closestPoint(const Polygon &polygon, const Point &p)
+Point closestPoint(const Tbots::Polygon &polygon, const Point &p)
 {
     Point closest_point;
     double closest_point_dist_sq = std::numeric_limits<double>::max();
@@ -88,7 +88,7 @@ Point closestPoint(const Polygon &polygon, const Point &p)
     return closest_point;
 }
 
-Point closestPoint(const Point &p, const Polygon &polygon)
+Point closestPoint(const Point &p, const Tbots::Polygon &polygon)
 {
     return closestPoint(polygon, p);
 }

@@ -40,7 +40,7 @@ double Stadium::radius() const
     return radius_;
 }
 
-Polygon Stadium::innerRectangle() const
+Tbots::Polygon Stadium::innerRectangle() const
 {
     Vector normal =
         segment_.toVector().rotate(Angle::fromDegrees(90)).normalize() * radius_;
@@ -50,7 +50,7 @@ Polygon Stadium::innerRectangle() const
     Point p3 = segment_.getEnd() - normal;
     Point p4 = segment_.getStart() - normal;
 
-    return Polygon{p1, p2, p3, p4};
+    return Tbots::Polygon{p1, p2, p3, p4};
 }
 
 double Stadium::area() const

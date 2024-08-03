@@ -58,7 +58,7 @@ class Stadium : public ConvexShape
      * Returns the inner rectangle of this Stadium
      * @return the inner rectangle of this Stadium
      */
-    Polygon innerRectangle() const;
+    Tbots::Polygon innerRectangle() const;
 
     /**
      * Returns the area of this Stadium
