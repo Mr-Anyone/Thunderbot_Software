@@ -25,7 +25,7 @@
 
 cc_library(
     name = "g3sinks",
-    srcs  = ["lib/g3logrotate.lib"],
+    srcs  = ["lib/g3logrotate.lib", "lib/zlib.lib"],
     visibility = ["//visibility:public"],
     hdrs = glob(["include/**/*.hpp"]),
     includes = ["include"],

@@ -7,10 +7,10 @@
 
 // need to be put inside a namespace because of MSVC conflicting name issues
 namespace Tbots{
-/**
- * A shape composed of line segments.
- */
-class Polygon : public virtual Shape
+    /**
+     * A shape composed of line segments.
+     */
+    class Polygon : public virtual Shape
 {
    public:
     Polygon() = delete;
@@ -88,6 +88,7 @@ class Polygon : public virtual Shape
     std::vector<Point> points_;
     std::vector<Segment> segments_;
 };
+};
 
 bool operator==(const Tbots::Polygon& poly1, const Tbots::Polygon& poly2);
 
@@ -102,4 +103,3 @@ bool operator!=(const Tbots::Polygon& poly1, const Tbots::Polygon& poly2);
  * @return The output stream with the string representation of the class appended
  */
 std::ostream& operator<<(std::ostream& os, const Tbots::Polygon& poly);
-};

@@ -151,12 +151,12 @@ double Polygon::perimeter() const
         [](double acc, const Segment& seg) { return acc + seg.length(); }));
 }
 
-bool Tbots::operator==(const Tbots::Polygon& poly1, const Tbots::Polygon& poly2)
+bool operator==(const Tbots::Polygon& poly1, const Tbots::Polygon& poly2)
 {
     return (poly1.getPoints() == poly2.getPoints());
 }
 
-bool Tbots::operator!=(const Tbots::Polygon& poly1, const Tbots::Polygon& poly2)
+bool operator!=(const Tbots::Polygon& poly1, const Tbots::Polygon& poly2)
 {
     return !(poly1 == poly2);
 }
