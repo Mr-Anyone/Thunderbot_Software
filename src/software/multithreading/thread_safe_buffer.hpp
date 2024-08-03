@@ -145,13 +145,15 @@ std::optional<T> ThreadSafeBuffer<T>::popMostRecentlyAddedValue(Duration max_wai
     return result;
 }
 
+#include "software/util/typename/typename.h"
+
 template <typename T>
 void ThreadSafeBuffer<T>::push(const T& value)
 {
     std::scoped_lock<std::mutex> buffer_lock(buffer_mutex);
     if (log_buffer_full && buffer.full())
     {
-        LOG(WARNING) << "Pushing to a full ThreadSafeBuffer of type: " << TYPENAME(T)
+        LOG(WARNING) << "Pushing to a full ThreadSafeBuffer of type: " << objectTypeName<T>(value)
                      << std::endl;
     }
     buffer.push_back(value);

@@ -77,13 +77,14 @@ std::string stripFSMState(std::string s);
  *
  * @return the current state name
  */
+
 template <typename SM>
 std::string getCurrentStateName(const SM& state_machine)
 {
     std::string name;
     state_machine.visit_current_states([&name](const auto& state) {
-        name = stripFSMState(TYPENAME(
-            boost::sml::back::policies::get_state_name_t<std::decay_t<decltype(state)>>));
+        name = stripFSMState(typeid(
+            boost::sml::back::policies::get_state_name_t<std::decay_t<decltype(state)>>).name());
     });
     return name;
 }
@@ -124,8 +125,8 @@ std::string getCurrentSubStateName(const SM& state_machine)
     std::string name;
     state_machine.template visit_current_states<SSM>([&name,
                                                       &state_machine](const auto& state) {
-        name               = stripFSMState(TYPENAME(
-            boost::sml::back::policies::get_state_name_t<std::decay_t<decltype(state)>>));
+        name               = stripFSMState(typeid(
+            boost::sml::back::policies::get_state_name_t<std::decay_t<decltype(state)>>).name());
         using state_repr_t = std::decay_t<decltype(state)>;
         using state_t      = typename state_repr_t::type;
         if constexpr (is_sub_state_machine<state_t>::value)

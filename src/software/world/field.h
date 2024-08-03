@@ -189,56 +189,56 @@ class Field
      *
      * @return defense area of the friendly team
      */
-    const Rectangle &friendlyDefenseArea() const;
+    const Tbots::Rectangle &friendlyDefenseArea() const;
 
     /**
      * Gets the enemy defense area as a Rectangle.
      *
      * @return defense area of the enemy team
      */
-    const Rectangle &enemyDefenseArea() const;
+    const Tbots::Rectangle &enemyDefenseArea() const;
 
     /**
      * Gets the friendly half of the field within field lines
      *
      * @return the friendly half of the field
      */
-    Rectangle friendlyHalf() const;
+    Tbots::Rectangle friendlyHalf() const;
 
     /**
      * Gets the friendly positive Y quadrant of the field
      *
      * @return the friendly positive Y quadrant of the field
      */
-    Rectangle friendlyPositiveYQuadrant() const;
+    Tbots::Rectangle friendlyPositiveYQuadrant() const;
 
     /**
      * Gets the friendly negative Y quadrant of the field
      *
      * @return the friendly negative Y quadrant of the field
      */
-    Rectangle friendlyNegativeYQuadrant() const;
+    Tbots::Rectangle friendlyNegativeYQuadrant() const;
 
     /**
      * Gets the enemy half of the field within field lines
      *
      * @return the enemy half of the field
      */
-    Rectangle enemyHalf() const;
+    Tbots::Rectangle enemyHalf() const;
 
     /**
      * Gets the enemy positive Y quadrant of the field
      *
      * @return the enemy positive Y quadrant of the field
      */
-    Rectangle enemyPositiveYQuadrant() const;
+    Tbots::Rectangle enemyPositiveYQuadrant() const;
 
     /**
      * Gets the enemy negative Y quadrant of the field
      *
      * @return the enemy negative Y quadrant of the field
      */
-    Rectangle enemyNegativeYQuadrant() const;
+    Tbots::Rectangle enemyNegativeYQuadrant() const;
 
     /**
      * Gets the area within the field lines as a rectangle. This is the set of locations
@@ -246,7 +246,7 @@ class Field
      *
      * @return The area within the field lines as a rectangle
      */
-    const Rectangle &fieldLines() const;
+    const Tbots::Rectangle &fieldLines() const;
 
     /**
      * Gets the area within the field boundary (the physical walls surrounding the Field).
@@ -255,7 +255,7 @@ class Field
      *
      * @return The area within the field boundary as a rectangle
      */
-    Rectangle fieldBoundary() const;
+    Tbots::Rectangle fieldBoundary() const;
 
     /**
      * Gets the position of the centre of the friendly goal.
@@ -276,14 +276,14 @@ class Field
      *
      * @return the area within the friendly goal.
      */
-    const Rectangle &friendlyGoal() const;
+    const Tbots::Rectangle &friendlyGoal() const;
 
     /**
      * Gets the area within the enemy goal.
      *
      * @return the area within the enemy goal.
      */
-    const Rectangle &enemyGoal() const;
+    const Tbots::Rectangle &enemyGoal() const;
 
     /**
      * Gets the position of the friendly team's penalty mark.
@@ -454,11 +454,11 @@ class Field
     // The x-coordinate distance from the goal centre to the penalty mark
     double goal_centre_to_penalty_mark_;
     // The following are used for caching to improve performance
-    Rectangle enemy_defense_area_;
-    Rectangle friendly_defense_area_;
-    Rectangle field_lines_;
-    Rectangle enemy_goal_;
-    Rectangle friendly_goal_;
+    Tbots::Rectangle enemy_defense_area_;
+    Tbots::Rectangle friendly_defense_area_;
+    Tbots::Rectangle field_lines_;
+    Tbots::Rectangle enemy_goal_;
+    Tbots::Rectangle friendly_goal_;
 };
 
 namespace std

@@ -13,7 +13,7 @@
 #include "software/geom/algorithms/convex_angle.h"
 #include "software/logger/logger.h"
 
-double ratePass(const World& world, const Pass& pass, const Rectangle& zone,
+double ratePass(const World& world, const Pass& pass, const Tbots::Rectangle& zone,
                 TbotsProto::PassingConfig passing_config)
 {
     double static_pass_quality =
@@ -55,7 +55,7 @@ double ratePassBackwardsQuality(const Field& field, const Pass& pass,
     return 1;
 }
 
-double rateZone(const Field& field, const Team& enemy_team, const Rectangle& zone,
+double rateZone(const Field& field, const Team& enemy_team, const Tbots::Rectangle& zone,
                 const Point& ball_position, TbotsProto::PassingConfig passing_config)
 {
     // TODO (#2021) improve and implement tests
@@ -313,7 +313,7 @@ double getStaticPositionQuality(const Field& field, const Point& position,
     // Make a slightly smaller field, and positive weight values in this reduced field
     double half_field_length = field.xLength() / 2;
     double half_field_width  = field.yLength() / 2;
-    Rectangle reduced_size_field(
+    Tbots::Rectangle reduced_size_field(
         Point(-half_field_length + x_offset, -half_field_width + y_offset),
         Point(half_field_length - x_offset, half_field_width - y_offset));
     double on_field_quality = rectangleSigmoid(reduced_size_field, position, sig_width);

@@ -75,7 +75,7 @@ void EnemyBallPlacementPlayFSM::avoid(const Update& event)
             Point p2 = placement_point + longitudinal_positioning_vector -
                        lateral_positioning_unit_vector * distance_to_keep_meters;
             Point destination;
-            Rectangle fieldLines = world_ptr->field().fieldLines();
+            Tbots::Rectangle fieldLines = world_ptr->field().fieldLines();
             // If either destination point is outside the field, then pick the other
             // point, since it is very unlikely for both points to be outside the field
             if (!contains(fieldLines, p2))

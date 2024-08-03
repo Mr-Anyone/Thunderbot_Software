@@ -80,7 +80,7 @@ struct GoalieFSM
      *
      * @return the area within the friendly goalie's no-chip rectangle
      */
-    static Rectangle getNoChipRectangle(const Field &field);
+    static Tbots::Rectangle getNoChipRectangle(const Field &field);
 
     /**
      * Finds a good point to chip the ball to from its current position

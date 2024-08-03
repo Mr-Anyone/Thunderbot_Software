@@ -3,7 +3,7 @@
 #include "proto/parameters.pb.h"
 #include "software/geom/algorithms/find_open_circles.h"
 
-std::vector<Circle> findGoodChipTargets(const World& world, const Rectangle& target_area)
+std::vector<Circle> findGoodChipTargets(const World& world, const Tbots::Rectangle& target_area)
 {
     std::vector<Point> enemy_locations;
     for (Robot robot : world.enemyTeam().getAllRobots())
@@ -24,8 +24,8 @@ std::vector<Circle> findGoodChipTargets(const World& world)
 
     // A rectangle from the ball to the enemy's end of the field, inset by a small amount
     // to give us enough space to catch the ball before it goes out of bounds
-    Rectangle target_area_rectangle =
-        Rectangle(Point(ballX, negFieldY), Point(fieldX, posFieldY));
+    Tbots::Rectangle target_area_rectangle =
+        Tbots::Rectangle(Point(ballX, negFieldY), Point(fieldX, posFieldY));
 
     return findGoodChipTargets(world, target_area_rectangle);
 }

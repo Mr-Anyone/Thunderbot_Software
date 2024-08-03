@@ -26,7 +26,7 @@ class GeomObstacle : public Obstacle
     bool intersects(const Segment& segment, const double t_sec = 0) const override;
     Point closestPoint(const Point& p) const override;
     TbotsProto::Obstacle createObstacleProto() const override;
-    Rectangle axisAlignedBoundingBox(double inflation_radius = 0) const override;
+    Tbots::Rectangle axisAlignedBoundingBox(double inflation_radius = 0) const override;
     std::string toString(void) const override;
     void accept(ObstacleVisitor& visitor) const override;
     std::vector<Point> rasterize(const double resolution_size) const override;
@@ -91,7 +91,7 @@ TbotsProto::Obstacle GeomObstacle<GEOM_TYPE>::createObstacleProto() const
 }
 
 template <typename GEOM_TYPE>
-Rectangle GeomObstacle<GEOM_TYPE>::axisAlignedBoundingBox(
+Tbots::Rectangle GeomObstacle<GEOM_TYPE>::axisAlignedBoundingBox(
     const double inflation_radius) const
 {
     return ::axisAlignedBoundingBox(geom_, inflation_radius);

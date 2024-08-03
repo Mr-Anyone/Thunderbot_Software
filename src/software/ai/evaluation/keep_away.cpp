@@ -49,7 +49,7 @@ Point findKeepAwayTargetPoint(const World& world, const Pass& best_pass_so_far)
                                       field_bounds.yMin() + FIELD_SIZE_REDUCTION_M);
     Point reduced_top_right        = Point(field_bounds.xMax() - FIELD_SIZE_REDUCTION_M,
                                     field_bounds.yMax() - FIELD_SIZE_REDUCTION_M);
-    Rectangle reduced_field_bounds = Rectangle(reduced_bottom_left, reduced_top_right);
+    Tbots::Rectangle reduced_field_bounds = Tbots::Rectangle(reduced_bottom_left, reduced_top_right);
 
     // the position rating function we want to maximize
     const auto keepaway_point_cost = [&](const std::array<double, 2>& passer_pt_array) {

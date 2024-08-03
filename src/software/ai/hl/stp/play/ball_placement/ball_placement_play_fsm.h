@@ -131,7 +131,7 @@ struct BallPlacementPlayFSM
      *
      * @return the kick angle
      */
-    Angle calculateWallKickoffAngle(const Point& ball_pos, const Rectangle& field_lines);
+    Angle calculateWallKickoffAngle(const Point& ball_pos, const Tbots::Rectangle& field_lines);
 
     /**
      * Helper function that populates the move_tactics field with MoveTactics that

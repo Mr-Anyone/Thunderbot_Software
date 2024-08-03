@@ -31,7 +31,7 @@ class TrajectoryPlanner
     std::optional<TrajectoryPath> findTrajectory(
         const Point &start, const Point &destination, const Vector &initial_velocity,
         const KinematicConstraints &constraints,
-        const std::vector<ObstaclePtr> &obstacles, const Rectangle &navigable_area,
+        const std::vector<ObstaclePtr> &obstacles, const Tbots::Rectangle &navigable_area,
         const std::optional<Point> &prev_sub_destination = std::nullopt);
 
    private:
@@ -131,7 +131,7 @@ class TrajectoryPlanner
      * @return A list of sub destinations for trajectory paths be sampled through
      */
     std::vector<Point> getSubDestinations(const Point &start, const Point &destination,
-                                          const Rectangle &navigable_area) const;
+                                          const Tbots::Rectangle &navigable_area) const;
 
     /**
      * Helper function for generating the relative sub destinations

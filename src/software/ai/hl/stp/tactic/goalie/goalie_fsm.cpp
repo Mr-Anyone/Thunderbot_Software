@@ -77,9 +77,9 @@ std::vector<Point> GoalieFSM::getIntersectionsBetweenBallVelocityAndFullGoalSegm
     return intersection(ball_ray, full_goal_segment);
 }
 
-Rectangle GoalieFSM::getNoChipRectangle(const Field &field)
+Tbots::Rectangle GoalieFSM::getNoChipRectangle(const Field &field)
 {
-    return Rectangle(
+    return Tbots::Rectangle(
         field.friendlyGoalpostNeg(),
         field.friendlyGoalpostPos() + Vector(2 * ROBOT_MAX_RADIUS_METERS, 0));
 }
@@ -98,8 +98,8 @@ Point GoalieFSM::findGoodChipTarget(
         world.field().defenseAreaXLength() +
             goalie_tactic_config.min_chip_distance_from_crease_meters(),
         0);
-    Rectangle chip_target_area =
-        Rectangle(world.field().friendlyCornerPos() + offset_from_goal_line + inset,
+    Tbots::Rectangle chip_target_area =
+        Tbots::Rectangle(world.field().friendlyCornerPos() + offset_from_goal_line + inset,
                   world.field().enemyCornerNeg() - inset);
 
     std::vector<Circle> open_areas = findGoodChipTargets(world, chip_target_area);
@@ -113,7 +113,7 @@ Point GoalieFSM::findGoodChipTarget(
 
 bool GoalieFSM::shouldEvacuateCrease(const Update &event)
 {
-    Rectangle friendly_defense_area =
+    Tbots::Rectangle friendly_defense_area =
         event.common.world_ptr->field().friendlyDefenseArea();
     Ball ball = event.common.world_ptr->ball();
 
@@ -232,7 +232,7 @@ void GoalieFSM::positionToBlock(const Update &event)
 
 bool GoalieFSM::ballInInflatedDefenseArea(const Update &event)
 {
-    Rectangle inflated_defense_area =
+    Tbots::Rectangle inflated_defense_area =
         event.common.world_ptr->field().friendlyDefenseArea().expand(
             robot_radius_expansion_amount);
 

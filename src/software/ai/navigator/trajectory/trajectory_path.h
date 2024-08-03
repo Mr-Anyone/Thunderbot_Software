@@ -76,7 +76,7 @@ class TrajectoryPath : public Trajectory2D
      * Get the bounding boxes of the trajectory path
      * @return A list of bounding boxes which wrap this trajectory path
      */
-    std::vector<Rectangle> getBoundingBoxes() const override;
+    std::vector<Tbots::Rectangle> getBoundingBoxes() const override;
 
     /**
      * Get the list of TrajectoryPathNodes that make up this trajectory path

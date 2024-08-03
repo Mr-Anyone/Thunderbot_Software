@@ -522,7 +522,7 @@ std::unique_ptr<TbotsProto::Shape> createShapeProto(const Circle& circle)
     return shape_msg;
 }
 
-std::unique_ptr<TbotsProto::Shape> createShapeProto(const Polygon& polygon)
+std::unique_ptr<TbotsProto::Shape> createShapeProto(const Tbots::Polygon& polygon)
 {
     auto shape_msg                  = std::make_unique<TbotsProto::Shape>();
     (*shape_msg->mutable_polygon()) = *createPolygonProto(polygon);

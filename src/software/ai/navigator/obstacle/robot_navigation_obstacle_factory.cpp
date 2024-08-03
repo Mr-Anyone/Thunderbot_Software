@@ -50,7 +50,7 @@ RobotNavigationObstacleFactory::createObstaclesFromMotionConstraint(
         case TbotsProto::MotionConstraint::ENEMY_HALF_WITHOUT_CENTRE_CIRCLE:
         {
             double radius                        = field.centerCircleRadius();
-            Polygon centre_circle_and_enemy_half = Polygon(
+            Tbots::Polygon centre_circle_and_enemy_half = Tbots::Polygon(
                 {Point(-robot_radius_expansion_amount,
                        field.fieldBoundary().yLength() / 2),
                  Point(-robot_radius_expansion_amount, radius), Point(0, radius),
@@ -63,25 +63,25 @@ RobotNavigationObstacleFactory::createObstaclesFromMotionConstraint(
                  field.fieldBoundary().posXNegYCorner(),
                  field.fieldBoundary().posXPosYCorner()});
             obstacles.push_back(
-                std::make_shared<GeomObstacle<Polygon>>(centre_circle_and_enemy_half));
+                std::make_shared<GeomObstacle<Tbots::Polygon>>(centre_circle_and_enemy_half));
             break;
         }
         case TbotsProto::MotionConstraint::AVOID_FIELD_BOUNDARY_ZONE:
         {
-            Rectangle field_walls    = field.fieldBoundary();
-            Rectangle playable_field = field.fieldLines();
+            Tbots::Rectangle field_walls    = field.fieldBoundary();
+            Tbots::Rectangle playable_field = field.fieldLines();
             // put each boundary zone as an obstacle
-            Rectangle upper_boundary =
-                Rectangle(field_walls.posXNegYCorner(),
+            Tbots::Rectangle upper_boundary =
+                Tbots::Rectangle(field_walls.posXNegYCorner(),
                           {playable_field.xMax(), field_walls.yMax()});
-            Rectangle left_boundary =
-                Rectangle(field_walls.posXNegYCorner(),
+            Tbots::Rectangle left_boundary =
+                Tbots::Rectangle(field_walls.posXNegYCorner(),
                           {field_walls.xMin(), playable_field.yMin()});
-            Rectangle right_boundary =
-                Rectangle({field_walls.xMax(), playable_field.yMax()},
+            Tbots::Rectangle right_boundary =
+                Tbots::Rectangle({field_walls.xMax(), playable_field.yMax()},
                           field_walls.negXPosYCorner());
-            Rectangle lower_boundary =
-                Rectangle({playable_field.xMin(), field_walls.yMin()},
+            Tbots::Rectangle lower_boundary =
+                Tbots::Rectangle({playable_field.xMin(), field_walls.yMin()},
                           field_walls.negXPosYCorner());
             obstacles.push_back(createFromShape(upper_boundary));
             obstacles.push_back(createFromShape(left_boundary));
@@ -109,7 +109,7 @@ RobotNavigationObstacleFactory::createObstaclesFromMotionConstraint(
             break;
         case TbotsProto::MotionConstraint::FRIENDLY_GOAL:
         {
-            const Rectangle &friendly_goal = field.friendlyGoal();
+            const Tbots::Rectangle &friendly_goal = field.friendlyGoal();
 
             // Reduce the size of the goal obstacle slightly to avoid the goalie
             // appear to be inside the obstacle if it is touching one of the goal
@@ -230,16 +230,16 @@ ObstaclePtr RobotNavigationObstacleFactory::createFromShape(const Circle &circle
         Circle(circle.origin(), circle.radius() + robot_radius_expansion_amount));
 }
 
-ObstaclePtr RobotNavigationObstacleFactory::createFromShape(const Polygon &polygon) const
+ObstaclePtr RobotNavigationObstacleFactory::createFromShape(const Tbots::Polygon &polygon) const
 {
-    return std::make_shared<GeomObstacle<Polygon>>(
+    return std::make_shared<GeomObstacle<Tbots::Polygon>>(
         polygon.expand(robot_radius_expansion_amount));
 }
 
 ObstaclePtr RobotNavigationObstacleFactory::createFromShape(
-    const Rectangle &rectangle) const
+    const Tbots::Rectangle &rectangle) const
 {
-    return std::make_shared<GeomObstacle<Rectangle>>(
+    return std::make_shared<GeomObstacle<Tbots::Rectangle>>(
         rectangle.expand(robot_radius_expansion_amount));
 }
 
@@ -250,8 +250,8 @@ ObstaclePtr RobotNavigationObstacleFactory::createFromShape(const Stadium &stadi
 }
 
 ObstaclePtr RobotNavigationObstacleFactory::createFromFieldRectangle(
-    const Rectangle &field_rectangle, const Rectangle &field_lines,
-    const Rectangle &field_boundary, double additional_expansion_amount) const
+    const Tbots::Rectangle &field_rectangle, const Tbots::Rectangle &field_lines,
+    const Tbots::Rectangle &field_boundary, double additional_expansion_amount) const
 {
     double xMin             = field_rectangle.xMin();
     double xMax             = field_rectangle.xMax();
@@ -268,8 +268,8 @@ ObstaclePtr RobotNavigationObstacleFactory::createFromFieldRectangle(
     yMax =
         (yMax == field_lines.yMax()) ? field_boundary.yMax() : (yMax + expansion_amount);
 
-    return std::make_shared<GeomObstacle<Rectangle>>(
-        Rectangle(Point(xMin, yMin), Point(xMax, yMax)));
+    return std::make_shared<GeomObstacle<Tbots::Rectangle>>(
+        Tbots::Rectangle(Point(xMin, yMin), Point(xMax, yMax)));
 }
 
 ObstaclePtr RobotNavigationObstacleFactory::createFromBallPlacement(

@@ -4,6 +4,8 @@
 #include "software/geom/algorithms/contains.h"
 #include "software/geom/algorithms/distance.h"
 
+using namespace Tbots; 
+
 Field Field::createSSLDivisionBField()
 {
     // Using the dimensions of a standard Division B SSL field

@@ -82,7 +82,7 @@ class BangBangTrajectory2D : public Trajectory2D
      * Get the bounding box of the trajectory
      * @return bounding box which bounds the trajectory
      */
-    std::vector<Rectangle> getBoundingBoxes() const override;
+    std::vector<Tbots::Rectangle> getBoundingBoxes() const override;
 
     /**
      * Static function for generating a BangBangTrajectory2D pointer with Trajectory2D

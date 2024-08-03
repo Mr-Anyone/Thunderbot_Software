@@ -1,3 +1,5 @@
+// <windows.h> is being included somewhere. This is a jank way for Boost to compile successfully
+#define WIN32_LEAN_AND_MEAN 
 #include "software/ai/hl/stp/play/assigned_tactics_play.h"
 
 #include "proto/parameters.pb.h"

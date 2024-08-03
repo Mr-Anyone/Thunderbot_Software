@@ -9,7 +9,7 @@ static constexpr double OBSTACLE_AVOIDANCE_BUFFER_CENTIMETERS = 0.01;
 
 std::optional<Point> endInObstacleSample(const std::vector<ObstaclePtr> &obstacles,
                                          const Point &point,
-                                         const Rectangle &navigable_area,
+                                         const Tbots::Rectangle &navigable_area,
                                          int initial_count, double radius_step,
                                          int samples_per_radius_step,
                                          double max_search_radius)

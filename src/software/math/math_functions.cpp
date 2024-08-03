@@ -9,7 +9,7 @@ double linear(double value, double offset, double linear_width)
     return std::clamp((width_coef * (value - offset) + 0.5), 0.0, 1.0);
 }
 
-double rectangleSigmoid(const Rectangle& rect, const Point& point,
+double rectangleSigmoid(const Tbots::Rectangle& rect, const Point& point,
                         const double& sig_width)
 {
     double x_offset = rect.centre().x();

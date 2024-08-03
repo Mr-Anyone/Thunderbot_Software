@@ -65,7 +65,7 @@ class BallFilter
      */
     std::optional<Ball> estimateBallState(
         const std::vector<BallDetection>& new_ball_detections,
-        const Rectangle& filter_area);
+        const Tbots::Rectangle& filter_area);
 
    private:
     /**
@@ -100,7 +100,7 @@ class BallFilter
      * outside of this area will be ignored.
      */
     void addNewDetectionsToBuffer(std::vector<BallDetection> new_ball_detections,
-                                  const Rectangle& filter_area);
+                                  const Tbots::Rectangle& filter_area);
 
     /**
      * Uses linear regression to filter the given list of ball detections to find the

@@ -42,12 +42,12 @@ class EighteenZonePitchDivision : public FieldPitchDivision<EighteenZoneId>
      */
     EighteenZonePitchDivision(const Field& field);
 
-    const Rectangle& getZone(EighteenZoneId zone_id) const override;
+    const Tbots::Rectangle& getZone(EighteenZoneId zone_id) const override;
     const std::vector<EighteenZoneId>& getAllZoneIds() const override;
     EighteenZoneId getZoneId(const Point& position) const override;
 
    private:
-    std::shared_ptr<Rectangle> field_lines_;
-    std::vector<Rectangle> pitch_division_;
+    std::shared_ptr<Tbots::Rectangle> field_lines_;
+    std::vector<Tbots::Rectangle> pitch_division_;
     std::vector<EighteenZoneId> zones_;
 };

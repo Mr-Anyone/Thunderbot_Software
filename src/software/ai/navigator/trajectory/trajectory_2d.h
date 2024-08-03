@@ -13,5 +13,5 @@ class Trajectory2D : virtual public Trajectory<Point, Vector, Vector>
      * Get a list of bounding boxes that this trajectory passes through
      * @return bounding boxes which this trajectory passes through
      */
-    virtual std::vector<Rectangle> getBoundingBoxes() const = 0;
+    virtual std::vector<Tbots::Rectangle> getBoundingBoxes() const = 0;
 };

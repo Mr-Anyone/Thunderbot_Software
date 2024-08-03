@@ -29,7 +29,7 @@ class FieldPitchDivision
      * @param zone_id The zone id
      * @return The rectangle on the field corresponding to the zone
      */
-    virtual const Rectangle& getZone(ZoneEnum zone_id) const = 0;
+    virtual const Tbots::Rectangle& getZone(ZoneEnum zone_id) const = 0;
 
     /**
      * Given a point, returns the Zone Id the point is located in.

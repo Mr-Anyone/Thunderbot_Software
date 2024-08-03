@@ -91,6 +91,7 @@ void ProtoUnixListener<ReceiveProtoT>::startListen()
                                            boost::asio::placeholders::bytes_transferred));
 }
 
+//@TODO: Add typename here for MSVC!
 template <class ReceiveProtoT>
 void ProtoUnixListener<ReceiveProtoT>::handleDataReception(
     const boost::system::error_code &error, size_t num_bytes_received)
@@ -116,7 +117,7 @@ void ProtoUnixListener<ReceiveProtoT>::handleDataReception(
         startListen();
 
         LOG(WARNING) << "An unknown network error occurred when attempting to receive "
-                     << TYPENAME(ReceiveProtoT)
+                    //  << TYPENAME(ReceiveProtoT)
                      << " Data. The boost system error is: " << error.message()
                      << std::endl;
     }
@@ -141,7 +142,7 @@ ProtoUnixListener<ReceiveProtoT>::~ProtoUnixListener()
     {
         LOG(WARNING)
             << "An unknown network error occurred when attempting to shutdown Unix socket for "
-            << TYPENAME(ReceiveProtoT)
+            // << TYPENAME(ReceiveProtoT)
             << ". The boost system error is: " << error_code.message() << std::endl;
     }
 
@@ -150,7 +151,7 @@ ProtoUnixListener<ReceiveProtoT>::~ProtoUnixListener()
     {
         LOG(WARNING)
             << "An unknown network error occurred when attempting to close Unix socket for "
-            << TYPENAME(ReceiveProtoT)
+            // << TYPENAME(ReceiveProtoT)
             << ". The boost system error is: " << error_code.message() << std::endl;
     }
 }

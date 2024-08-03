@@ -39,7 +39,7 @@ void CreaseDefenderFSM::blockThreat(
         robot_navigation_obstacle_config.robot_obstacle_inflation_factor() + 0.5;
     double robot_radius_expansion_amount =
         ROBOT_MAX_RADIUS_METERS * robot_obstacle_inflation_factor;
-    Rectangle inflated_defense_area =
+    Tbots::Rectangle inflated_defense_area =
         event.common.world_ptr->field().friendlyDefenseArea().expand(
             robot_radius_expansion_amount);
     // right on the edge of the defense area obstacle.
@@ -119,7 +119,7 @@ std::optional<Point> CreaseDefenderFSM::findDefenseAreaIntersection(
     // multiplied by a factor
     double robot_radius_expansion_amount =
         ROBOT_MAX_RADIUS_METERS * robot_obstacle_inflation_factor;
-    Rectangle inflated_defense_area =
+    Tbots::Rectangle inflated_defense_area =
         field.friendlyDefenseArea().expand(robot_radius_expansion_amount);
 
     auto front_segment = Segment(inflated_defense_area.posXPosYCorner(),

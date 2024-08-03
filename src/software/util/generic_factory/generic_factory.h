@@ -121,7 +121,7 @@ class TGenericFactory : public GenericFactory<IndexType, TypeToCreate, ConfigTyp
             return std::make_unique<T>(config);
         };
         GenericFactory<IndexType, TypeToCreate, ConfigType>::registerCreator(
-            TYPENAME(T), generic_creator);
+            typeid(T).name(), generic_creator);
     }
 };
 #include "software/util/generic_factory/generic_factory.tpp"

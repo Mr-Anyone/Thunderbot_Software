@@ -2,14 +2,14 @@
 
 #include "proto/message_translation/tbots_geometry.h"
 
-TbotsProto::Obstacle createObstacleProto(const Polygon &polygon)
+TbotsProto::Obstacle createObstacleProto(const Tbots::Polygon &polygon)
 {
     TbotsProto::Obstacle obstacle_proto;
     *(obstacle_proto.mutable_polygon()) = *createPolygonProto(polygon);
     return obstacle_proto;
 }
 
-TbotsProto::Obstacle createObstacleProto(const Rectangle &rectangle)
+TbotsProto::Obstacle createObstacleProto(const Tbots::Rectangle &rectangle)
 {
     TbotsProto::Obstacle obstacle_proto;
     *(obstacle_proto.mutable_polygon()) = *createPolygonProto(rectangle);

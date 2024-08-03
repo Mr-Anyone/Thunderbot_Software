@@ -30,7 +30,7 @@ double linear(double value, double offset, double linear_width);
  * @return A value in [0,1], representing the value of the 2D sigmoid function over
  *         the given rectangle at the given point
  */
-double rectangleSigmoid(const Rectangle& rect, const Point& point,
+double rectangleSigmoid(const Tbots::Rectangle& rect, const Point& point,
                         const double& sig_width);
 
 /**

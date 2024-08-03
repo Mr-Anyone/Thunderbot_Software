@@ -21,7 +21,7 @@ void BallPlacementPlayFSM::kickOffWall(const Update &event)
 
     // setup wall kickoff tactic for ball placing robot
     Point ball_pos            = event.common.world_ptr->ball().position();
-    Rectangle field_lines     = event.common.world_ptr->field().fieldLines();
+    Tbots::Rectangle field_lines     = event.common.world_ptr->field().fieldLines();
     AutoChipOrKick auto_chick = {AutoChipOrKickMode::AUTOKICK,
                                  WALL_KICKOFF_VELOCITY_M_PER_S};
 
@@ -157,7 +157,7 @@ bool BallPlacementPlayFSM::shouldKickOffWall(const Update &event)
 {
     // check if ball is too close to border
     Point ball_pos        = event.common.world_ptr->ball().position();
-    Rectangle field_lines = event.common.world_ptr->field().fieldLines();
+    Tbots::Rectangle field_lines = event.common.world_ptr->field().fieldLines();
     return !contains(field_lines, ball_pos);
 }
 
@@ -221,7 +221,7 @@ bool BallPlacementPlayFSM::retreatDone(const Update &event)
 }
 
 Angle BallPlacementPlayFSM::calculateWallKickoffAngle(const Point &ball_pos,
-                                                      const Rectangle &field_lines)
+                                                      const Tbots::Rectangle &field_lines)
 {
     Angle kick_angle;
     if (ball_pos.x() > field_lines.xMax())

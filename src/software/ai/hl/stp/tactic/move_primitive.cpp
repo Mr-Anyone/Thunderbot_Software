@@ -64,7 +64,7 @@ MovePrimitive::generatePrimitiveProtoMessage(
 
     // TODO (#3104): The fieldBounary should be shrunk by the robot radius before being
     //  passed to the planner.
-    Rectangle navigable_area = world.field().fieldBoundary();
+    Tbots::Rectangle navigable_area = world.field().fieldBoundary();
 
     // If the robot is in a static obstacle, then we should first move to the nearest
     // point out

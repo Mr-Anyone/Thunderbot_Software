@@ -105,8 +105,8 @@ class RobotNavigationObstacleFactory
      * @return ObstaclePtr
      */
     ObstaclePtr createFromShape(const Circle &circle) const;
-    ObstaclePtr createFromShape(const Polygon &polygon) const;
-    ObstaclePtr createFromShape(const Rectangle &rectangle) const;
+    ObstaclePtr createFromShape(const Tbots::Polygon &polygon) const;
+    ObstaclePtr createFromShape(const Tbots::Rectangle &rectangle) const;
     ObstaclePtr createFromShape(const Stadium &stadium) const;
 
     /**
@@ -158,8 +158,8 @@ class RobotNavigationObstacleFactory
      *
      * @return ObstaclePtr
      */
-    ObstaclePtr createFromFieldRectangle(const Rectangle &field_rectangle,
-                                         const Rectangle &field_lines,
-                                         const Rectangle &field_boundary,
+    ObstaclePtr createFromFieldRectangle(const Tbots::Rectangle &field_rectangle,
+                                         const Tbots::Rectangle &field_lines,
+                                         const Tbots::Rectangle &field_boundary,
                                          double additional_expansion_amount = 0.0) const;
 };

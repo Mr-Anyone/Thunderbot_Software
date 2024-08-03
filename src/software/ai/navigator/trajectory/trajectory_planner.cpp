@@ -26,7 +26,7 @@ std::vector<Vector> TrajectoryPlanner::getRelativeSubDestinations()
 }
 
 std::vector<Point> TrajectoryPlanner::getSubDestinations(
-    const Point &start, const Point &destination, const Rectangle &navigable_area) const
+    const Point &start, const Point &destination, const Tbots::Rectangle &navigable_area) const
 {
     // Convert the relative sub destinations to actual sub destination points
     // and filter out undesirable sub destinations to reduce trajectory sampling.
@@ -56,7 +56,7 @@ std::vector<Point> TrajectoryPlanner::getSubDestinations(
 std::optional<TrajectoryPath> TrajectoryPlanner::findTrajectory(
     const Point &start, const Point &destination, const Vector &initial_velocity,
     const KinematicConstraints &constraints, const std::vector<ObstaclePtr> &obstacles,
-    const Rectangle &navigable_area, const std::optional<Point> &prev_sub_destination)
+    const Tbots::Rectangle &navigable_area, const std::optional<Point> &prev_sub_destination)
 {
     if (constraints.getMaxVelocity() <= 0.0 || constraints.getMaxAcceleration() <= 0.0 ||
         constraints.getMaxDeceleration() <= 0.0)

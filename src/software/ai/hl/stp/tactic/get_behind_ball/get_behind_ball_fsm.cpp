@@ -50,7 +50,7 @@ bool GetBehindBallFSM::behindBall(const Update& event)
         behind_ball_vertex_A + behind_ball.normalize(size_of_region_behind_ball) -
         behind_ball.perpendicular().normalize(size_of_region_behind_ball / 2);
 
-    Polygon behind_ball_region = Polygon({behind_ball_vertex_A2, behind_ball_vertex_A1,
+    Tbots::Polygon behind_ball_region = Tbots::Polygon({behind_ball_vertex_A2, behind_ball_vertex_A1,
                                           behind_ball_vertex_B, behind_ball_vertex_C});
 
     return contains(behind_ball_region, event.common.robot.position()) &&

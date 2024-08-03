@@ -177,7 +177,7 @@ std::unique_ptr<TbotsProto::DebugShapes> createDebugShapes(
  * @return The unique_ptr to a TbotsProto::Shape proto containing the shape
  */
 std::unique_ptr<TbotsProto::Shape> createShapeProto(const Circle& circle);
-std::unique_ptr<TbotsProto::Shape> createShapeProto(const Polygon& polygon);
+std::unique_ptr<TbotsProto::Shape> createShapeProto(const Tbots::Polygon& polygon);
 std::unique_ptr<TbotsProto::Shape> createShapeProto(const Stadium& stadium);
 
 /**

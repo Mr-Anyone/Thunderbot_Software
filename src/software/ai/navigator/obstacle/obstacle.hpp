@@ -97,7 +97,7 @@ class Obstacle
      *
      * @return Rectangle representing the axis aligned bounding box
      */
-    virtual Rectangle axisAlignedBoundingBox(const double inflation_radius) const = 0;
+    virtual Tbots::Rectangle axisAlignedBoundingBox(const double inflation_radius) const = 0;
 
     /**
      * Output string to describe the obstacle
@@ -120,8 +120,8 @@ class Obstacle
  * @param the geom object
  * @return the obstacle proto
  */
-TbotsProto::Obstacle createObstacleProto(const Polygon& polygon);
-TbotsProto::Obstacle createObstacleProto(const Rectangle& rectangle);
+TbotsProto::Obstacle createObstacleProto(const Tbots::Polygon& polygon);
+TbotsProto::Obstacle createObstacleProto(const Tbots::Rectangle& rectangle);
 TbotsProto::Obstacle createObstacleProto(const Circle& circle);
 TbotsProto::Obstacle createObstacleProto(const Stadium& stadium);
 

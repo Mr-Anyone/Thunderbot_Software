@@ -22,7 +22,7 @@
  * @return A value in [0,1] representing the quality of the pass, with 1 being an
  *         ideal pass, and 0 being the worst pass possible
  */
-double ratePass(const World& world, const Pass& pass, const Rectangle& zone,
+double ratePass(const World& world, const Pass& pass, const Tbots::Rectangle& zone,
                 TbotsProto::PassingConfig passing_config);
 
 /**
@@ -37,7 +37,7 @@ double ratePass(const World& world, const Pass& pass, const Rectangle& zone,
  * @return A value in [0,1] representing the quality of the zone, with 1 being a
  *         great zone to send a cherry picker to, and 0 being a zone to avoid.
  */
-double rateZone(const Field& field, const Team& enemy_team, const Rectangle& zone,
+double rateZone(const Field& field, const Team& enemy_team, const Tbots::Rectangle& zone,
                 const Point& ball_position, TbotsProto::PassingConfig passing_config);
 
 /**
