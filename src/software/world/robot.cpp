@@ -155,7 +155,7 @@ const RobotConstants_t &Robot::robotConstants() const
     return robot_constants_;
 }
 
-Polygon Robot::dribblerArea() const
+Tbots::Polygon Robot::dribblerArea() const
 {
     auto vector_to_front = Vector::createFromAngle(orientation());
     double depth         = BALL_MAX_RADIUS_METERS;
@@ -167,7 +167,7 @@ Polygon Robot::dribblerArea() const
                                       BALL_MAX_RADIUS_METERS) -
         vector_to_front.perpendicular().normalize(
             robot_constants_.front_of_robot_width_meters / 2.0);
-    return Polygon(
+    return Tbots::Polygon(
         {bottom_left_position, bottom_left_position + vector_to_front.normalize(depth),
          bottom_left_position + vector_to_front.normalize(depth) +
              vector_to_front.perpendicular().normalize(width),

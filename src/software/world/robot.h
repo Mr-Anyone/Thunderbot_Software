@@ -133,7 +133,7 @@ class Robot
      *
      * @return the dribbler area rectangle
      */
-    Polygon dribblerArea() const;
+    Tbots::Polygon dribblerArea() const;
 
     /**
      * Returns all available capabilities this robot has

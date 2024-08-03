@@ -3,6 +3,8 @@
 #include <numeric>
 #include <unordered_set>
 
+using namespace Tbots; 
+
 Polygon::Polygon(const std::vector<Point>& points) : points_(points)
 {
     // we pre-compute the segments_ in the constructor to improve performance
@@ -149,12 +151,12 @@ double Polygon::perimeter() const
         [](double acc, const Segment& seg) { return acc + seg.length(); }));
 }
 
-bool operator==(const Polygon& poly1, const Polygon& poly2)
+bool Tbots::operator==(const Tbots::Polygon& poly1, const Tbots::Polygon& poly2)
 {
     return (poly1.getPoints() == poly2.getPoints());
 }
 
-bool operator!=(const Polygon& poly1, const Polygon& poly2)
+bool Tbots::operator!=(const Tbots::Polygon& poly1, const Tbots::Polygon& poly2)
 {
     return !(poly1 == poly2);
 }
