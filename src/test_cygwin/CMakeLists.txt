@@ -1,13 +1,10 @@
+cmake_minimum_required(VERSION 3.30)
 project(test_project)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-find_package(Boost REQUIRED)
-IF (Boost_FOUND)
-    INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIR})
-ENDIF()
+set(BoostRoot ${CMAKE_CURRENT_SOURCE_DIR}/boost)
+add_subdirectory(boost)
 
 add_executable(main main.cpp)
-target_include_directories(main PRIVATE ${Boost_INCLUDE_DIRS})
-target_link_libraries(main ${Boost_LIBRARIES})
-
+target_link_libraries(main Boost::asio)

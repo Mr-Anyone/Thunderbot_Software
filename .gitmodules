@@ -1,0 +1,3 @@
+[submodule "src/test_cygwin/boost"]
+	path = src/test_cygwin/boost
+	url = git@github.com:boostorg/boost.git
