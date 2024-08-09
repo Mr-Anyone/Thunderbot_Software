@@ -34,3 +34,6 @@
 # Setup python bin/lib to point to our venv
 # build --action_env=PYTHON_BIN_PATH=/c/Users/Vince/AppData/Local/Programs/Python/Python38/python
 # build --action_env=PYTHON_LIB_PATH=/c/Users/Vince/AppData/Local/Programs/Python/Python38/python
+
+startup --windows_enable_symlinks
+build --enable_runfiles
