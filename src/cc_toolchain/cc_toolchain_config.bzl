@@ -728,7 +728,7 @@ def _windows_cygwin_impl(ctx):
         ),
     ]
 
-    features = [ # NEW
+    features = [ 
             feature(
                 name = "default_linker_flags",
                 enabled = True,
@@ -745,6 +745,25 @@ def _windows_cygwin_impl(ctx):
                     ),
                 ],
             ),
+             feature(
+                name = "default_compiler_flags",
+                flag_sets = [
+                    flag_set(
+                        actions = [
+                            # ACTION_NAMES.preprocess_assemble,
+                            ACTION_NAMES.cpp_compile,
+                            # ACTION_NAMES.cpp_header_parsing,
+                            # ACTION_NAMES.cpp_module_compile,
+                            # ACTION_NAMES.cpp_module_codegen,
+                        ],
+                        flag_groups = [
+                            flag_group(
+                                flags = ["-std=c++14"],
+                            ),
+                        ],
+                    ),
+                ],
+            )   
         ]
 
     return cc_common.create_cc_toolchain_config_info(
