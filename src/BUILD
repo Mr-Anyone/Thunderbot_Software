@@ -32,3 +32,8 @@ refresh_compile_commands(
         "//shared/...",
     ],
 )
+
+cc_binary(
+    name= "test_build",
+    srcs = ["test_build.cpp"],
+)

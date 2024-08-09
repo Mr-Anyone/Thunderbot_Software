@@ -416,3 +416,8 @@ new_git_repository(
     remote = "https://github.com/wolfpld/tracy.git",
     shallow_since = "1697482622 +0200",
 )
+
+
+register_toolchains(
+    "//cc_toolchain:cc_windows_toolchain"
+)
