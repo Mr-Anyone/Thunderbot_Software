@@ -109,14 +109,18 @@ http_archive(
 
 load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
 
-git_repository(
-    name = "com_google_protobuf",
-    commit = "7cc670c1809e704ebeba90fb430d50e009f36727",
-    # We need this patch to properly add generated dependencies to the protoc
-    # compiler. It also fixes an issue with the python imports.
-    remote = "https://github.com/protocolbuffers/protobuf",
-    # shallow_since = "1650589240 +0000",
+http_archive(
+    name ="com_google_absl", 
+    strip_prefix = "abseil-cpp-20230802.0", 
+    urls = ["https://github.com/abseil/abseil-cpp/archive/refs/tags/20230802.0.tar.gz"]
 )
+
+http_archive(
+    name = "com_google_protobuf",
+    # sha256 = "2118051b4fb3814d59d258533a4e35452934b1ddb41230261c9543384cbb4dfc",
+    strip_prefix = "protobuf-27.3",
+    urls = ["https://github.com/protocolbuffers/protobuf/releases/download/v27.3/protobuf-27.3.tar.gz"],
+ )
 
 load("@com_google_protobuf//:protobuf_deps.bzl", "protobuf_deps")
 

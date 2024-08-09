@@ -65,7 +65,7 @@ py_proto_library(
         "world.proto",
     ],
     deps = [
-        "@nanopb//:nanopb_options_py_proto",
+        # "@nanopb//:nanopb_options_py_proto",
     ],
 )
 

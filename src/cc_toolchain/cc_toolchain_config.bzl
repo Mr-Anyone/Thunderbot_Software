@@ -758,7 +758,7 @@ def _windows_cygwin_impl(ctx):
                         ],
                         flag_groups = [
                             flag_group(
-                                flags = ["-std=c++14"],
+                                flags = ["-std=c++17"],
                             ),
                         ],
                     ),
