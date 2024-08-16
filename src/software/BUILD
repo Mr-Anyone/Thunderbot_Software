@@ -65,6 +65,7 @@ pybind_library(
         ":constants",
         "//shared:constants",
     ],
+    alwayslink = True
 )
 
 pybind_extension(
@@ -101,13 +102,14 @@ pybind_library(
         "//software/world:field",
         "@pybind11_protobuf//pybind11_protobuf:native_proto_caster",
     ],
+    alwayslink = True
 )
 
 pybind_extension(
     name = "python_bindings",
     deps = [
         ":python_bindings_lib",
-    ],
+    ], 
 )
 
 py_library(
