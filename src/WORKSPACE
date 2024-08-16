@@ -142,9 +142,9 @@ protobuf_deps()
 
 git_repository(
     name = "com_github_nelhage_rules_boost",
-    commit = "7332c6cf2afb2642f53bc23f9b4d9c1817318685",
+    commit = "8fa193c4e21daaa2d46ff6b9c2b5a2de70b6caa1",
     remote = "https://github.com/nelhage/rules_boost",
-    shallow_since = "1606097530 -0500",
+    shallow_since = "1720950433 +0000"
 )
 
 git_repository(
@@ -154,14 +154,20 @@ git_repository(
 )
 
 # Used by pybind11 proto autocasters
-http_archive(
-    name = "com_google_absl",
-    sha256 = "dcf71b9cba8dc0ca9940c4b316a0c796be8fab42b070bb6b7cab62b48f0e66c4",  # SHARED_ABSL_SHA
-    strip_prefix = "abseil-cpp-20211102.0",
-    urls = [
-        "https://github.com/abseil/abseil-cpp/archive/refs/tags/20211102.0.tar.gz",
-    ],
+git_repository(
+	name="com_google_absl", 
+	commit="17c1a5e82168bd32d3fc187db0ea54d0936c705d", 
+	remote="https://github.com/abseil/abseil-cpp",
 )
+
+# http_archive(
+#     name = "com_google_absl",
+#     sha256 = "dcf71b9cba8dc0ca9940c4b316a0c796be8fab42b070bb6b7cab62b48f0e66c4",  # SHARED_ABSL_SHA
+#     strip_prefix = "abseil-cpp-20211102.0",
+#     urls = [
+#         "https://github.com/abseil/abseil-cpp/archive/refs/tags/20211102.0.tar.gz",
+#     ],
+# )
 
 load("@com_github_nelhage_rules_boost//:boost/boost.bzl", "boost_deps")
 
@@ -227,7 +233,7 @@ git_repository(
 new_local_repository(
     name = "qt",
     build_file = "@bazel_rules_qt//:qt.BUILD",
-    path = "/usr/include/x86_64-linux-gnu/qt5/",
+    path = "/usr/include/aarch64-linux-gnu/qt5",
 )
 
 new_local_repository(

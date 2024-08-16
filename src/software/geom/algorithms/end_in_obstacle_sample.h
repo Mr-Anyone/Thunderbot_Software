@@ -1,5 +1,6 @@
 #pragma once
 
+#include <optional>
 #include "software/ai/navigator/obstacle/obstacle.hpp"
 #include "software/geom/point.h"
 #include "software/geom/rectangle.h"

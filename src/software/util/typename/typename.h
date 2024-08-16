@@ -2,6 +2,7 @@
 
 #include <cxxabi.h>
 
+#include <string>
 #include <memory>
 
 /**

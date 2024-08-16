@@ -36,8 +36,8 @@ cc_toolchain_suite(
     name = "toolchain",
     toolchains = {
         # k8 is any x86 system
-        "k8": "cc_toolchain_linux_gcc",
-        "k8|compiler": "cc_toolchain_linux_gcc",
+        "aarch64": "cc_toolchain_linux_gcc",
+        "aarch64|compiler": "cc_toolchain_linux_gcc",
         # jetson nano 4GB system
         "jetson_nano": "cc_toolchain_jetson_nano",
         "jetson_nano|compiler": "cc_toolchain_jetson_nano",

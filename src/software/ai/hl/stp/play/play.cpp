@@ -1,4 +1,6 @@
 #include "software/ai/hl/stp/play/play.h"
+#include "software/geom/algorithms/contains.h"
+
 
 #include <munkres/munkres.h>
 

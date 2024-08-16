@@ -1,6 +1,7 @@
 #pragma once
 
 #include <array>
+#include <stddef.h>
 
 #include "software/ai/navigator/trajectory/trajectory.hpp"
 
@@ -93,14 +94,14 @@ class BangBangTrajectory1D : public Trajectory<double, double, double>
      *
      * @return Trajectory parts
      */
-    const TrajectoryPart &getTrajectoryPart(size_t index) const;
+    const TrajectoryPart &getTrajectoryPart(std::size_t index) const;
 
     /**
      * Get the number of trajectory parts that make up the generated trajectory.
      *
      * @return The number of trajectory parts
      */
-    size_t getNumTrajectoryParts() const;
+    std::size_t getNumTrajectoryParts() const;
 
    private:
     /**
