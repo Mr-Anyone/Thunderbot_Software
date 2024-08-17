@@ -88,13 +88,13 @@ http_archive(
 
 new_local_repository(
     name = "g3log",
-    path = "C:/lib/g3log",
+    path = "C:/Program Files (x86)/g3log",
     build_file = "@//extlibs:g3log.BUILD",
 )
 
 new_local_repository(
     name = "g3sinks",
-    path = "C:/lib/g3sinks",
+    path = "C:/Program Files (x86)/g3sinks",
     build_file = "@//extlibs:g3sinks.BUILD",
 )
 
