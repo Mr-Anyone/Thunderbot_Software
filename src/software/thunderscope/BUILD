@@ -17,6 +17,23 @@ py_binary(
     ],
 )
 
+py_binary(
+    name = "robot_diagnostics_main",
+    srcs = ["robot_diagnostics_main.py"],
+    data = [
+        "thunderscope-logo.png",
+        "//software:py_constants.so",
+        "//software:python_bindings.so",
+    ],
+    deps = [
+        ":config",
+        ":constants",
+        ":estop_helpers",
+        ":thunderscope",
+        ":util",
+    ],
+)
+
 py_library(
     name = "thunderscope",
     srcs = ["thunderscope.py"],
