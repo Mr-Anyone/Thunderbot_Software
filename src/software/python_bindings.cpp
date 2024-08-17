@@ -19,7 +19,7 @@
 #include "proto/tbots_software_msgs.pb.h"
 #include "proto/team.pb.h"
 #include "proto/world.pb.h"
-#include "pybind11_protobuf/native_proto_caster.h"
+// #include "pybind11_protobuf/native_proto_caster.h"
 #include "shared/2021_robot_constants.h"
 #include "shared/robot_constants.h"
 #include "software/ai/passing/eighteen_zone_pitch_division.h"
@@ -39,7 +39,7 @@
 #include "software/networking/radio/threaded_proto_radio_sender.hpp"
 #include "software/networking/udp/threaded_proto_udp_listener.hpp"
 #include "software/networking/udp/threaded_proto_udp_sender.hpp"
-#include "software/uart/boost_uart_communication.h"
+//#include "software/uart/boost_uart_communication.h"
 #include "software/world/field.h"
 #include "software/world/robot.h"
 #include "software/world/world.h"
@@ -134,16 +134,16 @@ void declarePassEvaluation(py::module& m, std::string name)
  *
  * @returns ThreadedEstopReader
  */
-std::unique_ptr<ThreadedEstopReader> createThreadedEstopReader(std::string uart_port,
-                                                               int baud_rate)
-{
-    auto uart_device = std::make_unique<BoostUartCommunication>(baud_rate, uart_port);
-    return std::make_unique<ThreadedEstopReader>(std::move(uart_device));
-}
+// std::unique_ptr<ThreadedEstopReader> createThreadedEstopReader(std::string uart_port,
+//                                                                int baud_rate)
+// {
+//     auto uart_device = std::make_unique<BoostUartCommunication>(baud_rate, uart_port);
+//     return std::make_unique<ThreadedEstopReader>(std::move(uart_device));
+// }
 
 PYBIND11_MODULE(python_bindings, m)
 {
-    pybind11_protobuf::ImportNativeProtoCasters();
+    // pybind11_protobuf::ImportNativeProtoCasters();
     // Operator overloading section of
     // https://pybind11.readthedocs.io/en/stable/advanced/classes.html
     py::class_<Point>(m, "Point", py::module_local())
@@ -196,13 +196,13 @@ PYBIND11_MODULE(python_bindings, m)
             return stream.str();
         });
 
-    py::class_<Polygon>(m, "Polygon")
+    py::class_<Tbots::Polygon>(m, "Polygon")
         .def(py::init<std::vector<Point>>())
-        .def("centroid", &Polygon::centroid)
-        .def("getPoints", &Polygon::getPoints)
-        .def("getSegments", &Polygon::getSegments)
+        .def("centroid", &Tbots::Polygon::centroid)
+        .def("getPoints", &Tbots::Polygon::getPoints)
+        .def("getSegments", &Tbots::Polygon::getSegments)
         // Overloaded
-        .def("__repr__", [](const Polygon& v) {
+        .def("__repr__", [](const Tbots::Polygon& v) {
             std::stringstream stream;
             stream << v;
             return stream.str();
@@ -220,29 +220,29 @@ PYBIND11_MODULE(python_bindings, m)
             return stream.str();
         });
 
-    py::class_<ConvexPolygon, Polygon>(m, "ConvexPolygon");
-    py::class_<Rectangle, ConvexPolygon>(m, "Rectangle")
+    py::class_<ConvexPolygon, Tbots::Polygon>(m, "ConvexPolygon");
+    py::class_<Tbots::Rectangle, ConvexPolygon>(m, "Rectangle")
         .def(py::init<Point, Point>())
         // Overloaded
         .def("__repr__",
-             [](const Rectangle& r) {
+             [](const Tbots::Rectangle& r) {
                  std::stringstream stream;
                  stream << r;
                  return stream.str();
              })
-        .def("xLength", &Rectangle::xLength)
-        .def("yLength", &Rectangle::yLength)
-        .def("centre", &Rectangle::centre)
-        .def("posXPosYCorner", &Rectangle::posXPosYCorner)
-        .def("negXPosYCorner", &Rectangle::negXPosYCorner)
-        .def("negXNegYCorner", &Rectangle::negXNegYCorner)
-        .def("posXNegYCorner", &Rectangle::posXNegYCorner)
-        .def("xMax", &Rectangle::xMax)
-        .def("xMin", &Rectangle::xMin)
-        .def("yMax", &Rectangle::yMax)
-        .def("yMin", &Rectangle::yMin)
-        .def("diagonal", &Rectangle::diagonal)
-        .def("expand", &Rectangle::expand);
+        .def("xLength", &Tbots::Rectangle::xLength)
+        .def("yLength", &Tbots::Rectangle::yLength)
+        .def("centre", &Tbots::Rectangle::centre)
+        .def("posXPosYCorner", &Tbots::Rectangle::posXPosYCorner)
+        .def("negXPosYCorner", &Tbots::Rectangle::negXPosYCorner)
+        .def("negXNegYCorner", &Tbots::Rectangle::negXNegYCorner)
+        .def("posXNegYCorner", &Tbots::Rectangle::posXNegYCorner)
+        .def("xMax", &Tbots::Rectangle::xMax)
+        .def("xMin", &Tbots::Rectangle::xMin)
+        .def("yMax", &Tbots::Rectangle::yMax)
+        .def("yMin", &Tbots::Rectangle::yMin)
+        .def("diagonal", &Tbots::Rectangle::diagonal)
+        .def("expand", &Tbots::Rectangle::expand);
 
     py::class_<Segment>(m, "Segment")
         .def(py::init<Point, Point>())
@@ -321,11 +321,11 @@ PYBIND11_MODULE(python_bindings, m)
 
     m.def("contains", py::overload_cast<const Circle&, const Segment&>(&contains));
     m.def("contains", py::overload_cast<const Circle&, const Point&>(&contains));
-    m.def("contains", py::overload_cast<const Polygon&, const Point&>(&contains));
+    m.def("contains", py::overload_cast<const Tbots::Polygon&, const Point&>(&contains));
     m.def("contains", py::overload_cast<const Ray&, const Point&>(&contains));
     m.def("contains",
           py::overload_cast<const Segment&, const Point&, double, int>(&contains));
-    m.def("contains", py::overload_cast<const Rectangle&, const Point&>(&contains));
+    m.def("contains", py::overload_cast<const Tbots::Rectangle&, const Point&>(&contains));
     m.def("contains", py::overload_cast<const Stadium&, const Point&>(&contains));
 
     py::class_<Robot>(m, "Robot")
@@ -412,10 +412,10 @@ PYBIND11_MODULE(python_bindings, m)
     declareThreadedProtoRadioSender<TbotsProto::PrimitiveSet>(m, "PrimitiveSet");
 
     // Estop Reader
-    py::class_<ThreadedEstopReader, std::unique_ptr<ThreadedEstopReader>>(
-        m, "ThreadedEstopReader")
-        .def(py::init<>(&createThreadedEstopReader))
-        .def("isEstopPlay", &ThreadedEstopReader::isEstopPlay);
+    // py::class_<ThreadedEstopReader, std::unique_ptr<ThreadedEstopReader>>(
+    //     m, "ThreadedEstopReader")
+    //     .def(py::init<>(&createThreadedEstopReader))
+    //     .def("isEstopPlay", &ThreadedEstopReader::isEstopPlay);
 
     declarePassGenerator<EighteenZoneId>(m, "EighteenZoneId");
 

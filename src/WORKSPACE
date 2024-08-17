@@ -4,6 +4,15 @@ load("@bazel_tools//tools/build_defs/repo:git.bzl", "new_git_repository")
 load("@bazel_tools//tools/build_defs/repo:utils.bzl", "maybe")
 
 http_archive(
+    name = "platforms",
+    urls = [
+        "https://mirror.bazel.build/github.com/bazelbuild/platforms/releases/download/0.0.10/platforms-0.0.10.tar.gz",
+        "https://github.com/bazelbuild/platforms/releases/download/0.0.10/platforms-0.0.10.tar.gz",
+    ],
+    sha256 = "218efe8ee736d26a3572663b374a253c012b716d8af0c07e842e82f238a0a7ee",
+)
+
+http_archive(
     name = "rules_foreign_cc",
     sha256 = "33a5690733c5cc2ede39cb62ebf89e751f2448e27f20c8b2fbbc7d136b166804",
     strip_prefix = "rules_foreign_cc-0.5.1",
@@ -19,23 +28,38 @@ rules_foreign_cc_dependencies()
 http_archive(
     name = "rules_python",
     #sha256 = "778aaeab3e6cfd56d681c89f5c10d7ad6bf8d2f1a72de9de55b23081b2d31618",
-    strip_prefix = "rules_python-0.32.0",
-    url = "https://github.com/bazelbuild/rules_python/releases/download/0.32.0/rules_python-0.32.0.tar.gz",
+    strip_prefix = "rules_python-0.34.0",
+    url = "https://github.com/bazelbuild/rules_python/releases/download/0.34.0/rules_python-0.34.0.tar.gz",
 )
 
-load("@rules_python//python:repositories.bzl", "py_repositories", "python_register_toolchains")
-
-
-register_toolchains("//:py_toolchain")
-
-python_register_toolchains(
-    name = "local_config_python",
-    python_version = "3.8",
-)
-
+load("@rules_python//python:repositories.bzl", "py_repositories")
 
 py_repositories()
-load("@rules_python//python:pip.bzl", "pip_parse")
+
+load("@rules_python//python:repositories.bzl", "python_register_toolchains")
+
+python_register_toolchains(
+    name = "python_3_11",
+    # Available versions are listed in @rules_python//python:versions.bzl.
+    # We recommend using the same version your team is already standardized on.
+    python_version = "3.11",
+)
+
+
+http_archive(
+  name = "pybind11_bazel",
+  strip_prefix = "pybind11_bazel-2.12.0",
+  urls = ["https://github.com/pybind/pybind11_bazel/archive/v2.12.0.zip"],
+)
+
+# We still require the pybind library.
+http_archive(
+  name = "pybind11",
+  build_file = "@pybind11_bazel//:pybind11-BUILD.bazel",
+  strip_prefix = "pybind11-2.12.0",
+  urls = ["https://github.com/pybind/pybind11/archive/v2.12.0.zip"],
+)
+
 
 all_contents = """filegroup(name = "all", srcs = glob(["**/**"]), visibility = ["//visibility:public"])"""
 
@@ -111,11 +135,11 @@ load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
 
 git_repository(
     name = "com_google_protobuf",
-    commit = "21027a27c4c2ec1000859ccbcfff46d83b16e1ed",
+    tag = "v27.3",
     # We need this patch to properly add generated dependencies to the protoc
     # compiler. It also fixes an issue with the python imports.
     remote = "https://github.com/protocolbuffers/protobuf",
-    shallow_since = "1650589240 +0000",
+    #shallow_since = "1650589240 +0000",
 )
 
 load("@com_google_protobuf//:protobuf_deps.bzl", "protobuf_deps")
@@ -131,18 +155,15 @@ git_repository(
 
 git_repository(
     name = "pybind11_protobuf",
-    commit = "f20537c3285636716ed86a7ef96baa19a788c944",
+    commit = "f1b245929759230f31cdd1e5f9e0e69f817fed95",
     remote = "https://github.com/pybind/pybind11_protobuf",
 )
 
 # Used by pybind11 proto autocasters
-http_archive(
-    name = "com_google_absl",
-    sha256 = "dcf71b9cba8dc0ca9940c4b316a0c796be8fab42b070bb6b7cab62b48f0e66c4",  # SHARED_ABSL_SHA
-    strip_prefix = "abseil-cpp-20211102.0",
-    urls = [
-        "https://github.com/abseil/abseil-cpp/archive/refs/tags/20211102.0.tar.gz",
-    ],
+git_repository(
+	name="com_google_absl", 
+	commit="17c1a5e82168bd32d3fc187db0ea54d0936c705d", 
+	remote="https://github.com/abseil/abseil-cpp",
 )
 
 load("@com_github_nelhage_rules_boost//:boost/boost.bzl", "boost_deps")
@@ -206,11 +227,11 @@ git_repository(
 
 # Right now qt5 is installed on the system using the setup_software.sh script
 # We assume we can find the headers in the "standard" path used in this rule
-new_local_repository(
-    name = "qt",
-    build_file = "@bazel_rules_qt//:qt.BUILD",
-    path = "/usr/include/x86_64-linux-gnu/qt5/",
-)
+# new_local_repository(
+#     name = "qt",
+#     build_file = "@bazel_rules_qt//:qt.BUILD",
+#     path = "/usr/include/x86_64-linux-gnu/qt5/",
+# )
 
 # new_local_repository(
 #     name = "linux_gcc",
@@ -298,12 +319,6 @@ new_git_repository(
     shallow_since = "1596403987 -0600",
 )
 
-git_repository(
-    name = "rules_python",
-    commit = "6f37aa9966f53e063c41b7509a386d53a9f156c3",
-    remote = "https://github.com/bazelbuild/rules_python.git",
-    shallow_since = "1617165164 +1100",
-)
 
 new_git_repository(
     name = "trinamic",
@@ -353,22 +368,6 @@ bind(
     name = "six",
     actual = "@six_archive//:six",
 )
-
-http_archive(
-  name = "pybind11_bazel",
-  strip_prefix = "pybind11_bazel-2.12.0",
-  urls = ["https://github.com/pybind/pybind11_bazel/archive/v2.12.0.zip"],
-)
-
-# We still require the pybind library.
-http_archive(
-  name = "pybind11",
-  build_file = "@pybind11_bazel//:pybind11-BUILD.bazel",
-  strip_prefix = "pybind11-2.12.0",
-  urls = ["https://github.com/pybind/pybind11/archive/v2.12.0.zip"],
-)
-
-# load("@pybind11_bazel//:python_configure.bzl", "python_configure")
 
 # python_configure(
 #     name = "local_config_python",

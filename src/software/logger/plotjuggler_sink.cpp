@@ -1,7 +1,7 @@
 
 #include "software/logger/plotjuggler_sink.h"
 
-#include <google/protobuf/util/json_util.h>
+// #include <google/protobuf/util/json_util.h>
 
 #include "shared/constants.h"
 
@@ -23,12 +23,12 @@ std::ostream& operator<<(std::ostream& os,
 {
     std::string json_string;
 
-    google::protobuf::util::JsonPrintOptions options;
-    options.add_whitespace                = false;
-    options.always_print_primitive_fields = true;
-    options.preserve_proto_field_names    = true;
+    // google::protobuf::util::JsonPrintOptions options;
+    // options.add_whitespace                = false;
+    // options.always_print_primitive_fields = true;
+    // options.preserve_proto_field_names    = true;
 
-    MessageToJsonString(plotjuggler_value, &json_string, options);
+    // MessageToJsonString(plotjuggler_value, &json_string, options);
 
     os << json_string;
     return os;
