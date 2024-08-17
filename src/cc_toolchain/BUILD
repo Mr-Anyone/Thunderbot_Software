@@ -1,8 +1,10 @@
 package(default_visibility = ["//visibility:public"])
 
-load(":cc_toolchain_config.bzl", "cc_toolchain_config_jetson_nano", "cc_toolchain_config_k8")
+load(":cc_toolchain_config.bzl", "cc_toolchain_config_jetson_nano", "cc_toolchain_config_k8", "cc_toolchain_config_arm_gcc")
 
 # Create environments for each CPU this toolchain supports
+environment(name = "arm")
+
 environment(name = "k8")
 
 environment(name = "jetson_nano")
@@ -11,10 +13,12 @@ environment_group(
     name = "cpus",
     defaults = [
         ":k8",
+        ":arm",
         ":jetson_nano",
     ],
     environments = [
         ":k8",
+        ":arm",
         ":jetson_nano",
     ],
 )
@@ -29,19 +33,9 @@ config_setting(
     values = {"cpu": "jetson_nano"},
 )
 
-# This represents a mapping of CPU -> Compiler To Use
-# The CPU can be chosen by using `--cpu` as a bazel flag (ex. `--cpu=jetson_nano`)
-# otherwise it will default to using whatever CPU is in the system doing the compiling
-cc_toolchain_suite(
-    name = "toolchain",
-    toolchains = {
-        # k8 is any x86 system
-        "aarch64": "cc_toolchain_linux_gcc",
-        "aarch64|compiler": "cc_toolchain_linux_gcc",
-        # jetson nano 4GB system
-        "jetson_nano": "cc_toolchain_jetson_nano",
-        "jetson_nano|compiler": "cc_toolchain_jetson_nano",
-    },
+config_setting(
+    name="cpu_arm", 
+    values ={"cpu": "arm"}
 )
 
 filegroup(
@@ -99,7 +93,18 @@ cc_toolchain_config_k8(
 )
 
 cc_toolchain(
-    name = "cc_toolchain_linux_gcc",
+    name="cc_toolchain_linux_arm_gcc",
+    toolchain_config = ":cc_toolchain_config_arm_gcc",
+    all_files = ":empty",
+    compiler_files = ":empty",
+    dwp_files = ":empty",
+    linker_files = ":empty",
+    objcopy_files = ":empty",
+    strip_files = ":empty"
+)
+
+cc_toolchain(
+    name = "cc_toolchain_linux_k8_gcc",
     all_files = ":linux_gcc_all",
     ar_files = ":linux_gcc_all",
     as_files = ":linux_gcc_all",
@@ -119,6 +124,21 @@ cc_toolchain(
     toolchain_identifier = "k8_gcc-x86_64",
 )
 
+
+toolchain(
+    name = "cc_toolchain_arm",
+    toolchain = ":cc_toolchain_linux_arm_gcc",
+    toolchain_type = "@bazel_tools//tools/cpp:toolchain_type",
+    exec_compatible_with = [
+        "@platforms//cpu:arm",
+        "@platforms//os:linux",
+    ],
+    target_compatible_with = [
+        "@platforms//cpu:arm",
+        "@platforms//os:linux",
+    ],
+)
+
 cc_toolchain(
     name = "cc_toolchain_jetson_nano",
     all_files = ":jetson_nano_everything",
@@ -136,6 +156,13 @@ cc_toolchain(
     tags = ["no-ide"],
     toolchain_config = ":gcc-jetson_nano",
     toolchain_identifier = "gcc-jetson_nano",
+)
+
+platform(
+    name = "arm_platform",
+    constraint_values = [
+        "@platforms//os:arm",
+    ],
 )
 
 cc_toolchain_config_jetson_nano(

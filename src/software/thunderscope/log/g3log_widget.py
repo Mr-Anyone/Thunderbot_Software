@@ -20,13 +20,13 @@ class g3logWidget(QWidget):
         QWidget.__init__(self)
 
         self.console_widget = pg_console.ConsoleWidget()
-        self.console_widget.setStyleSheet(
-            """
-            border: none;
-            border-radius: 5px;
-            background: #101012;
-            """
-        )
+        #self.console_widget.setStyleSheet(
+        #    """
+        #    border: none;
+        #    border-radius: 5px;
+        #    background: #101012;
+        #    """
+        #)
 
         self.layout = QVBoxLayout()
 

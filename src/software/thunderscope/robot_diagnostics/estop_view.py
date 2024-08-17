@@ -14,7 +14,7 @@ class EstopView(QLabel):
         self.estop_state_buffer = ThreadSafeBuffer(1, EstopState)
 
         self.setText("Disconnected")
-        self.setStyleSheet("background-color: blue")
+        #self.setStyleSheet("background-color: blue")
 
     def refresh(self) -> None:
         """Refresh the label"""
@@ -22,7 +22,7 @@ class EstopView(QLabel):
 
         if estop_state.is_playing:
             self.setText("Playing")
-            self.setStyleSheet("background-color: green")
+            #self.setStyleSheet("background-color: green")
         else:
             self.setText("Stopped")
-            self.setStyleSheet("background-color: red")
+            #self.setStyleSheet("background-color: red")

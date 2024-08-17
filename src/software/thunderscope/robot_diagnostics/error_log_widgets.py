@@ -51,13 +51,13 @@ class RobotLogMessageWidget(QFrame):
 
         # robot id displayed more prominently
         self.robot_id = QLabel(f"Robot {robot_id}")
-        self.robot_id.setStyleSheet(
-            "font-weight: bold;" f"font-size: {int(self.height() / 25)}px;"
-        )
+        #self.robot_id.setStyleSheet(
+        #    "font-weight: bold;" f"font-size: {int(self.height() / 25)}px;"
+        #)
 
         # message of the error
         self.message = QLabel(message)
-        self.message.setStyleSheet(f"font-size: {int(self.height() / 35)}px;")
+        #self.message.setStyleSheet(f"font-size: {int(self.height() / 35)}px;")
 
         self.info_layout.addWidget(self.robot_id)
         self.info_layout.addWidget(self.message)
@@ -79,7 +79,7 @@ class RobotLogMessageWidget(QFrame):
 
         # close button to clear log
         self.close_button = QPushButton("X")
-        self.close_button.setStyleSheet("padding: 0")
+        #self.close_button.setStyleSheet("padding: 0")
         self.close_button.setFixedHeight(int(self.icon_size / 2))
         self.close_button.setFixedWidth(int(self.icon_size / 2))
         self.close_button.clicked.connect(self.close)
@@ -103,7 +103,7 @@ class RobotLogMessageWidget(QFrame):
             }}
             """
         )
-        self.setStyleSheet(self.base_stylesheet)
+        #self.setStyleSheet(self.base_stylesheet)
 
     def close(self) -> None:
         """Sets the widget to closed"""
@@ -170,16 +170,16 @@ class RobotLogMessageWithDialogWidget(RobotLogMessageWidget):
         super(RobotLogMessageWithDialogWidget, self).__init__(
             robot_id, message, icon, timestamp
         )
-        self.setStyleSheet(
-            self.base_stylesheet
-            + textwrap.dedent(
-                """
-                RobotLogMessageWidget:hover {
-                    background-color: rgba(0, 0, 0, 0.15);
-                }
-                """
-            )
-        )
+        #self.setStyleSheet(
+        #    self.base_stylesheet
+        #    + textwrap.dedent(
+        #        """
+        #        RobotLogMessageWidget:hover {
+        #            background-color: rgba(0, 0, 0, 0.15);
+        #        }
+        #        """
+        #    )
+        #)
         self.dialog = None
 
     def enterEvent(self, event) -> None:

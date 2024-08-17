@@ -30,19 +30,19 @@ class BreakbeamLabel(QLabel):
         """
         self.breakbeam_status = new_breakbeam_status
 
-        if self.breakbeam_status is None:
-            self.setStyleSheet(
-                f"background-color: transparent; {self.BREAKBEAM_BORDER}"
-            )
-        elif self.breakbeam_status:
-            self.setStyleSheet(
-                f"background-color: red; {self.BREAKBEAM_BORDER};" "border-color: red"
-            )
-        else:
-            self.setStyleSheet(
-                f"background-color: green; {self.BREAKBEAM_BORDER};"
-                "border-color: green"
-            )
+        #if self.breakbeam_status is None:
+        #    #self.setStyleSheet(
+        #        f"background-color: transparent; {self.BREAKBEAM_BORDER}"
+        #    )
+        #elif self.breakbeam_status:
+        #    #self.setStyleSheet(
+        #        f"background-color: red; {self.BREAKBEAM_BORDER};" "border-color: red"
+        #    )
+        #else:
+        #    #self.setStyleSheet(
+        #        f"background-color: green; {self.BREAKBEAM_BORDER};"
+        #        "border-color: green"
+        #    )
 
     def event(self, event: QtCore.QEvent) -> bool:
         """Overridden event function which intercepts all events
@@ -332,9 +332,9 @@ class RobotInfo(QWidget):
         :param is_running: if the robot is running currently
         """
         self.stop_primitive_label.setText("RUN" if is_running else "STOP")
-        self.stop_primitive_label.setStyleSheet(
-            f"background-color: {'green' if is_running else 'red'}; border: 1px solid black;"
-        )
+        #self.stop_primitive_label.setStyleSheet(
+        #robot_info.py    f"background-color: {'green' if is_running else 'red'}; border: 1px solid black;"
+        #robot_info.py)
 
     def __update_ui(
         self, robot_status: RobotStatus, round_trip_time: RobotStatistic

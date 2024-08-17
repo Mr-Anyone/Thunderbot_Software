@@ -727,3 +727,87 @@ cc_toolchain_config_jetson_nano = rule(
     provides = [CcToolchainConfigInfo],
     executable = True,
 )
+
+# see here for more https://bazel.build/tutorials/ccp-toolchain-config
+def _linux_arm_gcc_impl(ctx):
+    tool_paths = [ 
+        tool_path(
+            name = "gcc",
+            gath = "/usr/bin/gc1c",
+        ),
+        tool_path(
+            name = "ld",
+            path = "/usr/bin/ld",
+        ),
+        tool_path(
+            name = "ar",
+            path = "/usr/bin/ar",
+        ),
+        tool_path(
+            name = "cpp",
+            path = "/bin/false",
+        ),
+        tool_path(
+            name = "gcov",
+            path = "/bin/false",
+        ),
+        tool_path(
+            name = "nm",
+            path = "/bin/false",
+        ),
+        tool_path(
+            name = "objdump",
+            path = "/bin/false",
+        ),
+        tool_path(
+            name = "strip",
+            path = "/bin/false",
+        ),
+    ]
+
+    # adding c++20 build flag
+    features = [
+         feature(
+                name = "c++ 20",
+                enabled = True,
+                flag_sets = [
+                    flag_set(
+                        actions = ALL_CPP_ACTIONS,
+                        flag_groups = [
+                            flag_group(
+                                flags = ["-std=c++20"],
+                            ),
+                        ],
+                    ),
+                ],
+            )
+    ]
+
+    return [
+        cc_common.create_cc_toolchain_config_info(
+            ctx = ctx,
+            features = features,
+            tool_paths = tool_paths,
+            artifact_name_patterns = [],
+            cxx_builtin_include_directories = [""],
+            toolchain_identifier = "aarch32",
+            host_system_name = "local",
+            target_system_name = "local",
+            target_cpu = "arm", 
+            target_libc = "unknown",
+            compiler = "gcc",
+            abi_version = "local",
+            abi_libc_version = "local",
+            make_variables = [],
+            builtin_sysroot = None,
+            cc_target_os = None,
+        )
+    ]
+
+cc_toolchain_config_arm_gcc = rule(
+    implementation = _linux_arm_gcc_impl,
+    attrs = {
+
+    },
+    provides = [CcToolchainConfigInfo],
+)

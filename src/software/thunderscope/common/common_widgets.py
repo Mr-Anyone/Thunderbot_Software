@@ -101,7 +101,7 @@ class ColorQLabel(QLabel):
         """
         percent = max(0, min(float(val - self.min) / (self.max - self.min), 1))
 
-        self.setStyleSheet(f"background: rgba(255, 0, 0, {percent})")
+        #self.setStyleSheet(f"background: rgba(255, 0, 0, {percent})")
 
 
 class ColorProgressBar(QProgressBar):
@@ -127,9 +127,9 @@ class ColorProgressBar(QProgressBar):
             int(min_val * self.decimals), int(max_val * self.decimals)
         )
 
-        super(ColorProgressBar, self).setStyleSheet(
-            "QProgressBar::chunk" "{" "background: grey" "color: black" "}"
-        )
+        #super(ColorProgressBar, self).setStyleSheet(
+        #    "QProgressBar::chunk" "{" "background: grey" "color: black" "}"
+        #)
 
         self.valueChanged.connect(self.emitFloatValueChanged)
 
@@ -150,20 +150,20 @@ class ColorProgressBar(QProgressBar):
         # clamp percent to make sure it's between 0% and 100%
         percent = self.getPercentage()
 
-        if percent < 0.5:
-            super(ColorProgressBar, self).setStyleSheet(
-                "QProgressBar::chunk"
-                "{"
-                f"background: rgb(255, {255 * (2 * percent)}, 0)"
-                "}"
-            )
-        else:
-            super(ColorProgressBar, self).setStyleSheet(
-                "QProgressBar::chunk"
-                "{"
-                f"background: rgb({255 * 2 * (1 - percent)}, 255, 0)"
-                "}"
-            )
+        #if percent < 0.5:
+            #super(ColorProgressBar, self).setStyleSheet(
+            #"QProgressBar::chunk"
+            #"{"
+            #f"background: rgb(255, {255 * (2 * percent)}, 0)"
+            #"}"
+            #)
+        #else:
+            #super(ColorProgressBar, self).setStyleSheet(
+            #"QProgressBar::chunk"
+            #"{"
+            #f"background: rgb({255 * 2 * (1 - percent)}, 255, 0)"
+            #"}"
+            #)
 
     def getPercentage(self):
         """Gets the current percentage between 0 and 1 from the current value
@@ -387,10 +387,10 @@ def change_button_state(button, enable):
     :param enable: bool: if True: enable this button, if False: disable
     """
     if enable:
-        button.setStyleSheet("background-color: White")
+        #button.setStyleSheet("background-color: White")
         button.setCheckable(True)
     else:
-        button.setStyleSheet("background-color: Grey")
+        #button.setStyleSheet("background-color: Grey")
         button.setCheckable(False)
 
 
@@ -404,17 +404,17 @@ def disable_slider(slider):
     """
     old_val = slider.value()
     slider.valueChanged.connect(lambda: slider.setValue(old_val))
-    slider.setStyleSheet(
-        "QSlider::sub-page:horizontal"
-        "{"
-        "background-color: grey"
-        "}"
-        "QSlider::handle"
-        "{"
-        "color: grey;"
-        "border-radius: 5px;"
-        "}"
-    )
+    #slider.setStyleSheet(
+            #"QSlider::sub-page:horizontal"
+            #"{"
+            #"background-color: grey"
+            #"}"
+            #"QSlider::handle"
+            #"{"
+            #"color: grey;"
+            #"border-radius: 5px;"
+            #"}"
+            #)
 
 
 def enable_slider(slider, label, get_value):
@@ -425,7 +425,7 @@ def enable_slider(slider, label, get_value):
     :param get_value: function to translate slider value into label text
     """
     slider.valueChanged.connect(lambda: label.setText(get_value(slider.value())))
-    slider.setStyleSheet("QSlider::groove:horizontal" "{" "border-width: 0px" "}")
+    #slider.setStyleSheet("QSlider::groove:horizontal" "{" "border-width: 0px" "}")
 
 
 def disable_radio_button(button_group):

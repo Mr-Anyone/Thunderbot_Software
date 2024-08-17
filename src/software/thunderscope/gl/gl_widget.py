@@ -354,7 +354,7 @@ class GLWidget(QWidget):
         # Not using a checkable QAction in order to prevent menu from closing
         # when an action is pressed
         layer_checkbox = QCheckBox(name, parent)
-        layer_checkbox.setStyleSheet("QCheckBox { padding: 0px 8px; }")
+        #layer_checkbox.setStyleSheet("QCheckBox { padding: 0px 8px; }")
         layer_checkbox.setChecked(checked)
         layer_action = QWidgetAction(parent)
         layer_action.setDefaultWidget(layer_checkbox)

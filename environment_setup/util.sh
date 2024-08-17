@@ -50,7 +50,7 @@ install_java () {
         return
     fi
     sudo wget https://download.oracle.com/java/17/latest/jdk-17_linux-aarch64_bin.tar.gz -O /opt/jdk-17.0.12.tar.gz
-    tar -xvzf jdk-17.0.12.tar.gz -C /opt/tbotspython/
+    tar -xvzf /opt/jdk-17.0.12.tar.gz -C /opt/tbotspython/
 }
 
 is_x86() {

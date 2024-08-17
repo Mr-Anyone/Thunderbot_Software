@@ -37,6 +37,10 @@ def initialize_application() -> None:
     # Setup MainApp and initialize DockArea
     app = pyqtgraph.mkQApp("Thunderscope")
 
+    # setup pyqtdark?
+    import qdarktheme
+
+    qdarktheme.setup_theme()
 
 def configure_robot_view_fullsystem(
     fullsystem_proto_unix_io: ProtoUnixIO,

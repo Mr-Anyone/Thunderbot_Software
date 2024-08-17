@@ -13,7 +13,7 @@ def updateDockStylePatched(self):
             border: {border_width} solid {border};
             border-radius: {border_radius};
         }}"""
-        self.widgetArea.setStyleSheet(self.nStyle)
+        #self.widgetArea.setStyleSheet(self.nStyle)
 
     elif self.orientation == "vertical":
         self.label.setOrientation("vertical")
@@ -26,7 +26,7 @@ def updateDockStylePatched(self):
             border-top-left-radius: 0px;
             border-bottom-left-radius: 0px;
         }}"""
-        self.widgetArea.setStyleSheet(self.vStyle)
+        #self.widgetArea.setStyleSheet(self.vStyle)
 
     else:
         self.label.setOrientation("horizontal")
@@ -39,7 +39,7 @@ def updateDockStylePatched(self):
             border-top-left-radius: 0px;
             border-top-right-radius: 0px;
         }}"""
-        self.widgetArea.setStyleSheet(self.hStyle)
+        #self.widgetArea.setStyleSheet(self.hStyle)
 
 
 def updateDockLabelStylePatched(self):
@@ -65,7 +65,7 @@ def updateDockLabelStylePatched(self):
             padding-bottom: 3px;
             font-size: 15px;
         }}"""
-        self.setStyleSheet(self.vStyle)
+        #self.setStyleSheet(self.vStyle)
     else:
         self.hStyle = f"""DockLabel {{
             background-color : {bg};
@@ -79,7 +79,7 @@ def updateDockLabelStylePatched(self):
             padding-right: 13px;
             font-size: 15px;
         }}"""
-        self.setStyleSheet(self.hStyle)
+        #self.setStyleSheet(self.hStyle)
 
 
 Dock.updateStyle = updateDockStylePatched

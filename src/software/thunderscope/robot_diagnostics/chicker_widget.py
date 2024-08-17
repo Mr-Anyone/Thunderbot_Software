@@ -199,10 +199,10 @@ class ChickerWidget(QWidget):
         :param enable: bool: if True: enable this button, if False: disable
         """
         if enable:
-            button.setStyleSheet("background-color: White")
+            #button.setStyleSheet("background-color: White")
             button.setCheckable(True)
         else:
-            button.setStyleSheet("background-color: Grey")
+            #button.setStyleSheet("background-color: Grey")
             button.setCheckable(False)
 
     def refresh(self) -> None:

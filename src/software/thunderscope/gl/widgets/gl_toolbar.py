@@ -22,7 +22,7 @@ class GLToolbar(QWidget):
 
         # Setup toolbar
         self.setSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Fixed)
-        self.setStyleSheet("background-color: rgba(0,0,0,0);" "padding: 0px;")
+        #self.setStyleSheet("background-color: rgba(0,0,0,0);" "padding: 0px;")
         self.setAttribute(QtCore.Qt.WidgetAttribute.WA_StyledBackground)
         self.setLayout(QHBoxLayout())
 

@@ -42,12 +42,12 @@ class MotorFaultView(QWidget):
 
         self.fault_count_label = QLabel(self.motor_fault_display)
         self.fault_count_label.setFixedWidth(self.fault_count_label.sizeHint().height())
-        self.fault_count_label.setStyleSheet(
-            "color: white;"
-            "font-size: 10pt;"
-            "background-color: red;"
-            "border: 1px solid black;"
-        )
+        #self.fault_count_label.setStyleSheet(
+            #"color: white;"
+            #"font-size: 10pt;"
+            #"background-color: red;"
+            #"border: 1px solid black;"
+        #)
         self.fault_count_label.move(0, 0)
         self.fault_count_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.fault_count_label.hide()
@@ -135,21 +135,21 @@ class MotorFaultView(QWidget):
             - if any motor is disabled, color is red and text is "Error"
         """
         if self.enabled is None:
-            self.motor_fault_display.setStyleSheet("background: grey; color: white;")
+            #self.motor_fault_display.setStyleSheet("background: grey; color: white;")
             self.motor_fault_display.setText("No Signal")
         else:
             if self.fault_count:
-                self.motor_fault_display.setStyleSheet(
-                    "background: yellow; color: black;"
-                    if self.enabled
-                    else "background: red;"
-                )
+                #self.motor_fault_display.setStyleSheet(
+                #    "background: yellow; color: black;"
+                #    if self.enabled
+                #    else "background: red;"
+                #)
                 self.motor_fault_display.setText("Warning" if self.enabled else "Error")
 
                 self.fault_count_label.setText(str(self.fault_count))
                 self.fault_count_label.show()
             else:
-                self.motor_fault_display.setStyleSheet("background: green;")
+                #self.motor_fault_display.setStyleSheet("background: green;")
                 self.motor_fault_display.setText("No Fault")
 
                 self.fault_count_label.hide()
