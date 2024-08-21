@@ -180,7 +180,7 @@ cc_library(
     srcs = ["er_force_world.cpp"],
     hdrs = ["er_force_world.h"],
     deps = [
-        "//extlibs/er_force_sim/src/protobuf:protobuf_cc_lib",
+        #"//extlibs/er_force_sim/src/protobuf:protobuf_cc_lib",
         "//software/world:ball",
         "//software/world:robot",
     ],

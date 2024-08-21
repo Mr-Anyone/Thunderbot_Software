@@ -1,4 +1,5 @@
 startup --output_user_root=C:/tmp
+startup --windows_enable_symlinks
 
 common --noenable_bzlmod
 build --copt=/std:c++latest

@@ -1,3 +1,4 @@
+load("@pybind11_bazel//:build_defs.bzl", "pybind_extension", "pybind_library")
 package(default_visibility = ["//visibility:public"])
 
 
@@ -22,15 +23,28 @@ py_binary(
     srcs = ["robot_diagnostics_main.py"],
     data = [
         "thunderscope-logo.png",
-        "//software:py_constants.so",
-        "//software:python_bindings.so",
+        "//software:py_constants",
+        "//software:python_bindings",
     ],
+
+    # env = {
+    #     "PATH": "C:/Users/Vince/AppData/Local/Programs/Python/Python311/Lib/site-packages/PyQt6/Qt6/bin",
+    # },
+    # imports = ["."],
+
     deps = [
         # ":config",
         # ":constants",
         # ":estop_helpers",
-        # ":thunderscope",
         # ":util",
+        # ":thunderscope",
+
+
+        # "@robot_diagnostics_main_dependencies//pyqtgraph:pkg",
+        # "@robot_diagnostics_main_dependencies//pyqt6:pkg",
+        #"@robot_diagnostics_Main_dependencies//PySide6:pkg",
+        #"@robot_diagnostics_Main_dependencies//shiboken6:pkg",
+        #"@robot_diagnostics_Main_dependencies//PySide6-Essentials:pkg",
     ],
 )
 
@@ -46,7 +60,7 @@ py_library(
     ],
     deps = [
         ":config",
-        "//extlibs/er_force_sim/src/protobuf:erforce_py_proto",
+        # "//extlibs/er_force_sim/src/protobuf:erforce_py_proto",
         "//proto:software_py_proto",
         "//proto/message_translation:py_tbots_protobuf",
         "//software/networking/unix:threaded_unix_listener_py",
@@ -55,10 +69,10 @@ py_library(
         "//software/thunderscope:dock_style",
         "//software/thunderscope:proto_unix_io",
         "//software/thunderscope:robot_communication",
-        "//software/thunderscope/binary_context_managers:full_system",
-        "//software/thunderscope/binary_context_managers:game_controller",
-        "//software/thunderscope/binary_context_managers:simulator",
-        "//software/thunderscope/binary_context_managers:tigers_autoref",
+        # "//software/thunderscope/binary_context_managers:full_system",
+        # "//software/thunderscope/binary_context_managers:game_controller",
+        # "//software/thunderscope/binary_context_managers:simulator",
+        # "//software/thunderscope/binary_context_managers:tigers_autoref",
     ],
 )
 
@@ -75,7 +89,7 @@ py_library(
         ":constants",
         ":thread_safe_buffer",
         ":time_provider",
-        "//proto/message_translation:py_tbots_protobuf",
+        # "//proto/message_translation:py_tbots_protobuf",
     ],
 )
 

@@ -68,14 +68,16 @@ pybind_library(
 
 pybind_extension(
     name = "py_constants",
+    srcs = ["py_constants.cpp"],
     deps = [
-        ":py_constants_lib",
+        ":constants",
+        "//shared:constants",
     ],
 )
 
 pybind_library(
     name = "python_bindings_lib",
-    srcs = ["python_bindings.cpp"],
+    # srcs = ["python_bindings.cpp"], 
     deps = [
         "//proto:ssl_cc_proto",
         "//proto:tbots_cc_proto",
@@ -101,10 +103,13 @@ pybind_library(
         "//software/world:field",
         #"@pybind11_protobuf//pybind11_protobuf:native_proto_caster",
     ],
+    alwayslink=True
 )
+
 
 pybind_extension(
     name = "python_bindings",
+    srcs = ["python_bindings.cpp"],
     deps = [
         ":python_bindings_lib",
     ],
