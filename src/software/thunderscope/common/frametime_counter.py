@@ -17,12 +17,22 @@ class FrameTimeCounter:
         self.datapoints = collections.deque(maxlen=100)
         self.previous_timestamp = time.time()
 
+        self.filename = "/tmp/fps{}.txt".format(time.time())
+
+    def save_global_average_to_file(self): 
+        with open(self.filename, "w") as f:
+            fps = sum(self.datapoints) / len(self.datapoints)
+            f.write(str(fps))
+
+
     def add_one_datapoint(self) -> None:
         """Save the time difference between each consecutive function call."""
         current_time = time.time()
         time_difference = current_time - self.previous_timestamp
         self.datapoints.append(time_difference)
         self.previous_timestamp = current_time
+
+        self.save_global_average_to_file()
 
     def get_last_frametime(self) -> float:
         """Return the latest frametime from the list

@@ -68,6 +68,10 @@ class Thunderscope:
             self.tabs.addTab(tab.dock_area, tab.name)
             self.register_refresh_function(tab.refresh)
 
+        self.start_time = time.time()
+        self.register_refresh_function(self.exit_after_one_minute)
+
+
         self.window = QMainWindow()
         self.window.setCentralWidget(self.tabs)
         self.window.setWindowIcon(
@@ -111,6 +115,17 @@ class Thunderscope:
         self.show_help.activated.connect(
             lambda: QMessageBox.information(self.window, "Help", THUNDERSCOPE_HELP_TEXT)
         )
+
+    
+    def exit_after_one_minute(self): 
+        """
+        force exit after one minute of running!
+        """
+
+        if time.time() - self.start_time > 60: 
+            exit(-1) 
+         
+
 
     def reset_layout(self) -> None:
         """Reset the layout to the default layout"""
