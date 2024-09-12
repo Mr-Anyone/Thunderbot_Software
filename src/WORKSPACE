@@ -36,6 +36,7 @@ load("@rules_python//python:repositories.bzl", "py_repositories")
 
 py_repositories()
 
+# let us also use a hermetic python!
 load("@rules_python//python:repositories.bzl", "python_register_toolchains")
 
 python_register_toolchains(
@@ -434,3 +435,4 @@ new_git_repository(
     remote = "https://github.com/wolfpld/tracy.git",
     shallow_since = "1697482622 +0200",
 )
+

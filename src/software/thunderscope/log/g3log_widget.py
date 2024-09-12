@@ -34,12 +34,12 @@ class g3logWidget(QWidget):
 
         # disable input and buttons
         self.console_widget.input.hide()
-        self.console_widget.exceptionBtn.hide()
-        self.console_widget.historyBtn.hide()
+        #self.console_widget.exceptionBtn.hide()
+        #self.console_widget.historyBtn.hide()
 
         # _lastCommandRow is initialized to None, which causes errors
         # when writing to ReplWidget
-        self.console_widget.repl._lastCommandRow = 0
+        #self.console_widget.repl._lastCommandRow = 0
 
         # Creates checkbox widget
         self.checkbox_widget = g3logCheckboxes()

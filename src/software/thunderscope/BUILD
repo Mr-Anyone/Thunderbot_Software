@@ -27,25 +27,22 @@ py_binary(
         "//software:python_bindings",
     ],
 
-    # env = {
-    #     "PATH": "C:/Users/Vince/AppData/Local/Programs/Python/Python311/Lib/site-packages/PyQt6/Qt6/bin",
-    # },
-    # imports = ["."],
 
     deps = [
-        # ":config",
-        # ":constants",
-        # ":estop_helpers",
-        # ":util",
-        # ":thunderscope",
+        ":config",
+        ":constants",
+        ":estop_helpers",
+        ":util",
+        ":thunderscope",
 
 
-        # "@robot_diagnostics_main_dependencies//pyqtgraph:pkg",
-        # "@robot_diagnostics_main_dependencies//pyqt6:pkg",
-        #"@robot_diagnostics_Main_dependencies//PySide6:pkg",
-        #"@robot_diagnostics_Main_dependencies//shiboken6:pkg",
-        #"@robot_diagnostics_Main_dependencies//PySide6-Essentials:pkg",
+        "@robot_diagnostics_main_dependencies//pyqtgraph:pkg",
+        "@robot_diagnostics_main_dependencies//pyopengl:pkg",
+        "@robot_diagnostics_main_dependencies//pyqt6:pkg",
+        "@robot_diagnostics_main_dependencies//thefuzz:pkg",
+        "@robot_diagnostics_main_dependencies//qt_material:pkg",
     ],
+    
 )
 
 
@@ -61,7 +58,7 @@ py_library(
     deps = [
         ":config",
         # "//extlibs/er_force_sim/src/protobuf:erforce_py_proto",
-        "//proto:software_py_proto",
+        # "//proto:software_py_proto",
         "//proto/message_translation:py_tbots_protobuf",
         "//software/networking/unix:threaded_unix_listener_py",
         "//software/networking/unix:threaded_unix_sender_py",

@@ -306,9 +306,9 @@ class Colors(object):
     VISION_PATTERN_LOOKUP = create_vision_pattern_lookup(PINK, GREEN)
 
     # Colors for black and white vision pattern
-    BW_ROBOT_MIDDLE_BLUE = QtGui.QColor(*rgb_to_bw(0, 0, 255))
-    BW_PINK = QtGui.QColor(*rgb_to_bw(255, 0, 255))
-    BW_GREEN = QtGui.QColor(*rgb_to_bw(0, 255, 0))
+    BW_ROBOT_MIDDLE_BLUE = QtGui.QColor(0, 0, 255)
+    BW_PINK = QtGui.QColor(255, 0, 255)
+    BW_GREEN = QtGui.QColor(0, 255, 0)
 
     # Creates a black and white vision pattern to indicate a disconnected robot
     BW_VISION_PATTERN_LOOKUP = create_vision_pattern_lookup(BW_PINK, BW_GREEN)

@@ -7,7 +7,7 @@ import os
 import logging
 import gzip
 from proto.import_all_protos import *
-from extlibs.er_force_sim.src.protobuf.world_pb2 import *
+# from extlibs.er_force_sim.src.protobuf.world_pb2 import *
 from software.thunderscope.replay.replay_constants import *
 from typing import Callable
 from google.protobuf.message import Message

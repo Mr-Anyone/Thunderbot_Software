@@ -7,7 +7,7 @@ import gzip
 import glob
 import proto
 from proto.import_all_protos import *
-from extlibs.er_force_sim.src.protobuf.world_pb2 import *
+# from extlibs.er_force_sim.src.protobuf.world_pb2 import *
 from software.thunderscope.replay.replay_constants import *
 from software.thunderscope.replay.proto_logger import ProtoLogger
 from software.thunderscope.proto_unix_io import ProtoUnixIO

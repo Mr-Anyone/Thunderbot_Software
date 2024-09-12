@@ -41,14 +41,14 @@ class FloatSlider(QSlider):
         Sets a minimum float value for this slider
         :param min_val: value to set as the minimum
         """
-        return super(FloatSlider, self).setMinimum(min_val * self.decimals)
+        return super(FloatSlider, self).setMinimum(int(min_val * self.decimals))
 
     def setMaximum(self, max_val):
         """
         Sets a maximum float value for this slider
         :param max_val: value to set as the maximum
         """
-        return super(FloatSlider, self).setMaximum(max_val * self.decimals)
+        return super(FloatSlider, self).setMaximum(int(max_val * self.decimals))
 
     def setValue(self, value):
         """
@@ -155,7 +155,7 @@ class ColorProgressBar(QProgressBar):
         :param value: the float value to set
         :return:
         """
-        super(ColorProgressBar, self).setValue(value * self.decimals)
+        super(ColorProgressBar, self).setValue(int(value * self.decimals))
 
         # clamp percent to make sure it's between 0% and 100%
         percent = self.getPercentage()

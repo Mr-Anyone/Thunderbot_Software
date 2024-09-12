@@ -6,7 +6,7 @@ from software.py_constants import BALL_MAX_RADIUS_METERS
 from software.thunderscope.constants import Colors, DepthValues
 
 from software.thunderscope.thread_safe_buffer import ThreadSafeBuffer
-from extlibs.er_force_sim.src.protobuf.world_pb2 import SimulatorState
+# from extlibs.er_force_sim.src.protobuf.world_pb2 import SimulatorState
 
 
 class GLSimulatorLayer(GLLayer):
