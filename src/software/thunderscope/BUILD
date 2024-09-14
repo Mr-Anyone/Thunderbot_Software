@@ -35,12 +35,11 @@ py_binary(
         ":util",
         ":thunderscope",
 
-
-        "@robot_diagnostics_main_dependencies//pyqtgraph:pkg",
-        "@robot_diagnostics_main_dependencies//pyopengl:pkg",
-        "@robot_diagnostics_main_dependencies//pyqt6:pkg",
-        "@robot_diagnostics_main_dependencies//thefuzz:pkg",
-        "@robot_diagnostics_main_dependencies//qt_material:pkg",
+        # "@robot_diagnostics_main_dependencies//pyqtgraph:pkg",
+        # "@robot_diagnostics_main_dependencies//pyopengl:pkg",
+        # "@robot_diagnostics_main_dependencies//pyqt6:pkg",
+        # "@robot_diagnostics_main_dependencies//thefuzz:pkg",
+        # "@robot_diagnostics_main_dependencies//qt_material:pkg",
     ],
     
 )
