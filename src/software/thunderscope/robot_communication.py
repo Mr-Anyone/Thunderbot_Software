@@ -1,3 +1,4 @@
+import platform
 from software.py_constants import *
 from software.thunderscope.constants import ROBOT_COMMUNICATIONS_TIMEOUT_S
 from software.thunderscope.thread_safe_buffer import ThreadSafeBuffer
@@ -56,7 +57,6 @@ class RobotCommunication(object):
         self.running = False
 
         self.primitive_buffer = ThreadSafeBuffer(1, PrimitiveSet)
-
         self.motor_control_diagnostics_buffer = ThreadSafeBuffer(1, MotorControl)
         self.power_control_diagnostics_buffer = ThreadSafeBuffer(1, PowerControl)
 
@@ -292,34 +292,29 @@ class RobotCommunication(object):
     def __enter__(self) -> "self":
         """Enter RobotCommunication context manager. Setup multicast listeners
         for RobotStatus, RobotLogs, and RobotCrash msgs, and multicast sender for PrimitiveSet
-
         """
         # Create the multicast listeners
+        address =  self.multicast_channel + "%" + self.interface if platform.system() == 'Linux' else self.multicast_channel
+        print(address)
         self.receive_robot_status = tbots_cpp.RobotStatusProtoListener(
-            "127.0.0.1",
-            #self.multicast_channel + "%" + self.interface,
+            address,
             ROBOT_STATUS_PORT,
             self.__receive_robot_status,
-            #True,
-            False
+            True,
         )
 
         self.receive_robot_log = tbots_cpp.RobotLogProtoListener(
-            "127.0.0.1",
-            #self.multicast_channel + "%" + self.interface,
+            address,
             ROBOT_LOGS_PORT,
             lambda data: self.__forward_to_proto_unix_io(RobotLog, data),
-            #True,
-            False
+            True,
         )
 
         self.receive_robot_crash = tbots_cpp.RobotCrashProtoListener(
-            "127.0.0.1",
-            #self.multicast_channel + "%" + self.interface,
+            address,
             ROBOT_CRASH_PORT,
             lambda data: self.current_proto_unix_io.send_proto(RobotCrash, data),
-            #True,
-            False
+            True,
         )
 
         # Create multicast senders
@@ -327,10 +322,7 @@ class RobotCommunication(object):
             self.send_primitive_set = tbots_cpp.PrimitiveSetProtoRadioSender()
         else:
             self.send_primitive_set = tbots_cpp.PrimitiveSetProtoUdpSender(
-                "127.0.0.1",
-                #self.multicast_channel + "%" + self.interface,
-                PRIMITIVE_PORT,
-                False
+                address, PRIMITIVE_PORT, True
             )
 
         self.running = True
