@@ -2,6 +2,7 @@
 
 #include <boost/asio.hpp>
 #include <boost/bind.hpp>
+#include <boost/exception/diagnostic_information.hpp>
 #include <condition_variable>
 #include <mutex>
 #include <string>
@@ -94,28 +95,35 @@ ProtoUdpListener<ReceiveProtoT>::ProtoUdpListener(
     : socket_(io_service), receive_callback(receive_callback)
 {
     boost::asio::ip::udp::endpoint listen_endpoint(
-        boost::asio::ip::make_address(ip_address), port);
+        boost::asio::ip::address_v6::any(), port);
+    //boost::asio::ip::udp::endpoint listen_endpoint(
+    //    boost::asio::ip::make_address(ip_address), port);
+
     socket_.open(listen_endpoint.protocol());
+
     socket_.set_option(boost::asio::socket_base::reuse_address(true));
+    if (multicast)
+    {
+        // Join the multicast group.
+        socket_.set_option(boost::asio::ip::multicast::join_group(
+            boost::asio::ip::address::from_string(ip_address)));
+    }
+
     try
     {
         socket_.bind(listen_endpoint);
     }
     catch (const boost::exception& ex)
     {
-        LOG(FATAL) << "UdpListener: There was an issue binding the socket to "
+        std::cerr << "UdpListener: There was an issue binding the socket to "
                       "the listen_endpoint when trying to connect to the "
                       "address. This may be due to another instance of the "
                       "UdpListener running and using the port already. "
                       "(ip = "
                    << ip_address << ", port = " << port << ")" << std::endl;
-    }
 
-    if (multicast)
-    {
-        // Join the multicast group.
-        socket_.set_option(boost::asio::ip::multicast::join_group(
-            boost::asio::ip::address::from_string(ip_address)));
+        std::string info = boost::diagnostic_information(ex);
+        std::cerr << "more details: " << info << std::endl; 
     }
 
     startListen();
