@@ -37,6 +37,20 @@ cc_library(
     ],
 )
 
+py_binary(
+    name = "udp_network_test_python", 
+    srcs = ["udp_network_test_python.py"], 
+    data = [
+        "//software:py_constants",
+        "//software:python_bindings",
+    ],
+    deps = [
+        #"//software:conftest",
+        "//proto:import_all_protos",
+    ]
+)
+
+
 cc_library(
     name = "threaded_proto_udp_sender",
     hdrs = [

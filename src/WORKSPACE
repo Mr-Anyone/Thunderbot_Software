@@ -40,8 +40,8 @@ py_repositories()
 load("@rules_python//python:repositories.bzl", "python_register_toolchains")
 
 register_toolchains(
-    "//python_toolchain:py",
-    "//python_toolchain:py_cc",
+    "@pythontc//:py",
+    "@pythontc//:py_cc",
 )
 
 # this is the old imlementation where I used a hermetic python instead
@@ -62,22 +62,6 @@ register_toolchains(
 
 # Initialize repositories for all packages in requirements_lock.txt.
 # install_deps()
-
-
-http_archive(
-  name = "pybind11_bazel",
-  strip_prefix = "pybind11_bazel-2.12.0",
-  urls = ["https://github.com/pybind/pybind11_bazel/archive/v2.12.0.zip"],
-)
-
-# We still require the pybind library.
-http_archive(
-  name = "pybind11",
-  build_file = "@pybind11_bazel//:pybind11-BUILD.bazel",
-  strip_prefix = "pybind11-2.12.0",
-  urls = ["https://github.com/pybind/pybind11/archive/v2.12.0.zip"],
-)
-
 
 all_contents = """filegroup(name = "all", srcs = glob(["**/**"]), visibility = ["//visibility:public"])"""
 
@@ -151,18 +135,38 @@ http_archive(
 
 load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
 
-git_repository(
-    name = "com_google_protobuf",
-    commit = "21027a27c4c2ec1000859ccbcfff46d83b16e1ed",
-    # We need this patch to properly add generated dependencies to the protoc
-    # compiler. It also fixes an issue with the python imports.
-    remote = "https://github.com/protocolbuffers/protobuf",
-    shallow_since = "1650589240 +0000",
+# python toolchain is declared as a repository because we need to access it in com_google_protobuf. this is the easy way
+# to get it to work!
+local_repository(
+    name = "pythontc", 
+    path = "python_toolchain"
 )
 
-load("@com_google_protobuf//:protobuf_deps.bzl", "protobuf_deps")
+http_archive(
+    name = "com_google_protobuf",
+    patch_args = ["-p1"],
+    patches = ["//patches:com_google_protobuf.patch"],
+    sha256 = "75be42bd736f4df6d702a0e4e4d30de9ee40eac024c4b845d17ae4cc831fe4ae",
+    strip_prefix = "protobuf-21.7",
+    urls = [
+        "https://mirror.bazel.build/github.com/protocolbuffers/protobuf/archive/v21.7.tar.gz",
+        "https://github.com/protocolbuffers/protobuf/archive/v21.7.tar.gz",
+    ],
+)
 
-protobuf_deps()
+# git_repository(
+#     name = "com_google_protobuf",
+#     tag = "v28.1",
+#     # commit = "21027a27c4c2ec1000859ccbcfff46d83b16e1ed",
+#     # We need this patch to properly add generated dependencies to the protoc
+#     # compiler. It also fixes an issue with the python imports.
+#     remote = "https://github.com/protocolbuffers/protobuf",
+#     # shallow_since = "1650589240 +0000",
+# )
+
+# load("@com_google_protobuf//:protobuf_deps.bzl", "protobuf_deps")
+
+# protobuf_deps()
 
 git_repository(
     name = "com_github_nelhage_rules_boost",
@@ -171,11 +175,7 @@ git_repository(
     #shallow_since = "1606097530 -0500",
 )
 
-git_repository(
-    name = "pybind11_protobuf",
-    commit = "f1b245929759230f31cdd1e5f9e0e69f817fed95",
-    remote = "https://github.com/pybind/pybind11_protobuf",
-)
+
 
 # Used by pybind11 proto autocasters
 git_repository(
@@ -442,3 +442,39 @@ new_git_repository(
     shallow_since = "1697482622 +0200",
 )
 
+
+http_archive(
+    name = "rules_pkg",
+    urls = [
+        "https://mirror.bazel.build/github.com/bazelbuild/rules_pkg/releases/download/0.9.1/rules_pkg-0.9.1.tar.gz",
+        "https://github.com/bazelbuild/rules_pkg/releases/download/0.9.1/rules_pkg-0.9.1.tar.gz",
+    ],
+    sha256 = "8f9ee2dc10c1ae514ee599a8b42ed99fa262b757058f65ad3c384289ff70c4b8",
+)
+load("@rules_pkg//:deps.bzl", "rules_pkg_dependencies")
+rules_pkg_dependencies()
+
+http_archive(
+  name = "pybind11_bazel",
+  strip_prefix = "pybind11_bazel-2.12.0",
+  urls = ["https://github.com/pybind/pybind11_bazel/archive/v2.12.0.zip"],
+)
+
+# We still require the pybind library.
+http_archive(
+  name = "pybind11",
+  build_file = "@pybind11_bazel//:pybind11-BUILD.bazel",
+  strip_prefix = "pybind11-2.12.0",
+  urls = ["https://github.com/pybind/pybind11/archive/v2.12.0.zip"],
+)
+
+http_archive(
+    name = "pybind11_protobuf",
+    sha256 = "c7ab64b1ccf9a678694a89035a8c865a693e4e872803778f91f0965c2f281d78",
+    strip_prefix = "pybind11_protobuf-80f3440cd8fee124e077e2e47a8a17b78b451363",
+    urls = [
+        "https://artifactory.corp.adobe.com/artifactory/generic-nextcam-dev/third_party/pybind/pybind11_protobuf/80f3440cd8fee124e077e2e47a8a17b78b451363.zip",
+        "https://artifactory-uw2.adobeitc.com/artifactory/generic-nextcam-dev/third_party/pybind/pybind11_protobuf/80f3440cd8fee124e077e2e47a8a17b78b451363.zip",
+        "https://github.com/pybind/pybind11_protobuf/archive/80f3440cd8fee124e077e2e47a8a17b78b451363.zip",
+    ],
+)

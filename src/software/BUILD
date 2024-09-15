@@ -101,7 +101,7 @@ pybind_library(
         "//software/uart:boost_uart_communication",
         "//software/world",
         "//software/world:field",
-        #"@pybind11_protobuf//pybind11_protobuf:native_proto_caster",
+        "@pybind11_protobuf//pybind11_protobuf:native_proto_caster",
     ],
     alwayslink=True
 )

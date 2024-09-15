@@ -19,7 +19,7 @@
 #include "proto/tbots_software_msgs.pb.h"
 #include "proto/team.pb.h"
 #include "proto/world.pb.h"
-// #include "pybind11_protobuf/native_proto_caster.h"
+#include "pybind11_protobuf/native_proto_caster.h"
 #include "shared/2021_robot_constants.h"
 #include "shared/robot_constants.h"
 #include "software/ai/passing/eighteen_zone_pitch_division.h"
@@ -143,7 +143,7 @@ void declarePassEvaluation(py::module& m, std::string name)
 
 PYBIND11_MODULE(python_bindings, m)
 {
-    // pybind11_protobuf::ImportNativeProtoCasters();
+    pybind11_protobuf::ImportNativeProtoCasters();
     // Operator overloading section of
     // https://pybind11.readthedocs.io/en/stable/advanced/classes.html
     py::class_<Point>(m, "Point", py::module_local())
@@ -406,6 +406,8 @@ PYBIND11_MODULE(python_bindings, m)
     declareThreadedProtoUdpListener<TbotsProto::RobotLog>(m, "RobotLog");
     declareThreadedProtoUdpListener<SSLProto::SSL_WrapperPacket>(m, "SSLWrapperPacket");
     declareThreadedProtoUdpListener<TbotsProto::RobotCrash>(m, "RobotCrash");
+    declareThreadedProtoUdpListener<TbotsProto::PrimitiveSet>(m, "PrimitiveSet");
+
 
     // Senders
     declareThreadedProtoUdpSender<TbotsProto::PrimitiveSet>(m, "PrimitiveSet");
