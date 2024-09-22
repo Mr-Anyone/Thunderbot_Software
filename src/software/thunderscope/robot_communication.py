@@ -295,7 +295,8 @@ class RobotCommunication(object):
         """
         # Create the multicast listeners
         address =  self.multicast_channel + "%" + self.interface if platform.system() == 'Linux' else self.multicast_channel
-        print(address)
+        print(f"I've binded to address: {address}")
+        
         self.receive_robot_status = tbots_cpp.RobotStatusProtoListener(
             address,
             ROBOT_STATUS_PORT,
