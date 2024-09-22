@@ -118,3 +118,13 @@ py_library(
         "//software/simulated_tests:simulated_test_fixture",
     ],
 )
+
+cc_binary(
+    name = "tester",
+    srcs = ["tester.cpp"],
+    deps = [
+        "//software/networking/udp:threaded_proto_udp_sender",
+        "//software/networking/udp:threaded_proto_udp_listener",
+        "//proto:tbots_cc_proto"
+    ],
+)
