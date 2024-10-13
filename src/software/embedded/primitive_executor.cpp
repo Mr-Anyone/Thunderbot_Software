@@ -32,15 +32,18 @@ void PrimitiveExecutor::updatePrimitiveSet(
 
         if (current_primitive_.has_move())
         {
+            LOG(DEBUG) << "the velocity is:  " << velocity_.x() << "," << velocity_.y();
             trajectory_path_ = createTrajectoryPathFromParams(
                 current_primitive_.move().xy_traj_params(), velocity_, robot_constants_);
 
             angular_trajectory_ = createAngularTrajectoryFromParams(
                 current_primitive_.move().w_traj_params(), angular_velocity_,
                 robot_constants_);
-
             time_since_trajectory_creation_ =
                 Duration::fromSeconds(VISION_TO_ROBOT_DELAY_S);
+
+            LOG(DEBUG) << "the time since last trajectory creation is (s): "
+                       << time_since_trajectory_creation_;
         }
     }
 }
@@ -105,7 +108,7 @@ std::unique_ptr<TbotsProto::DirectControlPrimitive> PrimitiveExecutor::stepPrimi
         case TbotsProto::Primitive::kStop:
         {
             auto prim   = createDirectControlPrimitive(Vector(), AngularVelocity(), 0.0,
-                                                     TbotsProto::AutoChipOrKick());
+                                                       TbotsProto::AutoChipOrKick());
             auto output = std::make_unique<TbotsProto::DirectControlPrimitive>(
                 prim->direct_control());
             status.set_running_primitive(false);

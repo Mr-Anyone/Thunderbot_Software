@@ -181,8 +181,13 @@ Thunderloop::~Thunderloop() {}
 
             ScopedTimespecTimer iteration_timer(&iteration_time);
 
+            LOG(DEBUG) << "iteration time (ns): " << iteration_time.tv_nsec;
+
             // Collect jetson status
-            jetson_status_.set_cpu_temperature(getCpuTemperature());
+
+            double temperature = getCpuTemperature();
+            LOG(DEBUG) << "jetson nano cpu temperature: " << iteration_time.tv_nsec;
+            jetson_status_.set_cpu_temperature(temperature);
 
             // Network Service: receive newest world, primitives and set out the last
             // robot status
@@ -201,7 +206,6 @@ Thunderloop::~Thunderloop() {}
 
             // Updating primitives and world with newly received data
             // and setting the correct time elasped since last primitive / world
-
             struct timespec time_since_last_primitive_received;
             clock_gettime(CLOCK_MONOTONIC, &current_time);
             ScopedTimespecTimer::timespecDiff(&current_time,
@@ -209,6 +213,8 @@ Thunderloop::~Thunderloop() {}
                                               &time_since_last_primitive_received);
             network_status_.set_ms_since_last_primitive_received(
                 getMilliseconds(time_since_last_primitive_received));
+            LOG(DEBUG) << "time since last primitive (ns): "
+                       << time_since_last_primitive_received.tv_nsec;
 
             // If the primitive msg is new, update the internal buffer
             // and start the new primitive.
@@ -225,6 +231,7 @@ Thunderloop::~Thunderloop() {}
                     // Start new primitive
                     {
                         ScopedTimespecTimer timer(&poll_time);
+                        LOG(DEBUG) << "setting new primitive set";
                         primitive_executor_.updatePrimitiveSet(primitive_set_);
                     }
 
@@ -236,6 +243,8 @@ Thunderloop::~Thunderloop() {}
             if (motor_status_.has_value())
             {
                 auto status = motor_status_.value();
+                LOG(DEBUG) << "I am updating velocity: ";
+
                 primitive_executor_.updateVelocity(
                     createVector(status.local_velocity()),
                     createAngularVelocity(status.angular_velocity()));
@@ -322,9 +331,13 @@ Thunderloop::~Thunderloop() {}
 
                 ZoneNamedN(_tracy_motor_service, "Thunderloop: Poll MotorService", true);
 
+                LOG(DEBUG) << "spinning motor with the following values: "
+                           << direct_control_.SerializeAsString();
+
                 motor_status_ = motor_service_->poll(direct_control_.motor_control(),
                                                      loop_duration_seconds);
             }
+
             thunderloop_status_.set_motor_service_poll_time_ms(
                 getMilliseconds(poll_time));
 
@@ -333,7 +346,7 @@ Thunderloop::~Thunderloop() {}
                 static_cast<double>(current_time.tv_sec));
 
             // Update Robot Status with poll responses
-            robot_status_.set_robot_id(robot_id_);
+            robot_status_.set_robot_id(std::uint32_t(robot_id_));
             robot_status_.set_last_handled_primitive_set(last_handled_primitive_set);
             *(robot_status_.mutable_time_sent())             = time_sent_;
             *(robot_status_.mutable_thunderloop_status())    = thunderloop_status_;
@@ -347,6 +360,7 @@ Thunderloop::~Thunderloop() {}
 
             // Update Redis
             {
+                LOG(DEBUG) << "we are updating redis: ";
                 ZoneNamedN(_tracy_redis, "Thunderloop: Commit to REDIS", true);
 
                 redis_client_->setNoCommit(
@@ -367,6 +381,9 @@ Thunderloop::~Thunderloop() {}
         // Make sure the iteration can fit inside the period of the loop
         loop_duration_seconds =
             static_cast<double>(loop_duration_ns) * SECONDS_PER_NANOSECOND;
+
+        LOG(DEBUG) << "the loop duration is: " << loop_duration_seconds;
+        LOG(DEBUG) << "we are now sleeping for: " << next_shot.tv_sec;
 
         // Calculate next shot taking into account how long this iteration took
         next_shot.tv_nsec += interval - static_cast<long int>(loop_duration_ns);

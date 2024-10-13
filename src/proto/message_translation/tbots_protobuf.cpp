@@ -40,9 +40,8 @@ std::unique_ptr<TbotsProto::Team> createTeam(const Team& team)
     auto team_msg      = std::make_unique<TbotsProto::Team>();
     const auto& robots = team.getAllRobots();
 
-    std::for_each(robots.begin(), robots.end(), [&](const Robot& robot) {
-        *(team_msg->add_team_robots()) = *createRobot(robot);
-    });
+    std::for_each(robots.begin(), robots.end(), [&](const Robot& robot)
+                  { *(team_msg->add_team_robots()) = *createRobot(robot); });
 
     auto goalie_id = team.getGoalieId();
     if (goalie_id.has_value())
@@ -424,6 +423,7 @@ std::optional<TrajectoryPath> createTrajectoryPathFromParams(
 
     if (max_speed == 0)
     {
+        LOG(WARNING) << "mas spped is zero. Likely invalid parameters!";
         return std::nullopt;
     }
 
