@@ -1,5 +1,6 @@
 from __future__ import annotations
 import pyqtgraph as pg
+from software.thunderscope.robot_diagnostics.ssh_widget import SSHWidget
 from pyqtgraph.Qt import QtCore, QtGui
 from pyqtgraph.Qt.QtWidgets import *
 from software.py_constants import *
