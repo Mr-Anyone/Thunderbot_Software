@@ -556,10 +556,14 @@ def configure_ai_or_diagnostics(
     initialize_application()
 
     if load_blue:
+        frame_swap_counter = FrameTimeCounter()
+        refresh_func_counter = FrameTimeCounter()
+
         proto_unix_io_map[ProtoUnixIOTypes.BLUE] = ProtoUnixIO()
         proto_unix_io_map[ProtoUnixIOTypes.CURRENT] = proto_unix_io_map[
             ProtoUnixIOTypes.BLUE
         ]
+
         tabs.append(
             TScopeTab(
                 name="Blue Fullsystem",
@@ -571,10 +575,16 @@ def configure_ai_or_diagnostics(
                     extra_widgets=get_extra_widgets(
                         proto_unix_io_map[ProtoUnixIOTypes.BLUE]
                     ),
+                    refresh_counter=refresh_func_counter,
+                    frame_swap_counter=frame_swap_counter
                 ),
+                refresh_counter=refresh_func_counter
             )
         )
     elif load_yellow:
+        frame_swap_counter = FrameTimeCounter()
+        refresh_func_counter = FrameTimeCounter()
+
         proto_unix_io_map[ProtoUnixIOTypes.YELLOW] = ProtoUnixIO()
         proto_unix_io_map[ProtoUnixIOTypes.CURRENT] = proto_unix_io_map[
             ProtoUnixIOTypes.YELLOW
@@ -592,7 +602,10 @@ def configure_ai_or_diagnostics(
                     extra_widgets=get_extra_widgets(
                         proto_unix_io_map[ProtoUnixIOTypes.YELLOW]
                     ),
+                    refresh_counter=refresh_func_counter,
+                    frame_swap_counter=frame_swap_counter
                 ),
+                refresh_counter=refresh_func_counter
             )
         )
 

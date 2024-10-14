@@ -3,7 +3,10 @@ from pyqtgraph.Qt.QtWidgets import *
 from pyqtgraph.opengl import *
 from software.py_constants import ROBOT_MAX_HEIGHT_METERS
 from software.thunderscope.constants import MULTI_PLANE_POINTS
+from software.logger.logger import createLogger
 
+import logging 
+logger = createLogger(__name__)
 
 class MouseInSceneEvent:
     """Wraps QMouseEvent and includes additional data about the point in the 3D scene
@@ -77,11 +80,17 @@ class ExtendedGLViewWidget(GLViewWidget):
             and event.modifiers() & QtCore.Qt.KeyboardModifier.ShiftModifier
         ):
             self.point_picked = True
+
+            # the point we are pointing into
+            point = self.get_point_in_scene(event.position()),
+            logger.info(point)
+
             point_in_scene_event = MouseInSceneEvent(
                 event,
                 self.get_point_in_scene(event.position()),
                 self.get_multi_plane_points_in_scene(event.position()),
             )
+
             self.mouse_in_scene_pressed_signal.emit(point_in_scene_event)
         else:
             # Only handle GLViewWidget orbit/pan if we're not picking a point in 3D
