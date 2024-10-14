@@ -91,10 +91,14 @@ class RobotInfo(QWidget):
         self.control_mode_signal = control_mode_signal
 
         self.time_of_last_robot_status = time.time()
-
         self.layout = QHBoxLayout()
 
         self.status_layout = QVBoxLayout()
+
+        # adding an ssh widget
+        self.ssh_widget = SSHWidget(robot_id=robot_id)
+        self.status_layout.addWidget(self.ssh_widget)
+       
 
         # Battery Bar
         self.stats_layout = QHBoxLayout()
