@@ -165,33 +165,6 @@ class GLWidget(QWidget):
         for layer in self.layers:
             layer.keyReleaseEvent(event)
 
-    def move_to_point(self, event: MouseInSceneEvent):
-        # I am  going to move to point
-        point = event.point_in_scene
-        logger.info(point.x())
-        logger.info(point.y())
-
-        # # please do a sanity check!
-        # exit(-1)
-
-        # this is a move tactic
-        point = Point(x_meters=point.x(), y_meters=point.y())
-        move_tactic = MoveTactic(
-            destination=point,
-            dribbler_mode=DribblerMode.OFF,
-            final_orientation=Angle(radians=-math.pi / 2),
-            ball_collision_type=BallCollisionType.AVOID,
-            auto_chip_or_kick=AutoChipOrKick(autokick_speed_m_per_s=0.0),
-            max_allowed_speed_mode=MaxAllowedSpeedMode.PHYSICAL_LIMIT,
-            obstacle_avoidance_mode=ObstacleAvoidanceMode.SAFE,
-        )
-        robot_id = 1
-        assign_tactic = AssignedTacticPlayControlParams()
-        assign_tactic.assigned_tactics[robot_id].move.CopyFrom(move_tactic)
-
-        logger.info("I've send a tactic: {}".format(assign_tactic))
-        self.proto_unix_io.send_proto(AssignedTacticPlayControlParams, assign_tactic)
-
     def mouse_in_scene_pressed(self, event: MouseInSceneEvent) -> None:
         """Propagate mouse_in_scene_pressed event to all layers
 
@@ -205,7 +178,6 @@ class GLWidget(QWidget):
             for layer in self.layers:
                 layer.mouse_in_scene_pressed(event)
 
-            self.move_to_point(event)
 
     def mouse_in_scene_dragged(self, event: MouseInSceneEvent) -> None:
         """Propagate mouse_in_scene_dragged event to all layers

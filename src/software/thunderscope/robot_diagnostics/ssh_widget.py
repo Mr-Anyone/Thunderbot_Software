@@ -6,7 +6,11 @@ import pyqtgraph as pg
 from pyqtgraph.Qt import QtCore, QtGui
 from pyqtgraph.Qt.QtWidgets import *
 from software.py_constants import *
+from software.logger.logger import createLogger
+
 import time as time
+
+logger = createLogger(__name__)
 
 
 class SSHWidget(QWidget):
@@ -19,13 +23,13 @@ class SSHWidget(QWidget):
         name = "balle"
 
         self.hostnames = [f"{name}{sufix}.local" for sufix in ["jetson", ""]]
-        self.password = "nice try"
+        self.password = self.load_from_cache()
 
-        self.pingable_widget = QLabel("Ping: No Good")
-        self.systemd_widget = QLabel("Systemd Status: Active")
-        self.robot_channel = QLabel("Robot Channel: Active")
+        self.pingable_widget = QLabel("Ping: ?")
+        self.systemd_widget = QLabel("Systemd Status: ?")
+        self.robot_channel = QLabel("Robot Channel: ?")
         self.flash_button = QPushButton("Flash Robot")
-        self.enter_password_widget = QTextEdit("enter ssh password: ")
+        self.enter_password_widget = QTextEdit(self.password)
 
         self.systemd_output = QLabel("systemd outout:")
 
@@ -50,9 +54,28 @@ class SSHWidget(QWidget):
         self.daemon_thread = threading.Thread(target=self.check)
         self.daemon_thread.start()
 
+    def save_password_to_disk(self, password): 
+        logger.info("I am saving password to disk!")
+        with open("/opt/tbotspython/ssh_password.txt", "w") as f:
+            f.write(password)
+
+    def load_from_cache(self):
+        try:
+            logger.info("I am loading password from cache")
+
+            with open("/opt/tbotspython/ssh_password.txt", "r") as f:
+                return f.read()
+
+        except Exception as e:
+            logger.exception("I got exception {}".format(e))
+            return "enter password here: "
+
+         
+
     def set_password(self):
         # we can now set password
         self.password = self.enter_password_widget.toPlainText()
+        self.save_password_to_disk(self.password)
 
     def check(self):
         """
@@ -60,7 +83,12 @@ class SSHWidget(QWidget):
         """
 
         while True:
+            # for debugging purposes
+            if self.robot_id  != 7:
+                break
+
             # I can ping
+            logger.info("I started one check loop?")
             if self.is_pingable():
                 print("I can ping")
                 self.pingable_widget.setText("Ping: Good")
@@ -98,7 +126,7 @@ class SSHWidget(QWidget):
 
                 # Run the command
                 result = subprocess.run(
-                    ssh_command, capture_output=True, text=True, check=False, timeout=5
+                    ssh_command, capture_output=True, text=True, check=False, timeout=10
                 )
                 print(f"the result is : {result.stdout}")
 
@@ -122,6 +150,8 @@ class SSHWidget(QWidget):
     def is_systemd_active_from_text(self, text):
         return "active (running)" in text
 
+    # TODO: as of current, there is a bug so the user has to run ssh-keygen -R the localhost before doign this
+    # I am not sure what to do about this!
     def check_systemd_status(self):
         try:
             systemd_output = self.send_command_ssh(

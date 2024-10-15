@@ -4,6 +4,9 @@ from pyqtgraph.opengl import *
 
 import math
 
+from software.logger.logger import createLogger
+logger = createLogger(__name__)
+
 import software.python_bindings as tbots_cpp
 from proto.import_all_protos import *
 from software.py_constants import *
@@ -42,6 +45,7 @@ class GLWorldLayer(GLLayer):
         name: str,
         simulator_io: ProtoUnixIO,
         friendly_colour_yellow: bool,
+        fullsystem_io: ProtoUnixIO,
         buffer_size: int = 5,
     ) -> None:
         """Initialize the GLWorldLayer
@@ -55,6 +59,7 @@ class GLWorldLayer(GLLayer):
         super().__init__(name)
         self.setDepthValue(DepthValues.FOREGROUND_DEPTH)
 
+        self.fullsystem_io = fullsystem_io
         self.simulator_io = simulator_io
         self.friendly_colour_yellow = friendly_colour_yellow
 
@@ -216,6 +221,33 @@ class GLWorldLayer(GLLayer):
         """
         self.key_pressed[event.key()] = False
 
+    def move_to_point(self, point): 
+        # I am  going to move to point
+        logger.info("I am now moving to the following points: ")
+        if len(self._cached_friendly_team) == 0:
+            logger.warning("There are no friendly robots on the field.")
+            return 
+
+        # this is a move tactic
+        robot_id = list(self._cached_friendly_team.keys())[0]
+
+        point = Point(x_meters=point.x(), y_meters=point.y())
+        move_tactic = MoveTactic(
+            destination=point,
+            dribbler_mode=DribblerMode.OFF,
+            final_orientation=Angle(radians=-math.pi / 2),
+            ball_collision_type=BallCollisionType.AVOID,
+            auto_chip_or_kick=AutoChipOrKick(autokick_speed_m_per_s=0.0),
+            max_allowed_speed_mode=MaxAllowedSpeedMode.PHYSICAL_LIMIT,
+            obstacle_avoidance_mode=ObstacleAvoidanceMode.SAFE,
+        )
+
+        assign_tactic = AssignedTacticPlayControlParams()
+        assign_tactic.assigned_tactics[robot_id].move.CopyFrom(move_tactic)
+
+        self.fullsystem_io.send_proto(AssignedTacticPlayControlParams, assign_tactic)
+        logger.info(f"I am moving moving robot: {robot_id} to  {point}")
+
     def mouse_in_scene_pressed(self, event: MouseInSceneEvent) -> None:
         """Detect that the mouse was pressed and picked a point in the 3D scene
 
@@ -224,6 +256,7 @@ class GLWorldLayer(GLLayer):
         if not event.mouse_event.modifiers() == Qt.KeyboardModifier.ShiftModifier:
             return
 
+        self.move_to_point(event.point_in_scene)
         self.point_in_scene_picked = self._invert_position_if_defending_negative_half(
             event.point_in_scene
         )
@@ -239,6 +272,7 @@ class GLWorldLayer(GLLayer):
             )
         )
         self.simulator_io.send_proto(WorldState, world_state)
+
 
     def mouse_in_scene_dragged(self, event: MouseInSceneEvent) -> None:
         """Detect that the mouse was dragged within the 3D scene

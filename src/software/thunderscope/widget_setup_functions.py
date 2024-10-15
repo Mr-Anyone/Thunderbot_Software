@@ -121,6 +121,7 @@ def setup_gl_widget(
             "Vision",
             sim_proto_unix_io,
             friendly_colour_yellow,
+            full_system_proto_unix_io,
             visualization_buffer_size,
         )
     )
