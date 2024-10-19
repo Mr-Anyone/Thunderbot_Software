@@ -16,7 +16,8 @@
 #include <sys/mman.h>      // Needed for mlockall()
 #include <sys/resource.h>  // needed for getrusage
 #include <sys/time.h>      // needed for getrusage
-#include <unistd.h>        // needed for sysconf(int name);
+#include <time.h>
+#include <unistd.h>  // needed for sysconf(int name);
 
 #include <bitset>
 
@@ -43,6 +44,8 @@ static const uint32_t TMC_CMD_MSG_SIZE  = 5;
 
 static double RUNAWAY_PROTECTION_THRESHOLD_MPS         = 2.00;
 static int DRIBBLER_ACCELERATION_THRESHOLD_RPM_PER_S_2 = 10000;
+
+extern Led globalLed;
 
 
 extern "C"
@@ -464,6 +467,16 @@ TbotsProto::MotorStatus MotorService::poll(const TbotsProto::MotorControl& motor
         tmc4671ReadThenWriteValue(DRIBBLER_MOTOR_CHIP_SELECT, TMC4671_PID_VELOCITY_ACTUAL,
                                   TMC4671_PID_VELOCITY_TARGET, dribbler_ramp_rpm_));
 
+    long timestamp = time(nullptr);
+    // TODO: add LED value
+    LOG(CSV, "TMC4671_read_value.csv")
+        << "timestamp,front right velocity, front left velocity, back right velocity, back left velocity, LED Status";
+
+    LOG(CSV, "TMC4671_read_value.csv")
+        << timestamp << "," << front_right_velocity << "," << front_left_velocity << ","
+        << back_right_velocity << "," << back_left_velocity << ","
+        << globalLed.getCsvContent();
+
     // Construct a MotorStatus object with the current velocities and dribbler rpm
     TbotsProto::MotorStatus motor_status =
         updateMotorStatus(front_left_velocity, front_right_velocity, back_left_velocity,
@@ -514,6 +527,15 @@ TbotsProto::MotorStatus MotorService::poll(const TbotsProto::MotorControl& motor
         -current_euclidean_velocity[0]);
     motor_status.mutable_angular_velocity()->set_radians_per_second(
         current_euclidean_velocity[2]);
+
+    LOG(CSV, "EuclideanSpace.csv")
+        << "timestamp, x component (m/s), y component (m/s), omega (rad/s), LED STATUS";
+
+    timestamp = time(nullptr);
+    LOG(CSV, "EuclideanSpace.csv")
+        << timestamp << "," << current_euclidean_velocity[1] << ","
+        << current_euclidean_velocity[0] << "," << current_euclidean_velocity[2]
+        << globalLed.getCsvContent();
 
     WheelSpace_t target_wheel_velocities = WheelSpace_t::Zero();
 

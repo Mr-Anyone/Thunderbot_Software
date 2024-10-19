@@ -13,6 +13,7 @@
 #include "software/embedded/gpio_char_dev.h"
 #include "software/embedded/gpio_sysfs.h"
 #include "software/embedded/platform.h"
+#include "software/embedded/services/led.h"
 #include "software/physics/euclidean_to_wheel.h"
 
 /**

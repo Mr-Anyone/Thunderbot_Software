@@ -10,6 +10,7 @@ cc_library(
             "//software/embedded:build_pi": ["PI"],
         }),
     deps = [
+        ":led",
         "//proto:tbots_cc_proto",
         "//shared:robot_constants",
         "//software/embedded:gpio",

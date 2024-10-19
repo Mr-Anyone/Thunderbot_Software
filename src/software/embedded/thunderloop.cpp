@@ -150,6 +150,7 @@ Thunderloop::~Thunderloop() {}
     struct timespec current_time;
     struct timespec last_chipper_fired;
     struct timespec last_kicker_fired;
+    struct timespec last_led_pulse;
 
     // Input buffer
     TbotsProto::PrimitiveSet new_primitive_set;
@@ -168,8 +169,10 @@ Thunderloop::~Thunderloop() {}
     clock_gettime(CLOCK_MONOTONIC, &last_world_received_time);
     clock_gettime(CLOCK_MONOTONIC, &last_chipper_fired);
     clock_gettime(CLOCK_MONOTONIC, &last_kicker_fired);
+    clock_gettime(CLOCK_MONOTONIC, &last_led_pulse);
 
     double loop_duration_seconds = 0.0;
+
 
     for (;;)
     {
@@ -241,6 +244,16 @@ Thunderloop::~Thunderloop() {}
                     thunderloop_status_.set_primitive_executor_start_time_ms(
                         getMilliseconds(poll_time));
                 }
+            }
+
+            // wea re bb
+            clock_gettime(CLOCK_MONOTONIC, &current_time);
+            struct timespec timediff;
+            ScopedTimespecTimer::timespecDiff(&current_time, &last_led_pulse, &timediff);
+            if (timediff.tv_sec == 3)
+            {
+                led.switchState();
+                last_led_pulse = current_time;
             }
 
             if (motor_status_.has_value())

@@ -5,6 +5,10 @@ package TbotsProto;
 import "proto/primitive.proto";
 import "proto/tbots_timestamp_msg.proto";
 
+message LedMode{
+    bool should_use_pulse = 1; 
+}
+
 message PrimitiveSet
 {
     // Epoch timestamp when primitives were assigned
@@ -17,4 +21,7 @@ message PrimitiveSet
     map<uint32, Primitive> robot_primitives = 3;
 
     uint64 sequence_number = 4;
+
+    // Setting the LED Mode
+    LedMode led_mode = 5;
 }

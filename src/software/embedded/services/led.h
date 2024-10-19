@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 #include "software/embedded/gpio_char_dev.h"
 
 /**
@@ -22,6 +24,17 @@ class Led
      */
     void turnOff();
 
+
+    GpioState getState();
+
+    /**
+      technically shouldn't be a member function be whatever
+      */
+    std::string getCsvContent();
+
+    void switchState();
+
    private:
     GpioCharDev m_gpio;
+    GpioState m_state;
 };
