@@ -54,6 +54,7 @@ cc_library(
         ":primitive_executor",
         "//proto:tbots_cc_proto",
         "//software/embedded/redis",
+        "//software/embedded/services:led",
         "//software/embedded/services:motor",
         "//software/embedded/services:power",
         "//software/embedded/services/network",
