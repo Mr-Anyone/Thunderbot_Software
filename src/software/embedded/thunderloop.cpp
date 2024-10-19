@@ -25,6 +25,8 @@
 extern int clock_nanosleep(clockid_t __clock_id, int __flags,
                            __const struct timespec* __req, struct timespec* __rem);
 
+extern Led globalLed;
+
 // signal handling is done by csignal which requires a function pointer with C linkage
 extern "C"
 {
@@ -41,6 +43,7 @@ extern "C"
      */
     void tbotsExit(int signal_num)
     {
+        globalLed.turnOff();
         g_motor_service->resetMotorBoard();
 
         // by now g3log may have died due to the termination signal, so it isn't reliable

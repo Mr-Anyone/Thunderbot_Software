@@ -13,6 +13,7 @@
 #include "proto/tbots_software_msgs.pb.h"
 #include "shared/2021_robot_constants.h"
 #include "shared/constants.h"
+#include "software/embedded/services/led.h"
 #include "software/embedded/thunderloop.h"
 #include "software/logger/network_logger.h"
 #include "software/world/robot_state.h"
@@ -30,6 +31,7 @@ std::string BANNER =
 "  /'                                                                                       /'          \n";
 // clang-format on
 
+Led globalLed;
 
 /*
  * Configure malloc for real-time linux
@@ -86,6 +88,7 @@ static void reserveProcessMemory(int size)
 
 int main(int argc, char** argv)
 {
+    globalLed.turnOn();
     std::cout << BANNER << std::endl;
 
     struct CommandLineArgs

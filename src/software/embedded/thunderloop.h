@@ -11,6 +11,7 @@
 #include "shared/constants.h"
 #include "software/embedded/primitive_executor.h"
 #include "software/embedded/redis/redis_client.h"
+#include "software/embedded/services/led.h"
 #include "software/embedded/services/motor.h"
 #include "software/embedded/services/network/network.h"
 #include "software/embedded/services/power.h"
@@ -147,6 +148,9 @@ class Thunderloop
     const std::string PATH_TO_RINGBUFFER_LOG = "/var/log/dmesg";
 
     std::ifstream log_file = std::ifstream(PATH_TO_RINGBUFFER_LOG);
+
+    // the LED indicator
+    Led led;
 };
 
 /*

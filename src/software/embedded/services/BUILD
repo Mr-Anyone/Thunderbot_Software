@@ -54,3 +54,13 @@ cc_binary(
         "@trinamic",
     ],
 )
+
+cc_library(
+    name ="led", 
+    srcs = ["led.cpp"], 
+    hdrs = ["led.h"],
+    deps = [
+        "//software/embedded:gpio",
+    ]
+
+)
