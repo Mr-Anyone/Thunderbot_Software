@@ -1,6 +1,10 @@
 #include "software/sensor_fusion/sensor_fusion.h"
 
+#include "proto/message_translation/tbots_geometry.h"
+#include "software/ai/navigator/obstacle/geom_obstacle.hpp"
+#include "software/ai/navigator/obstacle/obstacle.hpp"
 #include "software/geom/algorithms/distance.h"
+#include "software/geom/polygon.h"
 #include "software/logger/logger.h"
 
 SensorFusion::SensorFusion(TbotsProto::SensorFusionConfig sensor_fusion_config)
@@ -38,6 +42,7 @@ std::optional<World> SensorFusion::getWorld() const
             new_world.updateRefereeStage(*referee_stage);
         }
 
+        new_world.setVirtualObstacles(virtual_obstacles_);
         return new_world;
     }
     else
@@ -436,4 +441,27 @@ void SensorFusion::resetWorldComponents()
     friendly_team_filter = RobotTeamFilter();
     enemy_team_filter    = RobotTeamFilter();
     possession           = TeamPossession::FRIENDLY_TEAM;
+}
+
+void SensorFusion::setVirtualObstacles(TbotsProto::ObstacleListTwo &virtual_obstacles)
+{
+    // do something here implement this function
+    virtual_obstacles_ = virtual_obstacles;
+    std::cout << "virtual obstacles has been set in sensor fusion!" << std::endl;
+
+    // for (TbotsProto::Obstacle obstacle : list.obstacles())
+    //{
+    //     // we only support polygon as of so far
+    //     if (!obstacle.has_polygon())
+    //     {
+    //         LOG(WARNING)
+    //             << "Obstacle list has an obstacle that is not polygon! Not supported
+    //             ignored! ";
+    //         continue;
+    //     }
+
+    //    Polygon polygon              = createPolygon(obstacle.polygon());
+    //    ObstaclePtr virtual_obstacle = std::make_shared<GeomObstacle<Polygon>>(polygon);
+    //    virtual_obstacles_.push_back(virtual_obstacle);
+    //}
 }

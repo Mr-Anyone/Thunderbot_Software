@@ -10,6 +10,8 @@ cc_library(
         "//proto/message_translation:ssl_geometry",
         "//proto/message_translation:ssl_referee",
         "//proto/message_translation:tbots_protobuf",
+        "//software/ai/navigator/obstacle:obstacle",
+        "//software/ai/navigator/obstacle:geom_obstacle",
         "//software/logger",
         "//software/sensor_fusion/filter:sensor_fusion_filters",
         "//software/sensor_fusion/filter:vision_detection",

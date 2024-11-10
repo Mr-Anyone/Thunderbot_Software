@@ -40,11 +40,10 @@ void ThreadedSensorFusion::onValueReceived(SensorProto sensor_msg)
     }
 }
 
-void ThreadedSensorFusion::onValueReceived(TbotsProto::ObstacleListTwo config)
+void ThreadedSensorFusion::onValueReceived(TbotsProto::ObstacleListTwo list)
 {
-    std::cout << "I've made it here!" << std::endl;
+    sensor_fusion.setVirtualObstacles(list);
     std::optional<World> world = sensor_fusion.getWorld();
-    std::cout << "this is some world?" << std::endl;
 
     if (world)
     {
