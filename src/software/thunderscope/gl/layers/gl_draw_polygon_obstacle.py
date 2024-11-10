@@ -42,6 +42,14 @@ class GLDrawPolygonObstacleLayer(GLLayer):
         self.points.append(first_point)
         self.polygon.set_points(self.points)
 
+        # sending stuff to proto unix io
+        # polygon  in c++ does not need the endpoint!
+        points = [Point(x_meters=point[0], y_meters=point[1]) for point in self.points[:-1]]
+        polygon = Polygon(points=points)
+        obstacle = Obstacle(polygon=polygon)
+
+        self.fullsystem_io.send_proto(ObstacleListTwo, ObstacleListTwo(obstacles=[obstacle]))
+
     def mouse_in_scene_pressed(self, event: MouseInSceneEvent) -> None:
         point = event.point_in_scene
         print("I've added point: {}".format(point))

@@ -133,7 +133,7 @@ def setup_gl_widget(
     tactic_layer = gl_tactic_layer.GLTacticLayer("Tactics", visualization_buffer_size)
     trail_layer = gl_trail_layer.GLTrailLayer("Trail", visualization_buffer_size)
 
-    draw_obstacle_layer = GLDrawPolygonObstacleLayer("Draw Obstalce Layer", visualization_buffer_size)
+    draw_obstacle_layer = GLDrawPolygonObstacleLayer("Draw Obstalce Layer",full_system_proto_unix_io )
 
     gl_widget.add_layer(draw_obstacle_layer, True)
     gl_widget.add_layer(world_layer)

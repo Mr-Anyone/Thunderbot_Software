@@ -1,6 +1,7 @@
 #include "software/backend/unix_simulator_backend.h"
 
 #include "proto/message_translation/ssl_wrapper.h"
+#include "proto/message_translation/tbots_geometry.h"
 #include "proto/message_translation/tbots_protobuf.h"
 #include "proto/parameters.pb.h"
 #include "proto/robot_log_msg.pb.h"
@@ -41,8 +42,21 @@ UnixSimulatorBackend::UnixSimulatorBackend(
     std::cout << runtime_dir + OBSTACLE_LIST_UNIX_PATH << std::endl;
     external_obstacles_list_.reset(
         new ThreadedProtoUnixListener<TbotsProto::ObstacleListTwo>(
-            runtime_dir + OBSTACLE_LIST_UNIX_PATH, [&](TbotsProto::ObstacleListTwo& msg)
-            { std::cout << "I got a messages: " << msg << std::endl; }, proto_logger));
+            runtime_dir + OBSTACLE_LIST_UNIX_PATH,
+            [&](TbotsProto::ObstacleListTwo& msg)
+            {
+                std::cout << "I've got a message?" << std::endl;
+
+                for (TbotsProto::Obstacle obstacle : msg.obstacles())
+                {
+                    TbotsProto::Polygon polygon = obstacle.polygon();
+                    Polygon native_polygon      = createPolygon(polygon);
+                    std::cout << "just in case of compiler optimization: " << native_polygon.centroid().x() << std::endl; 
+                }
+
+                std::cout << "I've made a polygon!" << std::endl;
+            },
+            proto_logger));
 
     // The following listeners have an empty callback since their values are
     // only used by proto_logger for replay purposes.
