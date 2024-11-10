@@ -13,10 +13,11 @@ from software.thunderscope.gl.helpers.extended_gl_view_widget import MouseInScen
 
 
 class GLDrawPolygonObstacleLayer(GLLayer):
-    def __init__(self, name, fullsystem_io: ProtoUnixIO) -> None:
+    def __init__(self, name, blue_fs_io: ProtoUnixIO, yellow_fs_io: ProtoUnixIO) -> None:
         super().__init__(name)
 
-        self.fullsystem_io: ProtoUnixIO = fullsystem_io
+        self.blue_fu_io: ProtoUnixIO = blue_fs_io
+        self.yellow_fs_io: ProtoUnixIO = yellow_fs_io
 
         self.polygon = GLPolygon(parent_item=self, line_width=2)
         self.points = []
@@ -48,7 +49,8 @@ class GLDrawPolygonObstacleLayer(GLLayer):
         polygon = Polygon(points=points)
         obstacle = Obstacle(polygon=polygon)
 
-        self.fullsystem_io.send_proto(ObstacleListTwo, ObstacleListTwo(obstacles=[obstacle]))
+        self.blue_fu_io.send_proto(ObstacleListTwo, ObstacleListTwo(obstacles=[obstacle]))
+        self.yellow_fs_io.send_proto(ObstacleListTwo, ObstacleListTwo(obstacles=[obstacle]))
 
     def mouse_in_scene_pressed(self, event: MouseInSceneEvent) -> None:
         point = event.point_in_scene
