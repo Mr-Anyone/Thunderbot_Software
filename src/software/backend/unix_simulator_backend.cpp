@@ -20,9 +20,8 @@ UnixSimulatorBackend::UnixSimulatorBackend(
         [&](TbotsProto::RobotStatus& msg) { receiveRobotStatus(msg); }, proto_logger));
 
     ssl_wrapper_input.reset(new ThreadedProtoUnixListener<SSLProto::SSL_WrapperPacket>(
-        runtime_dir + SSL_WRAPPER_PATH,
-        [&](SSLProto::SSL_WrapperPacket& msg) { receiveSSLWrapperPacket(msg); },
-        proto_logger));
+        runtime_dir + SSL_WRAPPER_PATH, [&](SSLProto::SSL_WrapperPacket& msg)
+        { receiveSSLWrapperPacket(msg); }, proto_logger));
 
     ssl_referee_input.reset(new ThreadedProtoUnixListener<SSLProto::Referee>(
         runtime_dir + SSL_REFEREE_PATH,
@@ -37,6 +36,13 @@ UnixSimulatorBackend::UnixSimulatorBackend(
             runtime_dir + DYNAMIC_PARAMETER_UPDATE_REQUEST_PATH,
             [&](TbotsProto::ThunderbotsConfig& msg) { receiveThunderbotsConfig(msg); },
             proto_logger));
+
+    // external obstacles for bang bang trajectory planner
+    std::cout << runtime_dir + OBSTACLE_LIST_UNIX_PATH << std::endl;
+    external_obstacles_list_.reset(
+        new ThreadedProtoUnixListener<TbotsProto::ObstacleListTwo>(
+            runtime_dir + OBSTACLE_LIST_UNIX_PATH, [&](TbotsProto::ObstacleListTwo& msg)
+            { std::cout << "I got a messages: " << msg << std::endl; }, proto_logger));
 
     // The following listeners have an empty callback since their values are
     // only used by proto_logger for replay purposes.

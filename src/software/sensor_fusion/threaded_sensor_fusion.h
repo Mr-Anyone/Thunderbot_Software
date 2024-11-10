@@ -18,6 +18,10 @@ class ThreadedSensorFusion
 
    private:
     void onValueReceived(SensorProto sensor_msg) override;
+
+    //  TODO (vince): implement this to load the obstascles into stuff
+    // void onValueReceived(SensorProto sensor_msg) override;
+
     void onValueReceived(TbotsProto::ThunderbotsConfig config) override;
 
     SensorFusion sensor_fusion;

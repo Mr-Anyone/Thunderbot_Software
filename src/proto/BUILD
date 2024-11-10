@@ -133,6 +133,7 @@ proto_library(
     ],
     visibility = ["//visibility:private"],
     deps = [
+        ":visualization_proto",
         ":ssl_proto",
         ":tbots_proto",
     ],

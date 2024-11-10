@@ -63,6 +63,11 @@ message ObstacleList
     repeated Obstacle obstacles = 1;
 }
 
+message ObstacleListTwo
+{
+    repeated Obstacle obstacles = 1;
+}
+
 message Shape
 {
     oneof shape
