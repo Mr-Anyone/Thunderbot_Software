@@ -10,7 +10,9 @@
 class ThreadedSensorFusion
     : public Subject<World>,
       public FirstInFirstOutThreadedObserver<SensorProto>,
-      public FirstInFirstOutThreadedObserver<TbotsProto::ThunderbotsConfig>
+      public FirstInFirstOutThreadedObserver<TbotsProto::ThunderbotsConfig>,
+      public FirstInFirstOutThreadedObserver<TbotsProto::ObstacleListTwo>
+
 {
    public:
     explicit ThreadedSensorFusion(TbotsProto::SensorFusionConfig config);
@@ -18,11 +20,8 @@ class ThreadedSensorFusion
 
    private:
     void onValueReceived(SensorProto sensor_msg) override;
-
-    //  TODO (vince): implement this to load the obstascles into stuff
-    // void onValueReceived(SensorProto sensor_msg) override;
-
     void onValueReceived(TbotsProto::ThunderbotsConfig config) override;
+    void onValueReceived(TbotsProto::ObstacleListTwo config) override;
 
     SensorFusion sensor_fusion;
     TbotsProto::SensorFusionConfig sensor_fusion_config;

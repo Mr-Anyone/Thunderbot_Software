@@ -39,3 +39,15 @@ void ThreadedSensorFusion::onValueReceived(SensorProto sensor_msg)
         }
     }
 }
+
+void ThreadedSensorFusion::onValueReceived(TbotsProto::ObstacleListTwo config)
+{
+    std::cout << "I've made it here!" << std::endl;
+    std::optional<World> world = sensor_fusion.getWorld();
+    std::cout << "this is some world?" << std::endl;
+
+    if (world)
+    {
+        std::cout << "there is a valid world!" << std::endl;
+    }
+}

@@ -9,6 +9,7 @@
 #include "shared/constants.h"
 #include "software/constants.h"
 #include "software/logger/logger.h"
+#include "software/multithreading/subject.hpp"
 #include "software/util/generic_factory/generic_factory.h"
 
 UnixSimulatorBackend::UnixSimulatorBackend(
@@ -45,16 +46,9 @@ UnixSimulatorBackend::UnixSimulatorBackend(
             runtime_dir + OBSTACLE_LIST_UNIX_PATH,
             [&](TbotsProto::ObstacleListTwo& msg)
             {
-                std::cout << "I've got a message?" << std::endl;
-
-                for (TbotsProto::Obstacle obstacle : msg.obstacles())
-                {
-                    TbotsProto::Polygon polygon = obstacle.polygon();
-                    Polygon native_polygon      = createPolygon(polygon);
-                    std::cout << "just in case of compiler optimization: " << native_polygon.centroid().x() << std::endl; 
-                }
-
-                std::cout << "I've made a polygon!" << std::endl;
+                std::cout << "I've got a messages" << std::endl;
+                receiveObstacleList(msg);
+                std::cout << "done" << std::endl;
             },
             proto_logger));
 
