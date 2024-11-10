@@ -219,5 +219,7 @@ gdb --args bazel-bin/{self.full_system}
         ]:
             proto_unix_io.attach_unix_sender(self.full_system_runtime_dir, *arg)
 
-
-        proto_unix_io.send_proto(ObstacleListTwo, ObstacleListTwo())
+        # how to send proto after sending some time initializing stuff
+        #polygon = Polygon(points=[Point(x_meters=1, y_meters=2), Point(x_meters=2, y_meters=3)])
+        #obstacle = Obstacle(polygon=polygon)
+        #proto_unix_io.send_proto(ObstacleListTwo, ObstacleListTwo(obstacles=[obstacle]))
