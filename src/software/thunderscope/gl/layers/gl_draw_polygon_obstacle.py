@@ -39,8 +39,7 @@ class GLDrawPolygonObstacleLayer(GLLayer):
             self.push_polygon()
 
         # clearing
-        if event.key() == Qt.Key.Key_A:
-            pudb.set_trace()
+        if event.key() == Qt.Key.Key_W:
             self.clear()
 
         return
@@ -50,7 +49,11 @@ class GLDrawPolygonObstacleLayer(GLLayer):
         self.points.clear()
         self.obstacles.clear()
 
+        for polygon in self.saved_polygons:
+            polygon.hide()
         self.saved_polygons.clear()
+
+        self.current_polygon.hide()
         self.current_polygon = GLPolygon(parent_item=self, line_width=2)
 
         self.send_to_fs()
@@ -94,16 +97,15 @@ class GLDrawPolygonObstacleLayer(GLLayer):
         # sending stuff to proto unix io
         # polygon  in c++ does not need the endpoint!
 
-        obstacles = self.obstacles 
+        obstacles = self.obstacles
 
         points = [
             Point(x_meters=point[0], y_meters=point[1]) for point in self.points[:-1]
         ]
-        if len(points) >= 3: 
+        if len(points) >= 3:
             polygon = Polygon(points=points)
             obstacle = Obstacle(polygon=polygon)
             obstacles.append(obstacle)
-
 
         self.blue_fu_io.send_proto(
             ObstacleListTwo, ObstacleListTwo(obstacles=obstacles)
