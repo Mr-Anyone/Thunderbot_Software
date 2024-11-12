@@ -7,7 +7,6 @@
 #include "proto/message_translation/ssl_referee.h"
 #include "proto/parameters.pb.h"
 #include "proto/sensor_msg.pb.h"
-#include "software/ai/navigator/obstacle/obstacle.hpp"
 #include "software/sensor_fusion/filter/ball_filter.h"
 #include "software/sensor_fusion/filter/robot_team_filter.h"
 #include "software/sensor_fusion/filter/vision_detection.h"
@@ -49,7 +48,11 @@ class SensorFusion
      */
     std::optional<World> getWorld() const;
 
-    void setVirtualObstacles(TbotsProto::ObstacleListTwo &virtual_obstacles);
+    /**
+     * Set the virtual obstacles in the world
+     *
+     */
+    void setVirtualObstacles(TbotsProto::VirtualObstacles &virtual_obstacles);
 
     // Number of vision packets to indicate that the vision client most likely reset,
     // determined experimentally with the simulator
@@ -186,5 +189,5 @@ class SensorFusion
     // The timestamp, in seconds, of the most recently received vision packet
     double last_t_capture;
 
-    TbotsProto::ObstacleListTwo virtual_obstacles_;
+    TbotsProto::VirtualObstacles virtual_obstacles_;
 };

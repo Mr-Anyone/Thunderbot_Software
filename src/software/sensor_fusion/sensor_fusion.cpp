@@ -1,10 +1,6 @@
 #include "software/sensor_fusion/sensor_fusion.h"
 
-#include "proto/message_translation/tbots_geometry.h"
-#include "software/ai/navigator/obstacle/geom_obstacle.hpp"
-#include "software/ai/navigator/obstacle/obstacle.hpp"
 #include "software/geom/algorithms/distance.h"
-#include "software/geom/polygon.h"
 #include "software/logger/logger.h"
 
 SensorFusion::SensorFusion(TbotsProto::SensorFusionConfig sensor_fusion_config)
@@ -443,7 +439,7 @@ void SensorFusion::resetWorldComponents()
     possession           = TeamPossession::FRIENDLY_TEAM;
 }
 
-void SensorFusion::setVirtualObstacles(TbotsProto::ObstacleListTwo &virtual_obstacles)
+void SensorFusion::setVirtualObstacles(TbotsProto::VirtualObstacles &virtual_obstacles)
 {
     // do something here implement this function
     virtual_obstacles_ = virtual_obstacles;

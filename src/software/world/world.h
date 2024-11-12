@@ -197,9 +197,8 @@ class World final
     // The size of the referee history buffers to filter out noise with
     static constexpr unsigned int REFEREE_COMMAND_BUFFER_SIZE = 3;
 
-    // TODO: implement this later!
-    void setVirtualObstacles(const TbotsProto::ObstacleListTwo& virtual_obstacles);
-    TbotsProto::ObstacleListTwo getVirtualObstacles() const;
+    void setVirtualObstacles(const TbotsProto::VirtualObstacles& virtual_obstacles);
+    TbotsProto::VirtualObstacles getVirtualObstacles() const;
 
    private:
     /**
@@ -222,7 +221,8 @@ class World final
     // which team has possession of the ball
     TeamPossession team_with_possession_;
 
-    TbotsProto::ObstacleListTwo virtual_obstacles_;
+    // Virtual Obstacles for the Trajectory Planner
+    TbotsProto::VirtualObstacles virtual_obstacles_;
 };
 
 using WorldPtr = std::shared_ptr<const World>;

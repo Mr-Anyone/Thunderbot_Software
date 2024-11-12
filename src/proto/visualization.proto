@@ -63,7 +63,7 @@ message ObstacleList
     repeated Obstacle obstacles = 1;
 }
 
-message ObstacleListTwo
+message VirtualObstacles
 {
     repeated Obstacle obstacles = 1;
 }

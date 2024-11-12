@@ -174,11 +174,11 @@ TeamPossession World::getTeamWithPossession() const
     return team_with_possession_;
 }
 
-void World::setVirtualObstacles(const TbotsProto::ObstacleListTwo &virtual_obstacles)
+void World::setVirtualObstacles(const TbotsProto::VirtualObstacles &virtual_obstacles)
 {
     virtual_obstacles_ = virtual_obstacles;
 }
-TbotsProto::ObstacleListTwo World::getVirtualObstacles() const
+TbotsProto::VirtualObstacles World::getVirtualObstacles() const
 {
     return virtual_obstacles_;
 }

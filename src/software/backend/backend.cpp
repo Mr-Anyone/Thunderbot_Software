@@ -34,9 +34,7 @@ void Backend::receiveSensorProto(SensorProto sensor_msg)
     Subject<SensorProto>::sendValueToObservers(sensor_msg);
 }
 
-void Backend::receiveObstacleList(TbotsProto::ObstacleListTwo new_obstacle_list)
+void Backend::receiveObstacleList(TbotsProto::VirtualObstacles new_obstacle_list)
 {
-    std::cout << "I've got an object?";
-    this->Subject<TbotsProto::ObstacleListTwo>::sendValueToObservers(new_obstacle_list);
-    std::cout << "obstacle list sent" << std::endl;
+    Subject<TbotsProto::VirtualObstacles>::sendValueToObservers(new_obstacle_list);
 }

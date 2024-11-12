@@ -186,13 +186,16 @@ void MovePrimitive::updateObstacles(
     field_obstacles =
         obstacle_factory.createObstaclesFromMotionConstraints(motion_constraints, world);
 
+    // adding virtual obstalces
     auto virtual_obstacles = world.getVirtualObstacles().obstacles();
-    for (TbotsProto::Obstacle obstacle : virtual_obstacles)
+    for (TbotsProto::Obstacle &obstacle : virtual_obstacles)
     {
         if (!obstacle.has_polygon())
         {
             LOG(WARNING)
                 << "Warning, we do not support virtual obstacle that is not a polygon. Shape ignored!";
+
+            continue;
         }
 
         Polygon obstacle_polygon     = createPolygon(obstacle.polygon());
@@ -200,7 +203,6 @@ void MovePrimitive::updateObstacles(
         obstacles.push_back(current_obstacle);
     }
 
-    // adding virtual obstalces
 
     for (const Robot &enemy : world.enemyTeam().getAllRobots())
     {

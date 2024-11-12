@@ -184,6 +184,7 @@ gdb --args bazel-bin/{self.full_system}
             NamedValue,
             PlayInfo,
             ObstacleList,
+            DebugShapes,
         ]:
             proto_unix_io.attach_unix_receiver(
                 runtime_dir=self.full_system_runtime_dir,
@@ -215,11 +216,6 @@ gdb --args bazel-bin/{self.full_system}
             (VALIDATION_PROTO_SET_PATH, ValidationProtoSet),
             (ROBOT_LOG_PATH, RobotLog),
             (ROBOT_CRASH_PATH, RobotCrash),
-            (OBSTACLE_LIST_UNIX_PATH, ObstacleListTwo),
+            (VIRTUAL_OBSTACLES_UNIX_PATH, VirtualObstacles),
         ]:
             proto_unix_io.attach_unix_sender(self.full_system_runtime_dir, *arg)
-
-        # how to send proto after sending some time initializing stuff
-        #polygon = Polygon(points=[Point(x_meters=1, y_meters=2), Point(x_meters=2, y_meters=3)])
-        #obstacle = Obstacle(polygon=polygon)
-        #proto_unix_io.send_proto(ObstacleListTwo, ObstacleListTwo(obstacles=[obstacle]))
