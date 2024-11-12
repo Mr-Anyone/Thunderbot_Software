@@ -63,6 +63,11 @@ class GLDrawPolygonObstacleLayer(GLLayer):
         points = [
             Point(x_meters=point[0], y_meters=point[1]) for point in self.points[:-1]
         ]
+
+        if len(points) <=2 :
+            print("Cannot push polygon to stack as there as less that points two.")
+            return 
+        
         polygon = Polygon(points=points)
         obstacle = Obstacle(polygon=polygon)
         self.obstacles.append(obstacle)
@@ -73,11 +78,13 @@ class GLDrawPolygonObstacleLayer(GLLayer):
         self.send_to_fs()
 
     def add_one_point(self, point: tuple[float, float]):
+        # trying to create a line
         if len(self.points) < 2:
             self.points.append(point)
             self.current_polygon.set_points(self.points)
             return
 
+        # creating a triangle
         if len(self.points) == 2:
             start_point = self.points[0]
 
@@ -85,8 +92,9 @@ class GLDrawPolygonObstacleLayer(GLLayer):
             self.points.append(start_point)
             self.current_polygon.set_points(self.points)
 
+        # creating a general polygon
         start_point = self.points[0]
-        self.points.pop()
+        self.points.pop() # removing the start point since the last point is always the start point
 
         self.points.append(point)
         self.points.append(start_point)
@@ -97,11 +105,12 @@ class GLDrawPolygonObstacleLayer(GLLayer):
         # sending stuff to proto unix io
         # polygon  in c++ does not need the endpoint!
 
-        obstacles = self.obstacles
+        obstacles = self.obstacles.copy()
 
         points = [
             Point(x_meters=point[0], y_meters=point[1]) for point in self.points[:-1]
         ]
+
         if len(points) >= 3:
             polygon = Polygon(points=points)
             obstacle = Obstacle(polygon=polygon)
