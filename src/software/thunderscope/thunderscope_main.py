@@ -396,6 +396,11 @@ if __name__ == "__main__":
     #
     # The async sim ticket ticks the simulator at a fixed rate.
     else:
+        from pyinstrument import Profiler
+
+        profiler = Profiler()
+        profiler.start()
+
         tscope = Thunderscope(
             config=config.configure_two_ai_gamecontroller_view(
                 args.visualization_buffer_size
@@ -523,3 +528,12 @@ if __name__ == "__main__":
 
                 # resource cleanup occurs after Thunderscope is closed by the user
                 sim_ticker_thread.join()
+
+        profiler.stop()
+        with open("/tmp/thunderscope-pyinstrument.txt", "w") as f:
+            profiler.print(show_all=True, file=f)
+        
+        from pyinstrument.renderers import SpeedscopeRenderer
+        with open('/tmp/profile.speedscope.json', 'w') as f:
+            f.write(profiler.output(SpeedscopeRenderer(show_all=True, timeline=True)))
+
