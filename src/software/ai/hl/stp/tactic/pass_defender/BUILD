@@ -47,6 +47,6 @@ py_test(
         "//software:conftest",
         "//software/simulated_tests:speed_threshold_helpers",
         "//software/simulated_tests:validation",
-        requirement("pytest"),
+        #requirement("pytest"),
     ],
 )

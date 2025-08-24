@@ -146,6 +146,6 @@ py_test(
         "//proto/message_translation:py_tbots_protobuf",
         "//software:conftest",
         "//software/simulated_tests:validation",
-        requirement("pytest"),
+        #requirement("pytest"),
     ],
 )

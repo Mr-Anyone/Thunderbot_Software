@@ -9,7 +9,7 @@ py_library(
         "//proto:software_py_proto",
         "//software/thunderscope:constants",
         "//software/thunderscope:thread_safe_buffer",
-        requirement("pyqtgraph"),
+        ##requirement("pyqtgraph"),
     ],
 )
 
@@ -20,6 +20,6 @@ py_library(
         "//proto:software_py_proto",
         "//software/thunderscope:constants",
         "//software/thunderscope:thread_safe_buffer",
-        requirement("pyqtgraph"),
+        #requirement("pyqtgraph"),
     ],
 )

@@ -12,7 +12,7 @@ py_library(
         "//software:python_bindings.so",
     ],
     deps = [
-        requirement("pyqtgraph"),
+        #requirement("pyqtgraph"),
         "//extlibs/er_force_sim/src/protobuf:erforce_py_proto",
         "//software/thunderscope:constants",
         "//software/thunderscope:proto_unix_io",
@@ -25,7 +25,7 @@ py_library(
         "replay_controls.py",
     ],
     deps = [
-        requirement("pyqtgraph"),
+        #requirement("pyqtgraph"),
         "bookmark_marker",
         ":proto_player",
     ],

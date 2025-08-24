@@ -9,7 +9,7 @@ py_library(
         "//proto:software_py_proto",
         "//software/thunderscope:constants",
         "//software/thunderscope:thread_safe_buffer",
-        requirement("pyqtgraph"),
+        #requirement("pyqtgraph"),
     ],
 )
 
@@ -18,6 +18,6 @@ py_library(
     srcs = ["g3log_checkboxes.py"],
     deps = [
         "//software/thunderscope:thread_safe_buffer",
-        requirement("pyqtgraph"),
+        #requirement("pyqtgraph"),
     ],
 )

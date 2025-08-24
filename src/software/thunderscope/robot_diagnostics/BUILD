@@ -9,7 +9,7 @@ py_library(
         "//proto:software_py_proto",
         "//software/thunderscope:constants",
         "//software/thunderscope/common:common_widgets",
-        requirement("pyqtgraph"),
+        #requirement("pyqtgraph"),
     ],
 )
 
@@ -19,7 +19,7 @@ py_library(
     deps = [
         "//software/thunderscope:constants",
         "//software/thunderscope:thread_safe_buffer",
-        requirement("pyqtgraph"),
+        #requirement("pyqtgraph"),
     ],
 )
 
@@ -34,7 +34,7 @@ py_library(
     deps = [
         ":handheld_controller",
         "//software/thunderscope:constants",
-        requirement("pyqtgraph"),
+        #requirement("pyqtgraph"),
         requirement("evdev"),
     ],
 )
@@ -50,7 +50,7 @@ py_library(
         "//software/thunderscope/robot_diagnostics:chicker",
         "//software/thunderscope/robot_diagnostics:drive_and_dribbler_widget",
         "//software/thunderscope/robot_diagnostics:handheld_controller_widget",
-        requirement("pyqtgraph"),
+        #requirement("pyqtgraph"),
     ],
 )
 
@@ -61,7 +61,7 @@ py_library(
         ":motor_fault_view",
         "//software/thunderscope:constants",
         "//software/thunderscope:thread_safe_buffer",
-        requirement("pyqtgraph"),
+        #requirement("pyqtgraph"),
     ],
 )
 
@@ -82,7 +82,7 @@ py_library(
         "//software/thunderscope:constants",
         "//software/thunderscope:thread_safe_buffer",
         "//software/thunderscope/robot_diagnostics:robot_info",
-        requirement("pyqtgraph"),
+        #requirement("pyqtgraph"),
     ],
 )
 
@@ -93,7 +93,7 @@ py_library(
         "//proto:estop_state_py_proto",
         "//software/thunderscope:constants",
         "//software/thunderscope:thread_safe_buffer",
-        requirement("pyqtgraph"),
+        #requirement("pyqtgraph"),
     ],
 )
 
@@ -107,7 +107,7 @@ py_library(
     srcs = ["robot_error_log.py"],
     deps = [
         ":error_log_widgets",
-        requirement("pyqtgraph"),
+        #requirement("pyqtgraph"),
     ],
 )
 
@@ -117,6 +117,6 @@ py_library(
     deps = [
         ":robot_status",
         "//software/thunderscope/robot_diagnostics/robot_error_log_icons:error_log_constants",
-        requirement("pyqtgraph"),
+        #requirement("pyqtgraph"),
     ],
 )

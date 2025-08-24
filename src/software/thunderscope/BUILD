@@ -48,8 +48,8 @@ py_library(
         "//software/thunderscope/binary_context_managers:simulator",
         "//software/thunderscope/binary_context_managers:tigers_autoref",
         requirement("numpy"),
-        requirement("pyqtdarktheme-fork"),
-        requirement("pyqtgraph"),
+        #requirement("pyqtdarktheme-fork"),
+        #requirement("pyqtgraph"),
     ],
 )
 
@@ -131,7 +131,7 @@ py_library(
         ":proto_unix_io",
         ":thunderscope_types",
         ":widget_names_to_setup",
-        requirement("pyqtdarktheme-fork"),
+        #requirement("pyqtdarktheme-fork"),
     ],
 )
 

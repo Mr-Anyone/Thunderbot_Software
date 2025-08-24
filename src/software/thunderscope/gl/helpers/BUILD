@@ -6,7 +6,7 @@ py_library(
     name = "extended_gl_view_widget",
     srcs = ["extended_gl_view_widget.py"],
     deps = [
-        requirement("pyqtgraph"),
+        #requirement("pyqtgraph"),
     ],
 )
 
@@ -14,7 +14,7 @@ py_library(
     name = "gl_patches",
     srcs = ["gl_patches.py"],
     deps = [
-        requirement("pyqtgraph"),
+        #requirement("pyqtgraph"),
     ],
 )
 

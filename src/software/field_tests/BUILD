@@ -57,7 +57,7 @@ py_test(
         "//software:conftest",
         "//software/simulated_tests:tbots_test_runner",
         "//software/simulated_tests:validation",
-        requirement("pytest"),
+        #requirement("pytest"),
     ],
 )
 
@@ -69,6 +69,6 @@ py_test(
     deps = [
         "//software:conftest",
         "//software/simulated_tests:validation",
-        requirement("pytest"),
+        #requirement("pytest"),
     ],
 )
