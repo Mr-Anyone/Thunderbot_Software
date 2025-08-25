@@ -38,6 +38,18 @@ class GeomObstacle : public Obstacle
      */
     const GEOM_TYPE getGeom(void) const;
 
+    // for a Circle, Polygon, Ray, Segment
+    virtual bool isSame(std::shared_ptr<Obstacle> other) const override {
+        std::shared_ptr<GeomObstacle<GEOM_TYPE>> casted_other =
+            std::dynamic_pointer_cast<GeomObstacle<GEOM_TYPE>>(other);
+
+        if(!casted_other)
+            return false;
+
+        return ::isSame(casted_other->geom_, geom_);
+
+    }
+
    protected:
     const GEOM_TYPE geom_;
 };

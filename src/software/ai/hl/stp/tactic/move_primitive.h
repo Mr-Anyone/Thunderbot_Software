@@ -60,7 +60,7 @@ class MovePrimitive : public Primitive
      * @param path_visualization_out Reference to the PathVisualization proto to add path
      */
     void getVisualizationProtos(
-        TbotsProto::ObstacleList &obstacle_list_out,
+        UniqueObstacleList &obstacle_list_out,
         TbotsProto::PathVisualization &path_visualization_out) const override;
 
    private:

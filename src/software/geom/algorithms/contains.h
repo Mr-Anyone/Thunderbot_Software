@@ -23,3 +23,9 @@ bool contains(const Segment& container, const Point& contained,
               double fixed_epsilon = FIXED_EPSILON, int ulps_distance = ULPS_EPSILON_TEN);
 bool contains(const Rectangle& container, const Point& contained);
 bool contains(const Stadium& container, const Point& contained);
+
+bool isSame(const Polygon& lhs, const Polygon& rhs);
+bool isSame(const Circle& lhs, const Circle& rhs);
+bool isSame(const Ray& lhs, const Ray& rhs);
+bool isSame(const Segment& lhs, const Segment& rhs);
+bool isSame(const Stadium& lhs, const Stadium& rhs);

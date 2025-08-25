@@ -1,4 +1,5 @@
 #include "software/ai/hl/stp/tactic/stop_primitive.h"
+#include <cassert>
 
 std::pair<std::optional<TrajectoryPath>, std::unique_ptr<TbotsProto::Primitive>>
 StopPrimitive::generatePrimitiveProtoMessage(
@@ -12,7 +13,7 @@ StopPrimitive::generatePrimitiveProtoMessage(
 }
 
 void StopPrimitive::getVisualizationProtos(
-    TbotsProto::ObstacleList &obstacle_list_out,
+    UniqueObstacleList &obstacle_list_out,
     TbotsProto::PathVisualization &path_visualization_out) const
 {
 }

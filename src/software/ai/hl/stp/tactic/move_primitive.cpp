@@ -252,12 +252,12 @@ void MovePrimitive::updateObstacles(
 }
 
 void MovePrimitive::getVisualizationProtos(
-    TbotsProto::ObstacleList &obstacle_list_out,
+    UniqueObstacleList &obstacle_list_out,
     TbotsProto::PathVisualization &path_visualization_out) const
 {
     for (const auto &obstacle : obstacles)
     {
-        obstacle_list_out.add_obstacles()->CopyFrom(obstacle->createObstacleProto());
+        obstacle_list_out.addObstacle(obstacle);
     }
 
     TbotsProto::Path path;
