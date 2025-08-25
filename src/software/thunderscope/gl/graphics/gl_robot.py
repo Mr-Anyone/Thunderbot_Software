@@ -10,7 +10,6 @@ from typing import Optional
 
 import numpy as np
 
-
 ROBOT_SHADER = shaders.ShaderProgram(
     "robot-shader",
     [
