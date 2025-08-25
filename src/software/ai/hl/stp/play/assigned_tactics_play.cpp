@@ -36,7 +36,7 @@ std::unique_ptr<TbotsProto::PrimitiveSet> AssignedTacticsPlay::get(
     const WorldPtr &world_ptr, const InterPlayCommunication &,
     const SetInterPlayCommunicationCallback &)
 {
-    obstacle_list.Clear();
+    obstacle_list.clear();
     path_visualization.Clear();
 
     auto primitives_to_run = std::make_unique<TbotsProto::PrimitiveSet>();
@@ -80,7 +80,7 @@ std::unique_ptr<TbotsProto::PrimitiveSet> AssignedTacticsPlay::get(
         world_ptr->getMostRecentTimestamp().toSeconds());
 
     // Visualize all obstacles and paths
-    LOG(VISUALIZE) << obstacle_list;
+    LOG(VISUALIZE) << obstacle_list.getObstacles();
     LOG(VISUALIZE) << path_visualization;
 
     return primitives_to_run;

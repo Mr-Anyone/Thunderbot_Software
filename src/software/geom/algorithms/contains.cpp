@@ -119,3 +119,27 @@ bool contains(const Stadium& container, const Point& contained)
     return distanceSquared(container.segment(), contained) <=
            std::pow(container.radius(), 2);
 }
+
+bool isSame(const Polygon& lhs, const Polygon& rhs)
+{
+    return lhs == rhs;
+}
+
+bool isSame(const Circle& lhs, const Circle& rhs)
+{
+    return lhs == rhs;
+}
+
+// FIXME: is this even correct?
+bool isSame(const Ray& lhs, const Ray& rhs)
+{
+    return lhs.getDirection() == rhs.getDirection() && lhs.getStart() == rhs.getStart();
+}
+
+bool isSame(const Stadium& lhs, const Stadium& rhs){
+    return lhs == rhs;
+}
+
+bool isSame(const Segment& lhs, const Segment& rhs){
+    return lhs == rhs;
+}

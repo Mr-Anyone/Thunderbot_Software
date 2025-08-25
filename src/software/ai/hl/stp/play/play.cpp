@@ -108,7 +108,7 @@ std::unique_ptr<TbotsProto::PrimitiveSet> Play::get(
     auto primitives_to_run = std::make_unique<TbotsProto::PrimitiveSet>();
 
     // Reset the visualization protobufs
-    obstacle_list.Clear();
+    obstacle_list.clear();
     path_visualization.Clear();
 
     tactic_robot_id_assignment.clear();
@@ -215,7 +215,7 @@ std::unique_ptr<TbotsProto::PrimitiveSet> Play::get(
 
     // TODO (#3104): Remove duplicated obstacles from obstacle_list
     // Visualize all obstacles and paths
-    LOG(VISUALIZE) << obstacle_list;
+    LOG(VISUALIZE) << obstacle_list.getObstacles();
     LOG(VISUALIZE) << path_visualization;
 
     primitives_to_run->mutable_time_sent()->set_epoch_timestamp_seconds(

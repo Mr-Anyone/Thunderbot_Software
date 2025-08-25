@@ -85,7 +85,7 @@ class Play
 
     // List of all obstacles in the world at the current iteration
     // and all robot paths. Used for visualization
-    TbotsProto::ObstacleList obstacle_list;
+    UniqueObstacleList obstacle_list;
     TbotsProto::PathVisualization path_visualization;
 
     // TODO (#2359): make pure virtual once all plays are not coroutines

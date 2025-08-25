@@ -98,6 +98,7 @@ cc_library(
     hdrs = [
         "primitive.h",
     ],
+    srcs = ["primitive.cpp"],
     deps = [
         "//proto:tbots_cc_proto",
         "//software/ai/navigator/obstacle:robot_navigation_obstacle_factory",

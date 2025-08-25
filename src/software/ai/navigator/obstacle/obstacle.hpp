@@ -112,6 +112,8 @@ class Obstacle
      * @param visitor An Obstacle Visitor
      */
     virtual void accept(ObstacleVisitor& visitor) const = 0;
+
+    virtual bool isSame(std::shared_ptr<Obstacle> other) const  = 0;
 };
 
 /**

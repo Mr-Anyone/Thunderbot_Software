@@ -4,6 +4,21 @@
 #include "software/ai/navigator/obstacle/robot_navigation_obstacle_factory.h"
 #include "software/ai/navigator/trajectory/trajectory_path.h"
 
+
+#include <vector>
+
+class UniqueObstacleList{
+public:
+    void addObstacle(ObstaclePtr obstacle);
+    bool contains(ObstaclePtr obstacle);
+    void clear();
+    
+    TbotsProto::ObstacleList getObstacles();
+private:
+    std::vector<ObstaclePtr> obstacles_;
+    TbotsProto::ObstacleList obstacle_list_;
+};
+
 /**
  * The primitive actions that a robot can perform
  */
@@ -40,7 +55,7 @@ class Primitive
      * @param path_visualization_out Reference to the PathVisualization proto to add path
      */
     virtual void getVisualizationProtos(
-        TbotsProto::ObstacleList &obstacle_list_out,
+        UniqueObstacleList &obstacle_list_out,
         TbotsProto::PathVisualization &path_visualization_out) const = 0;
 
     /**
