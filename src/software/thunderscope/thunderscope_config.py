@@ -40,7 +40,7 @@ def initialize_application() -> None:
     app = pyqtgraph.mkQApp("Thunderscope")
 
     # Setup stylesheet
-    qdarktheme.setup_theme()
+    # qdarktheme.setup_theme()
 
 
 def configure_robot_view(
