@@ -15,6 +15,12 @@ assert protobuf_impl_type == "upb", (
     f"The current version of protobuf is {google.protobuf.__version__}"
 )
 
+try:
+    import OpenGL_accelerate
+except ImportError as e:
+    print("Please install PyOpenGL_accelearte. Try running: /opt/tbotspython/bin/pip install PyOpenGL-accelerate")
+    exit(0)
+
 from software.thunderscope.thunderscope import Thunderscope
 from software.thunderscope.binary_context_managers import *
 from proto.import_all_protos import *
