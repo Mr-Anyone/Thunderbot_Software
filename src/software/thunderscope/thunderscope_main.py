@@ -187,6 +187,12 @@ if __name__ == "__main__":
         "--enable_autoref", action="store_true", default=False, help="Enable autoref"
     )
     parser.add_argument(
+            "--disable_vsync",
+            action="store_true",
+            help="disable vsync",
+            default=False
+    )
+    parser.add_argument(
         "--show_autoref_gui",
         action="store_true",
         default=False,
@@ -396,7 +402,13 @@ if __name__ == "__main__":
     #
     # The async sim ticket ticks the simulator at a fixed rate.
     else:
+        from PyQt6.QtGui import QSurfaceFormat
         from pyinstrument import Profiler
+
+        if args.disable_vsync:
+            format = QSurfaceFormat()
+            format.setSwapInterval(0)
+            QSurfaceFormat.setDefaultFormat(format)
 
         profiler = Profiler()
         profiler.start()
