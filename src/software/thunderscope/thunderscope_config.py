@@ -256,12 +256,14 @@ def configure_base_diagnostics(
 
 def configure_two_ai_gamecontroller_view(
     visualization_buffer_size: int = 5,
+    save_fps_to_file : bool = False
 ) -> TScopeConfig:
     """Constructs the Thunderscope Config for a view with 2 FullSystem tabs (Blue and Yellow)
     And 1 Gamecontroller tab
 
     :param visualization_buffer_size: The size of the visualization buffer.
             Increasing this will increase smoothness but will be less realtime.
+    :param save_fps_to_file: save the counter result to disk if True
     :return: the Thunderscope Config for this view
     """
     proto_unix_io_map = {
@@ -274,11 +276,11 @@ def configure_two_ai_gamecontroller_view(
     initialize_application()
 
     # setup frametime counter
-    blue_refresh_func_frametime_counter = FrameTimeCounter()
-    blue_frame_swap_frametime_counter = FrameTimeCounter()
+    blue_refresh_func_frametime_counter = FrameTimeCounter(save_to_file=save_fps_to_file, path_to_file="/tmp/refreshfunc-blue-fps.txt")
+    blue_frame_swap_frametime_counter = FrameTimeCounter(save_to_file=save_fps_to_file, path_to_file="/tmp/buffertime-blue-fps.txt")
 
-    yellow_refresh_func_frametime_counter = FrameTimeCounter()
-    yellow_frame_swap_frametime_counter = FrameTimeCounter()
+    yellow_refresh_func_frametime_counter = FrameTimeCounter(save_to_file=save_fps_to_file, path_to_file="/tmp/refreshfunc-yellow-fps.txt")
+    yellow_frame_swap_frametime_counter = FrameTimeCounter(save_to_file=save_fps_to_file, path_to_file="/tmp/buffertime-yellow-fps.txt")
 
     return TScopeConfig(
         proto_unix_io_map=proto_unix_io_map,

@@ -224,7 +224,12 @@ if __name__ == "__main__":
         default=False,
         help="Disables checking for estop plugged in (ONLY USE FOR LOCAL TESTING)",
     )
-
+    parser.add_argument(
+        "--save_fps", 
+        action="store_true",
+        default=False, 
+        help="log fps into disk"
+    )
     parser.add_argument(
         "--empty",
         action="store_true",
@@ -261,7 +266,8 @@ if __name__ == "__main__":
 
         tscope = Thunderscope(
             config=config.configure_two_ai_gamecontroller_view(
-                args.visualization_buffer_size
+                args.visualization_buffer_size, 
+                args.save_fps
             ),
             layout_path=args.layout,
         )
@@ -421,7 +427,8 @@ if __name__ == "__main__":
 
         tscope = Thunderscope(
             config=config.configure_two_ai_gamecontroller_view(
-                args.visualization_buffer_size
+                args.visualization_buffer_size,
+                args.save_fps
             ),
             layout_path=args.layout,
         )
