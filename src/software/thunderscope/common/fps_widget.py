@@ -32,11 +32,11 @@ class FPSWidget(QWidget):
 
         self.buffertime_table = QTableWidget(3, 2)
         self.buffertime_table.setHorizontalHeaderLabels(["Frametime (ms)", "FPS"])
-        self.buffertime_table.setVerticalHeaderLabels(["Recent", "Last 30", "All"])
+        self.buffertime_table.setVerticalHeaderLabels(["Recent", "Last 3600", "All"])
         self.refresh_function_table = QTableWidget(3, 2)
         self.refresh_function_table.setHorizontalHeaderLabels(["Frametime (ms)", "FPS"])
         self.refresh_function_table.setVerticalHeaderLabels(
-            ["Recent", "Last 30", "All"]
+            ["Recent", "Last 3600", "All"]
         )
         self.buffertime_table.resizeColumnsToContents()
         self.refresh_function_table.resizeColumnsToContents()
@@ -77,7 +77,7 @@ class FPSWidget(QWidget):
             self.frame_swap_counter.get_last_frametime() * MILLISECONDS_PER_SECOND
         )
         buffer_frametime_average_last_30 = (
-            self.frame_swap_counter.get_average_last_30() * MILLISECONDS_PER_SECOND
+            self.frame_swap_counter.get_average_last_3600() * MILLISECONDS_PER_SECOND
         )
         buffer_frametime_average_all = (
             self.frame_swap_counter.get_average_frametime() * MILLISECONDS_PER_SECOND
@@ -92,7 +92,7 @@ class FPSWidget(QWidget):
             self.refresh_counter.get_last_frametime() * MILLISECONDS_PER_SECOND
         )
         refresh_func_average_last_30 = (
-            self.refresh_counter.get_average_last_30() * MILLISECONDS_PER_SECOND
+            self.refresh_counter.get_average_last_3600() * MILLISECONDS_PER_SECOND
         )
         refresh_func_frametime_average_all = (
             self.refresh_counter.get_last_frametime() * MILLISECONDS_PER_SECOND
