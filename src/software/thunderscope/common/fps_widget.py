@@ -95,7 +95,7 @@ class FPSWidget(QWidget):
             self.refresh_counter.get_average_last_3600() * MILLISECONDS_PER_SECOND
         )
         refresh_func_frametime_average_all = (
-            self.refresh_counter.get_last_frametime() * MILLISECONDS_PER_SECOND
+            self.refresh_counter.get_average_frametime() * MILLISECONDS_PER_SECOND
         )
         refresh_func_fps = 1 / (refresh_func_frametime / MILLISECONDS_PER_SECOND)
         refresh_func_average_last_30_fps = 1 / (
@@ -128,7 +128,7 @@ class FPSWidget(QWidget):
             self.refresh_function_table,
             1,
             0,
-            f"{refresh_func_frametime_average_all:.1f}",
+            f"{refresh_func_average_last_30:.1f}",
         )
         self.update_table(
             self.refresh_function_table, 1, 1, f"{refresh_func_average_last_30_fps:.1f}"
