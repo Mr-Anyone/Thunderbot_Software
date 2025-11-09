@@ -61,11 +61,16 @@ class Thunderscope:
         self.proto_unix_io_map = config.proto_unix_io_map
         self.tab_dock_map = {}
 
+        self.refresh_funcs = []
         # iterate through each tab and add one by one
         for tab in config.tabs:
             self.tab_dock_map[tab.name] = tab.dock_area
             self.tabs.addTab(tab.dock_area, tab.name)
             self.register_refresh_function(tab.refresh)
+
+        self.refresh_timer = QtCore.QTimer()
+        self.refresh_timer.setTimerType(QtCore.Qt.TimerType.PreciseTimer)
+        self._start_refresh_loop()
 
         self.window = QMainWindow()
         self.window.setCentralWidget(self.tabs)
@@ -197,12 +202,19 @@ class Thunderscope:
 
         :param refresh_func: The function to call at refresh_interval_ms
         """
-        refresh_timer = QtCore.QTimer()
-        refresh_timer.setTimerType(QtCore.Qt.TimerType.PreciseTimer)
-        refresh_timer.timeout.connect(lambda: refresh_func())
-        refresh_timer.start(self.refresh_interval_ms)
+        self.refresh_funcs.append(refresh_func)
 
-        self.refresh_timers.append(refresh_timer)
+    def _start_refresh_loop(self):
+        """ This is a private method that should be only called once 
+        by the constructor
+        """
+        def refresh_loop():
+            for func in self.refresh_funcs:
+                func()
+
+        self.refresh_timer.timeout.connect(lambda: refresh_loop())
+        self.refresh_timer.start(self.refresh_interval_ms)
+
 
     def show(self) -> None:
         """Show the main window"""
