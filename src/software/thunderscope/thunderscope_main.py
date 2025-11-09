@@ -244,6 +244,13 @@ if __name__ == "__main__":
         help="whether or not to launch the gamecontroller when --run_blue or --run_yellow is ran",
     )
 
+    parser.add_argument(
+        "--exit",
+        action="store_true",
+        default=False,
+        help="Exit after one minute of running"
+    )
+
     args = parser.parse_args()
 
     # we only have --launch_gc parameter but not args.run_yellow and args.run_blue
@@ -417,6 +424,7 @@ if __name__ == "__main__":
         from PyQt6.QtGui import QSurfaceFormat
         from pyinstrument import Profiler
 
+
         if args.disable_vsync:
             format = QSurfaceFormat()
             format.setSwapInterval(0)
@@ -519,6 +527,18 @@ if __name__ == "__main__":
                     autoref_proto_unix_io,
                 )
 
+            if args.exit:
+                def exit_after_one_minute():
+                    time.sleep(5)
+                    command = ManualGCCommand(manual_command=Command(type=4, for_team=0))
+                    tscope.proto_unix_io_map[ProtoUnixIOTypes.BLUE].send_proto(ManualGCCommand, command)
+                    
+                    time.sleep(60)
+                    tscope.close()
+
+                thread = threading.Thread(target=exit_after_one_minute, daemon=True)
+                thread.start()
+
             # Start the simulator
             sim_ticker_thread = threading.Thread(
                 target=__ticker,
@@ -553,6 +573,7 @@ if __name__ == "__main__":
 
                 # resource cleanup occurs after Thunderscope is closed by the user
                 sim_ticker_thread.join()
+
 
         profiler.stop()
         with open("/tmp/thunderscope-pyinstrument.txt", "w") as f:
