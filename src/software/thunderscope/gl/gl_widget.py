@@ -256,6 +256,25 @@ class GLWidget(QWidget):
         layer_action = self.layers_menu_actions[layer.name]
         self.layers_menu.removeAction(layer_action)
 
+    def dump(self, parent, indent=0, first=False):
+        if parent  is None: 
+            pass 
+
+        # print(parent.items)
+        child = []
+        if first:
+            print("===START===")
+            child += parent.items
+        else:
+            child += parent.childItems()
+
+        space = " "*(5*indent)
+        print(f"{space}{parent}")
+        for children in child:
+            self.dump(children, indent + 1)
+        if first:
+            print("===END===")
+
     def refresh(self) -> None:
         """Trigger an update on all the layers"""
         if self.player:
@@ -276,6 +295,9 @@ class GLWidget(QWidget):
             for layer in self.layers:
                 if layer.visible():
                     layer.refresh_graphics()
+
+        # ==== DUMPING THE ENTIRE RENDERING TREE ====
+        # self.dump(self.gl_view_widget, first=True)
 
     def set_camera_view(self, camera_view: CameraView) -> None:
         """Set the camera position to a preset camera view
